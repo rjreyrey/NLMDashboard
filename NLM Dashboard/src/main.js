@@ -41,7 +41,7 @@ app.on('ready', function () {
         }
     });
 
-    mainWindow.webContents.openDevTools()
+    //mainWindow.webContents.openDevTools()
 })
 
 // Quit when all windows are closed.

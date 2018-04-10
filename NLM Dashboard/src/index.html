@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../assets/css/Test.css" />
+    <link rel="stylesheet" href="../assets/css/fontawesome.css" />
+    <link rel="stylesheet" href="../assets/css/fa-solid.min.css" />
+    <link rel="stylesheet" href="../assets/css/fa-regular.min.css" />
+    <link rel="stylesheet" href="../assets/css/spinner.css" />
+</head>
+<body>
+    <div id="titlebar" class="header"></div>
+
+    <div class="content">
+        <div id="sidebar" class="sidebar"></div>
+        <div class="viewPane">
+            <div class="loginPaneWrapper">
+                <div class="container">
+                    <div id="AutoUpdater">
+                        <h2>Checking For Updates</h2>
+                        <div class="progress hide">
+                            <div class="progress-bar"></div>
+                        </div>
+                    </div>
+                    <div id="updaterInstaller" class="hide">
+                        <h3>Update downloaded.  Click update to begin.</h3>
+                        <button type="submit" class="btn" id="installerUpdateButton">Update</button>
+                    </div>
+                    <div class="innerContainer">
+                        <h1 class="loginHeader">Welcome</h1>
+
+                        <form class="form">
+                            <input type="text" placeholder="Username" id="loginUserName">
+                            <input type="password" placeholder="Password" id="loginPassword">
+                            <button type="submit" id="login-button" class="btn">Login</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <webview id="webview_1" class="webview hide" webpreferences="nativeWindowOpen=true" allowpopups></webview>
+            <webview id="webview_2" class="webview hide" webpreferences="nativeWindowOpen=true" allowpopups></webview>
+            <webview id="webview_3" class="webview hide" webpreferences="nativeWindowOpen=true" allowpopups></webview>
+            <webview id="webview_4" class="webview hide" webpreferences="nativeWindowOpen=true" allowpopups></webview>
+
+            <div class="drawing hide" id="spinner">
+                <div class="loading-dot"></div>
+            </div>
+        </div>
+        <div id="versionNumber"></div>
+    </div>
+
+    <script>
+        // You can also require other files to run in this process
+        require('babel-register');
+        require('./renderer.js');
+        require('../react/index.js');
+        require('electron').remote;
+    </script>
+</body>
+</html>

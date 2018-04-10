@@ -1,0 +1,510 @@
+﻿@font-face {
+    font-family: 'San Fransisco';
+    font-weight: lighter;
+    src: local('SFCompactDisplay-Thin'), url(../fonts/SFCompactDisplay-Thin.otf) format('opentype');
+}
+
+* {
+    box-sizing: border-box;
+    font-family: 'San Fransisco';
+}
+
+.hide {
+    display: none;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'San Fransisco';
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    background-color: #282c34;
+    color: #61dafb;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+#versionNumber {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: #AAA;
+    z-index: 1;
+}
+
+.header {
+    background-color: /*#20232a*/ #000;
+    color: #ffffff;
+    height: 40px;
+    z-index: 2;
+    width: 100%;
+    box-shadow: 1px 0px 10px #333;
+    -webkit-app-region: drag;
+    user-select: none;
+}
+
+.header img {
+    width: 22px; 
+    height:22px;
+}
+
+.inner {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 40px;
+}
+
+.appControl i {
+    font-size: 14px;
+    margin-right: 10px;
+    margin-left: 10px;
+    color: greenyellow;
+    cursor: pointer;
+    -webkit-app-region: no-drag;
+}
+
+.headerTitle {
+    width: 250px;
+    font-size: 26px;
+    text-shadow: 0px 0px 3px #000;
+    margin-left: 5px;
+    -webkit-app-region: no-drag;
+}
+
+.browserControls {
+    flex-grow: 0;
+    margin-right: 25px;
+    -webkit-app-region: no-drag;
+    -webkit-user-select: none;
+}
+
+.browserControls i {
+    padding: 10px;
+    font-size: 22px;
+}
+
+.dragbar {
+    flex-grow: 10;
+}
+
+.browserControls i.disabled {
+    padding: 10px;
+    font-size: 22px;
+    cursor: default;
+    color: #333;
+}
+
+.nlmTitle {
+    margin-right: 2px;
+    font-size: 30px;
+    -webkit-app-region: no-drag;
+}
+
+.accountSearch {
+    margin-right: 15px;
+    -webkit-app-region: no-drag;
+}
+
+.login {
+    display: flex;
+    margin-right: 10px;
+    -webkit-app-region: no-drag;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.inline {
+    display: inline;
+}
+
+.NLMGreen {
+    /*color: #91c844;*/
+    color: greenyellow;
+}
+
+.btn {
+    background-color: greenyellow;
+    padding: 5px 15px;
+    cursor: pointer;
+    box-shadow: 1px 1px 3px #333;
+    color: #333;
+    border-radius: 1px;
+}
+
+.sidebar {
+    width: 250px;
+    font-size: 14px;
+    background-color: #EEE;
+    box-shadow: 0px 0px 7px #333;
+    z-index: 2;
+    padding: 10px 0px;
+    margin-left: -250px;
+    transition: ease 0.5s;
+}
+
+.sidebarSectionHeading {
+    font-size: 16px;
+    color: #666;
+    padding: 10px;
+}
+
+.accountName {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 0 30px 30px;
+    color: #666;
+}
+
+.sidebarSectionList {
+    background-color: #DDD;
+    padding: 10px 0px 10px 35px;
+    box-shadow: 0px 0px 2px #333;
+    color: #333;
+}
+
+.sidebarSectionListItem {
+    display: flex;
+    padding-bottom: 15px;
+
+}
+
+.sidebarSectionListItem:last-child {
+    padding-bottom: 0px;
+}
+
+.sidebarSectionListItemLabel {
+    flex-grow: 10;
+}
+
+.sidebarSectionListItemIFrame {
+    float: right;
+    margin-right: 10px;
+    color: #CCC;
+    padding: 5px;
+    flex-grow: 0;
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+
+.sidebarSectionListItemIFrame:hover:not(.active), .sidebarSectionListItemIFrame.opened {
+    color: #333;
+    visibility: visible;
+}
+
+
+
+.sidebarSectionListItemIFrame.active {
+    color: #333;
+    background-color: greenyellow;
+    border-radius: 3px;
+    border: 1px solid #AAA;
+    visibility: visible;
+    
+}
+
+.sidebarSectionListItemIFrame.open {
+    color: #333;
+    border-radius: 3px;
+    border: 1px solid #AAA;
+    visibility: visible;
+}
+
+.sidebarSectionListItem div {
+    display: inline-block;
+}
+
+.viewPane {
+    flex-grow: 7;
+    font-size: 10px;
+    background-color: #CCC;
+    padding: 15px;
+}
+
+.viewPane webview {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.content {
+    flex-grow: 1;
+    display: flex;
+}
+
+webview.hide {
+    display: block;
+    visibility: hidden;
+    width: 0;
+    height: 0;
+}
+
+webview {
+    overflow: auto;
+    overflow-y: hidden;
+    background-color: white;
+}
+
+
+
+
+
+
+
+
+
+.search-wrapper {
+    position: relative;
+    border-radius: 20px;
+    transform-origin: 100% 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    transition: 250ms ease;
+    -webkit-app-region: no-drag;
+    margin-right: 10px;
+}
+
+.search-wrapper.focused {
+    width: 400px;
+}
+
+.search-wrapper.focused input {
+    padding: 0 40px 0 13px;
+    width: 100%;
+    transform: scale(1);
+    background-color: #444;
+    border-radius: 2px;
+    box-shadow: 0px 0px 8px #000 inset;
+}
+
+.search-wrapper input {
+    background: transparent;
+    border: 0;
+    color: white;
+    outline: none;
+    height: 30px;
+    width: 0;
+    overflow: hidden;
+    font-weight: 100;
+    transform: scale(0);
+    transform-origin: 0 50%;
+    transition: 275ms ease;
+}
+
+.search-wrapper input::placeholder {
+    color: #AAA;
+}
+
+
+.search-wrapper i {
+    position: absolute;
+    color: greenyellow;
+    font-size: 18px;
+    top: 50%;
+    right: 13px;
+    transform: translateY(-50%);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.loginPaneWrapper {
+    position: absolute;
+    margin: auto;
+    top: 60px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 400px;
+    height: 410px;
+    background-color: #ccc;
+    border-radius: 3px;
+}
+
+.loginPaneWrapper.form-success .container h1 {
+    transform: translateY(85px);
+}
+
+.loginPaneWrapper .container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 80px 0;
+    height: 410px;
+    text-align: center;
+    background-color: #000;
+    color: greenyellow;
+    box-shadow: 0px 0px 7px #000;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.loginPaneWrapper .container h1 {
+    font-size: 40px;
+    transition-duration: 1s;
+    transition-timing-function: ease-in-put;
+    font-weight: 200;
+    margin: 0;
+}
+
+.loginPaneWrapper .container .innerContainer {
+    margin-top: 400px;
+}
+
+.loginPaneWrapper form {
+    padding: 20px 0;
+    position: relative;
+    z-index: 2;
+}
+
+.loginPaneWrapper form input {
+    display: block;
+    outline: 0;
+    border: 1px solid rgba(255,255,255, 0.4);
+    background-color: rgba(255,255,255, 0.2);
+    width: 250px;
+    border-radius: 3px;
+    padding: 10px 15px;
+    margin: 0 auto 10px auto;
+    display: block;
+    text-align: center;
+    font-size: 18px;
+    color: white;
+    transition-duration: 0.25s;
+    font-weight: 300;
+}
+
+.loginPaneWrapper form input.error {
+    border: 1px solid red;
+    /*-webkit-animation: shake .5s linear;*/
+}
+
+.loginPaneWrapper form input.invalid {
+    -webkit-animation: shake .5s linear;
+}
+
+.loginPaneWrapper form input:hover {
+    background-color: rgba(255,255,255, 0.4);
+}
+
+.loginPaneWrapper form input:hover::placeholder {
+    color: #AAA;
+}
+
+.loginPaneWrapper form input:focus {
+    background-color: rgba(255,255,255, 0.4);
+    /*width: 300px;*/
+    color: white;
+}
+
+.loginPaneWrapper form input:focus::placeholder {
+    color: #AAA;
+}
+
+.loginPaneWrapper button {
+    outline: 0;
+    border: 0;
+    padding: 10px 15px;
+    border-radius: 3px;
+    width: 250px;
+    cursor: pointer;
+    font-size: 18px;
+    transition-duration: 0.25s;
+    margin-top: 15px;
+}
+
+.loginPaneWrapper button:hover {
+    box-shadow: 0px 0px 7px rgb(245, 247, 249);
+}
+
+
+@-webkit-keyframes shake {
+    8%, 41% {
+        -webkit-transform: translateX(-10px);
+    }
+
+    25%, 58% {
+        -webkit-transform: translateX(10px);
+    }
+
+    75% {
+        -webkit-transform: translateX(-5px);
+    }
+
+    92% {
+        -webkit-transform: translateX(5px);
+    }
+
+    0%, 100% {
+        -webkit-transform: translateX(0);
+    }
+}
+
+
+#AutoUpdater {
+    margin-top: 100px;
+}
+
+#updaterInstaller {
+    margin-top: 75px;
+}
+
+
+
+.progress {
+    padding: 4px;
+    background: rgba(128, 128, 128, 0.65);
+    border-radius: 2px;
+    -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25), 0 1px rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25), 0 1px rgba(255, 255, 255, 0.08);
+    margin: 0 auto;
+    width: 200px;
+}
+
+.progress-bar {
+    height: 16px;
+    border-radius: 2px;
+    background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+    background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+    background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+    -webkit-transition: 0.4s linear;
+    -moz-transition: 0.4s linear;
+    -o-transition: 0.4s linear;
+    transition: 0.4s linear;
+    -webkit-transition-property: width, background-color;
+    -moz-transition-property: width, background-color;
+    -o-transition-property: width, background-color;
+    transition-property: width, background-color;
+    -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.1);
+    background-color: #86e01e;
+}

@@ -1,0 +1,96 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>NLM Dashboard</Name>
+    <RootNamespace>NLM Dashboard</RootNamespace>
+    <NodeExePath>C:\Users\JETTRICK\Source\Repos\NLM Dashboard\NLM Dashboard\node_modules\electron\dist\electron.exe</NodeExePath>
+    <NodeExeArguments>
+    </NodeExeArguments>
+    <DebuggerPort>9222</DebuggerPort>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>edab00ba-f145-4f25-ab20-b7267480763b</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>src\main.js</StartupFile>
+    <StartWebBrowser>False</StartWebBrowser>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <StartWebBrowser>False</StartWebBrowser>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="assets\js\jquery.min.js" />
+    <Compile Include="react\index.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\main.js" />
+    <Compile Include="react\components\app.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="react\components\Sidebar.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="react\components\Titlebar.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\renderer.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="react\components\VersionNumber.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="assets\js\translations\en.js" />
+    <Compile Include="assets\js\translations\i18n.js" />
+    <Compile Include="assets\js\translations\sv.js" />
+    <Content Include=".babelrc" />
+    <Content Include="assets\css\fa-regular.min.css" />
+    <Content Include="assets\css\fa-solid.min.css" />
+    <Content Include="assets\css\fontawesome.css" />
+    <Content Include="assets\css\spinner.css">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="assets\fonts\fa-regular-400.ttf" />
+    <Content Include="assets\fonts\fa-solid-900.ttf" />
+    <Content Include="assets\fonts\SFCompactDisplay-Thin.otf" />
+    <Content Include="assets\icons\win\icon.ico" />
+    <Content Include="assets\css\Test.css">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="electron-builder.yml" />
+    <Content Include="src\index.html">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="package.json" />
+    <Content Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="assets\" />
+    <Folder Include="assets\css\" />
+    <Folder Include="assets\fonts\" />
+    <Folder Include="assets\icons\" />
+    <Folder Include="assets\icons\png\" />
+    <Folder Include="assets\icons\win\" />
+    <Folder Include="assets\js\" />
+    <Folder Include="assets\images\" />
+    <Folder Include="src\" />
+    <Folder Include="react\" />
+    <Folder Include="react\components\" />
+    <Folder Include="assets\js\translations\" />
+  </ItemGroup>
+  <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
+</Project>

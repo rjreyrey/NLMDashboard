@@ -4,11 +4,23 @@ const { URL } = require('url');
 const isDev = require('electron-is-dev');
 const log = require('electron-log');
 const { autoUpdater } = require("electron-updater");
+
+const loginAttempts = {
+    HWAP: {
+        Aptus: false,
+        Marketing: false,
+        VMS: false
+    },
+    MMS: false,
+    SRM: false,
+    GoogleAnalytics: false
+};
+
 let mainWindow;
 
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
-global.credentials = { username: '', password: '' };
+global.credentials = { username: '', password: '', SRMUsername: 'ricky_jett@reyrey.com', SRMPassword: 'Reynolds1!' };
 app.setAppUserModelId('NLM Dashboard');
 
 log.info('App starting...');
@@ -92,17 +104,73 @@ app.on('web-contents-created', function (webContentsCreatedEvent, contents) {
 
         contents.on('did-finish-load', function (event) {
             var pageUrl = new URL(contents.getURL());
-            if (pageUrl.hostname.indexOf('dealer.nakedlime.com' > 0) && (pageUrl.pathname == '/' || pageUrl.pathname.indexOf('LogOn') > 0)) {
-                //this is HWAP
+            if (isHWAP(pageUrl)) { //this is HWAP
                 contents.executeJavaScript("var form = $('#loginForm'); if (form.length > 0 && form.find('.error').length == 0) { form.find('[name=UserName]').val('" + global.credentials.username + "'); form.find('[name=Password]').val('" + global.credentials.password + "');form.submit(); }");
+                //loginAttempts.HWAP = true;
+            } else if (isMMS(pageUrl)) {
+                contents.executeJavaScript("var form = jQuery('#form1'); if(form.length > 0) { form.find('input[id *= UserName]').val('" + global.credentials.username + "'); form.find('input[id *= Password]').val('" + global.credentials.password + "'); form.find('input[type=submit]').click();}");
+            } else if (isSRM(pageUrl)) {
+                contents.executeJavaScript("$('input[id *= UserName]').val('" + global.credentials.SRMUsername + "'); $('input[id *= Password]').val('" + global.credentials.SRMPassword + "'); $('input[type=submit]').click();");
+            } else if (isGoogleAnalytics(pageUrl)) {
+
             }
             
         });
     }
 });
 
+function isHWAP(pageUrl) {
+    var valid = false;
+    valid = (pageUrl.hostname.indexOf('dealer.nakedlime.com') >= 0 && (pageUrl.pathname == '/' || pageUrl.pathname.indexOf('LogOn') >= 0));
+
+    if (valid) {
+        if (pageUrl.hostname.indexOf('web') >= 0) {
+            valid = valid && !loginAttempts.HWAP.Aptus;
+            loginAttempts.HWAP.Aptus = true;
+        } else if (pageUrl.hostname.indexOf('marketing') >= 0) {
+            valid = valid && !loginAttempts.HWAP.Marketing;
+            loginAttempts.HWAP.Marketing = true;
+        }
+    }
+
+    return valid;
+}
+
+function isMMS(pageUrl) {
+    var valid = (pageUrl.hostname.indexOf('mms.aimdatabase.com') >= 0 && pageUrl.pathname == '/');
+
+    if (valid) {
+        valid = valid && !loginAttempts.MMS;
+        loginAttempts.MMS = true;
+    }
+
+    return valid;
+}
+
+function isSRM(pageUrl) {
+    var valid = (pageUrl.hostname.indexOf('micrositesbyu.com') >= 0 && pageUrl.pathname.indexOf('Login.aspx') >= 0);
+
+    if (valid) {
+        valid = valid && !loginAttempts.SRM;
+        loginAttempts.SRM = true;
+    }
+
+    return valid;
+}
+
+function isGoogleAnalytics(pageUrl) {
+    var valid = !loginAttempts.GoogleAnalytics;
+
+    if (valid) {
+        valid = valid && !loginAttempts.GoogleAnalytics;
+        loginAttempts.GoogleAnalytics = true;
+    }
+    
+    return valid;
+}
+
 ipcMain.on('resetControls', function (event) {
-    sendStatusToWindow('resetControls', 'resetControls');
+    sendStatusToWindow('resetControls', 'resetControls', false);
 });
 
 autoUpdater.on('checking-for-update', () => {

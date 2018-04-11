@@ -6,10 +6,11 @@ import { ipcRenderer } from 'electron';
 const data = {
     account: 'Rey Motors',
     appList: [
-        {id: 1, name: 'Aptus', url: 'https://web.dealer.nakedlime.com/WebAnalytics/Index/100917?currentAccountId=100155', active: false, opened: false },
-        { id: 2, name: 'MMS', url: 'https://marketing.dealer.nakedlime.com', active: false, opened: false },
+        { id: 1, name: 'Aptus', url: 'https://web.dealer.nakedlime.com/WebAnalytics/Index/100917?currentAccountId=100155', active: false, opened: false },
+        { id: 2, name: 'MMS', url: 'https://mms.aimdatabase.com', active: false, opened: false },
         { id: 3, name: 'SRM', url: 'https://micrositesbyu.com/Login.aspx', active: false, opened: false },
-        { id: 4, name: 'Google Analytics', url: 'https://analytics.google.com/', active: false, opened: false }
+        { id: 4, name: 'Google Analytics', url: 'https://analytics.google.com/', active: false, opened: false },
+        { id: 5, name: 'Marketing', url: 'https://marketing.dealer.nakedlime.com', active: false, opened: false },
     ]
 }
 
@@ -25,7 +26,6 @@ class Sidebar extends Component {
             if (data.appList[i].id == key) {
                 data.appList[i].active = true;
                 data.appList[i].opened = true;
-                console.log('found the match: ' + data.appList[i].name);
             } else {
                 data.appList[i].active = false;
             }

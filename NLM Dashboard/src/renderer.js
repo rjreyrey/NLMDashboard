@@ -45,7 +45,6 @@ onload = () => {
 
 function checkBrowserControls(e) {
     var webview = document.querySelector('webview:not(.hide)');
-    console.log('checking browser controls');
 
     var browserBack = $('.browserBack');
     var browserForward = $('.browserForward');

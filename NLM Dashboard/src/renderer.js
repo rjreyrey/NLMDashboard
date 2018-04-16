@@ -83,23 +83,41 @@ $("#login-button").click(function (event) {
         $('#loginUserName').removeClass('error');
         $('#loginPassword').removeClass('error');
 
-        remote.getGlobal('credentials').username = username;
-        remote.getGlobal('credentials').password = password;
+        $('.loaderWrapper').removeClass('hide');
+        //do our ajax call here to CSS to verify the credentials
+        $.ajax({
+            type: "POST",
+            url: "https://cssws.reyrey.com/ActiveDirectorySecurity.asmx/CSSAuthenticateUseridWithMessage",
+            data: { CSSUserId: username, Password: password },
+            username: 'Cssclient',
+            password: '1uw@hwyey',
+            success: function (data) {
+                $('.loaderWrapper').addClass('hide');
+                var response = $(data).find('string').text();
 
-        $('.loginPaneWrapper form').fadeOut(500, function () {
-            $('.innerContainer').fadeOut(500, function () {
-                $('.loginHeader').text('Loading');
-                $('.innerContainer').fadeIn(500, function () {
-                    $('.loginPaneWrapper').addClass('form-success');
+                if (response == 'Success') {
+                    remote.getGlobal('credentials').username = username;
+                    remote.getGlobal('credentials').password = password;
 
-                    window.setTimeout(function () {
-                        $('.loginPaneWrapper').fadeOut(500, function () {
-                            $('.sidebar').css('margin-left', '0px');
+                    $('.loginPaneWrapper form').fadeOut(500, function () {
+                        $('.innerContainer').fadeOut(500, function () {
+                            $('.loginHeader').text('Loading');
+                            $('.innerContainer').fadeIn(500, function () {
+                                $('.loginPaneWrapper').addClass('form-success');
+
+                                window.setTimeout(function () {
+                                    $('.loginPaneWrapper').fadeOut(500, function () {
+                                        $('.sidebar').css('margin-left', '0px');
+                                    });
+                                }, 2000);
+                            });
                         });
-                    }, 2000);
-                });
-            });
-        });
+                    });
+                } else {
+                    $('#loginError').html(response).removeClass('hide');
+                }
+            }
+        })
     } else {
         if (username == '') {
             $('#loginUserName').addClass('error').addClass('invalid');

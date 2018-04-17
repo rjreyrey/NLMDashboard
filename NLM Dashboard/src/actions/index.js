@@ -1,0 +1,15 @@
+﻿import * as types from '../actions/constants'
+
+export const selectApplication = (app) => ({ type: types.APP_CLICK, payload: app })
+export const addApplication = (account) => ({ type: types.ADD_APP, payload: account })
+export const findAccount = (account) => ({ type: types.ACCOUNT_FIND, payload: account })
+export const refreshBrowserControls = (app) => ({ type: types.REFRESH_BROWSER_CONTROLS, payload: app })
+export const navigateBack = (webview) => ({ type: types.NAVIGATE_BACK, payload: webview })
+export const navigateForward = (webview) => ({ type: types.NAVIGATE_FORWARD, payload: webview })
+export const navigateReload = (webview) => ({ type: types.NAVIGATE_RELOAD, payload: webview })
+export const showSpinner = () => ({ type: types.SHOW_SPINNER, payload: null })
+export const hideSpinner = () => ({ type: types.HIDE_SPINNER, payload: null })
+export const showControls = (webview) => ({ type: types.SHOW_CONTROLS, payload: webview })
+export const hideControls = (webview) => ({ type: types.HIDE_CONTROLS, payload: webview })
+export const resetControls = (webview) => ({ type: types.RESET_CONTROLS, payload: webview })
+export const disableControls = (webview) => ({ type: types.DISABLE_CONTROLS, payload: webview })

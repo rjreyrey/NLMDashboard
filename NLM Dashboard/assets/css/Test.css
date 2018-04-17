@@ -144,15 +144,6 @@ body {
     color: greenyellow;
 }
 
-.btn {
-    background-color: greenyellow;
-    padding: 5px 15px;
-    cursor: pointer;
-    box-shadow: 1px 1px 3px #333;
-    color: #333;
-    border-radius: 1px;
-}
-
 .sidebar {
     width: 250px;
     font-size: 14px;
@@ -168,6 +159,10 @@ body {
     font-size: 16px;
     color: #666;
     padding: 10px;
+}
+
+.findAccountWrapper {
+    padding: 15px;
 }
 
 .accountName {
@@ -437,16 +432,25 @@ webview {
     color: #AAA;
 }
 
-.loginPaneWrapper button {
+button {
     outline: 0;
     border: 0;
     padding: 10px 15px;
     border-radius: 3px;
-    width: 250px;
+    width: 100%;
     cursor: pointer;
     font-size: 18px;
     transition-duration: 0.25s;
+    background-color: greenyellow;
+    cursor: pointer;
+    box-shadow: 1px 1px 3px #333;
+    color: #333;
+    border-radius: 1px;
+}
+
+.loginPaneWrapper button {
     margin-top: 15px;
+    width: 250px;
 }
 
 .loginPaneWrapper button:hover {
@@ -624,4 +628,32 @@ webview {
         -webkit-transform: rotate(360deg);
         transform: rotate(360deg);
     }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[data-reactroot] {
+    height: 100% !important;
+    display: flex;
+    flex-direction: column;
+}
+
+#root {
+    height: 100%;
+}
+
+#webviews {
+    height: 100%;
 }

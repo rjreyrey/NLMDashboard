@@ -33,23 +33,68 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="assets\js\jquery.min.js" />
-    <Compile Include="react\index.js">
+    <Compile Include="src\actions\constants.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\actions\index.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\components\ApplicationList.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\components\AutoUpdater.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\components\Content.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\components\Login.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\components\Spinner.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\components\ViewPane.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\components\WebviewControls.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\components\Webviews.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\index.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\main.js" />
-    <Compile Include="react\components\app.js">
+    <Compile Include="src\components\App.js">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="react\components\Sidebar.js">
+    <Compile Include="src\components\Sidebar.js">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="react\components\Titlebar.js">
+    <Compile Include="src\components\Titlebar.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\reducers\account.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\reducers\applications.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\reducers\index.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\reducers\spinner.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\reducers\webviewControls.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\renderer.js">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="react\components\VersionNumber.js">
+    <Compile Include="src\components\VersionNumber.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="assets\js\translations\en.js" />
@@ -69,6 +114,7 @@
     <Content Include="assets\css\Test.css">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="assets\images\logo.png" />
     <Content Include="electron-builder.yml" />
     <Content Include="src\index.html">
       <SubType>Code</SubType>
@@ -83,12 +129,13 @@
     <Folder Include="assets\icons\" />
     <Folder Include="assets\icons\png\" />
     <Folder Include="assets\icons\win\" />
-    <Folder Include="assets\js\" />
     <Folder Include="assets\images\" />
+    <Folder Include="assets\js\" />
     <Folder Include="src\" />
-    <Folder Include="react\" />
-    <Folder Include="react\components\" />
+    <Folder Include="src\components\" />
     <Folder Include="assets\js\translations\" />
+    <Folder Include="src\actions\" />
+    <Folder Include="src\reducers\" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />

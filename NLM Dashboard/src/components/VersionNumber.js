@@ -11,7 +11,7 @@ class VersionNumber extends Component {
     }
 
     render() {
-        return <div>
+        return <div id= "versionNumber" >
             v { remote.app.getVersion() }
         </div>
     }

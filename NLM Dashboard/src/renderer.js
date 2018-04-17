@@ -4,164 +4,86 @@
 const remote = require('electron').remote;
 const ipcRenderer = require('electron').ipcRenderer; 
 window.$ = global.jQuery = require('../assets/js/jquery.min.js');
-
 const title = $('#nlmTitle');
 
-
-const webviews = document.querySelectorAll('webview');
-
-$(function () {
-    $('#loginUserName').val(remote.getGlobal('credentials').username);
-});
-
 onload = () => {
-    var browserBack = $('.browserBack');
-    var browserForward = $('.browserForward');
-    var browserRefresh = $('.browserRefresh');
+    $('#loginUserName').val(remote.getGlobal('credentials').username);
 
-    webviews.forEach(function (view) {
-        view.addEventListener('did-navigate', checkBrowserControls);
-        view.addEventListener('new-window', newWindow);
+    $('#installerUpdateButton').on('click', function () {
+        ipcRenderer.send('quitAndInstall');
     });
 
-    //webview.addEventListener('did-navigate', checkBrowserControls)
-    //webview.addEventListener('new-window', newWindow)
+    //////////////login functionality/////////////////////////////////
+    $("#login-button").click(function (event) {
+        event.preventDefault();
 
-    browserBack.on('click', function (event) {
-        var webview = document.querySelector('webview:not(.hide)');
-        webview.goBack();
-    });
+        var username = $('#loginUserName').val();
+        var password = $('#loginPassword').val();
 
-    browserForward.on('click', function (event) {
-        var webview = document.querySelector('webview:not(.hide)');
-        webview.goForward();
-    });
+        if (username != '' && password != '') {
+            $('#loginUserName').removeClass('error');
+            $('#loginPassword').removeClass('error');
 
-    browserRefresh.on('click', function (event) {
-        var webview = document.querySelector('webview:not(.hide)');
-        webview.reload();
-    });
-}
+            $('.loaderWrapper').removeClass('hide');
+            //do our ajax call here to CSS to verify the credentials
+            $.ajax({
+                type: "POST",
+                url: "https://cssws.reyrey.com/ActiveDirectorySecurity.asmx/CSSAuthenticateUseridWithMessage",
+                data: { CSSUserId: username, Password: password },
+                username: 'Cssclient',
+                password: '1uw@hwyey',
+                success: function (data) {
+                    $('.loaderWrapper').addClass('hide');
+                    var response = $(data).find('string').text();
 
-function checkBrowserControls(e) {
-    var webview = document.querySelector('webview:not(.hide)');
+                    if (response == 'Success') {
+                        remote.getGlobal('credentials').username = username;
+                        remote.getGlobal('credentials').password = password;
 
-    var browserBack = $('.browserBack');
-    var browserForward = $('.browserForward');
-    var browserRefresh = $('.browserRefresh');
+                        $('.loginPaneWrapper form').fadeOut(500, function () {
+                            $('.innerContainer').fadeOut(500, function () {
+                                $('.loginHeader').text('Loading');
+                                $('.innerContainer').fadeIn(500, function () {
+                                    $('.loginPaneWrapper').addClass('form-success');
 
-    if (webview.canGoBack()) {
-        browserBack.removeClass('disabled')
-    } else {
-        browserBack.addClass('disabled')
-    }
-
-    if (webview.canGoForward()) {
-        browserForward.removeClass('disabled')
-    } else {
-        browserForward.addClass('disabled')
-    }
-
-    browserRefresh.removeClass('disabled')
-
-    $('.browserControls').removeClass('hidden');
-}
-
-function newWindow(event) {
-    console.log('new window');
-    event.preventDefault();
-}
-
-//////////////login functionality/////////////////////////////////
-$("#login-button").click(function (event) {
-    event.preventDefault();
-
-    var username = $('#loginUserName').val();
-    var password = $('#loginPassword').val();
-
-    if (username != '' && password != '') {
-        $('#loginUserName').removeClass('error');
-        $('#loginPassword').removeClass('error');
-
-        $('.loaderWrapper').removeClass('hide');
-        //do our ajax call here to CSS to verify the credentials
-        $.ajax({
-            type: "POST",
-            url: "https://cssws.reyrey.com/ActiveDirectorySecurity.asmx/CSSAuthenticateUseridWithMessage",
-            data: { CSSUserId: username, Password: password },
-            username: 'Cssclient',
-            password: '1uw@hwyey',
-            success: function (data) {
-                $('.loaderWrapper').addClass('hide');
-                var response = $(data).find('string').text();
-
-                if (response == 'Success') {
-                    remote.getGlobal('credentials').username = username;
-                    remote.getGlobal('credentials').password = password;
-
-                    $('.loginPaneWrapper form').fadeOut(500, function () {
-                        $('.innerContainer').fadeOut(500, function () {
-                            $('.loginHeader').text('Loading');
-                            $('.innerContainer').fadeIn(500, function () {
-                                $('.loginPaneWrapper').addClass('form-success');
-
-                                window.setTimeout(function () {
-                                    $('.loginPaneWrapper').fadeOut(500, function () {
-                                        $('.sidebar').css('margin-left', '0px');
-                                    });
-                                }, 2000);
+                                    window.setTimeout(function () {
+                                        $('.loginPaneWrapper').fadeOut(500, function () {
+                                            $('.sidebar').css('margin-left', '0px');
+                                        });
+                                    }, 2000);
+                                });
                             });
                         });
-                    });
-                } else {
-                    $('#loginError').html(response).removeClass('hide');
+                    } else {
+                        $('#loginError').html(response).removeClass('hide');
+                    }
                 }
+            })
+        } else {
+            if (username == '') {
+                $('#loginUserName').addClass('error').addClass('invalid');
+                $('#loginUserName').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',
+                    function (e) {
+                        // code to execute after animation ends
+                        $('#loginUserName').removeClass('invalid');
+                    });
+            } else {
+                $('#loginUserName').removeClass('error');
             }
-        })
-    } else {
-        if (username == '') {
-            $('#loginUserName').addClass('error').addClass('invalid');
-            $('#loginUserName').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',
-                function (e) {
-                    // code to execute after animation ends
-                    $('#loginUserName').removeClass('invalid');
-                });
-        } else {
-            $('#loginUserName').removeClass('error');
+
+            if (password == '') {
+                $('#loginPassword').addClass('error').addClass('invalid');
+                $('#loginPassword').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',
+                    function (e) {
+                        // code to execute after animation ends
+                        $('#loginPassword').removeClass('invalid');
+                    });
+            } else {
+                $('#loginPassword').removeClass('error');
+            }
         }
-
-        if (password == '') {
-            $('#loginPassword').addClass('error').addClass('invalid');
-            $('#loginPassword').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',
-                function (e) {
-                    // code to execute after animation ends
-                    $('#loginPassword').removeClass('invalid');
-                });
-        } else {
-            $('#loginPassword').removeClass('error');
-        }
-    }
-});
-//////////////////////////////////////////////////////////////////
-ipcRenderer.on('resetControls', function (event) {
-    checkBrowserControls(event);
-});
-
-ipcRenderer.on('showSpinner', function (event, text) {
-    var $spinner = $('#spinner');
-
-    if ($spinner.hasClass('hide')) {
-        $spinner.removeClass('hide');
-    }
-});
-
-ipcRenderer.on('hideSpinner', function (event, text) {
-    var $spinner = $('#spinner');
-
-    if (!$spinner.hasClass('hide')) {
-        $spinner.addClass('hide');
-    }
-});
+    });
+}
 
 /////////////////////auto updater/////////////////////////////////
 var progressLoaded = false;
@@ -205,10 +127,6 @@ ipcRenderer.on('UpdateDownloaded', function (event, text) {
     $('#AutoUpdater').fadeOut(300, function (e) {
         $('#updaterInstaller').fadeIn(300);
     });
-    
-});
 
-$('#installerUpdateButton').on('click', function () {
-    ipcRenderer.send('quitAndInstall');
 });
-//////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////

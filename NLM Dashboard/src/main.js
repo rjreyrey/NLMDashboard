@@ -5,25 +5,12 @@ const isDev = require('electron-is-dev');
 const log = require('electron-log');
 const { autoUpdater } = require("electron-updater");
 
-const loginAttempts = {
-    HWAP: {
-        Aptus: false,
-        Marketing: false,
-        VMS: false
-    },
-    MMS: false,
-    SRM: false,
-    GoogleAnalytics: false
-};
-
 let mainWindow;
 
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
 global.credentials = { username: '', password: '', SRMUsername: 'ricky_jett@reyrey.com', SRMPassword: 'Reynolds1!' };
 app.setAppUserModelId('NLM Dashboard');
-
-log.info('App starting...');
 
 function sendStatusToWindow(type, text, logInfo=true) {
     if (logInfo) {
@@ -35,14 +22,12 @@ function sendStatusToWindow(type, text, logInfo=true) {
 
 app.on('ready', function () {
     var userName = process.env['USERPROFILE'].split(path.sep)[2];
-    var loginId = path.join("REYNOLDS", userName);
     global.credentials.username = userName;
     mainWindow = new BrowserWindow({ width: 1400, height: 960, autoHideMenuBar: false, frame: false });
     mainWindow.loadURL('file://' + __dirname + '/index.html');
     mainWindow.on('closed', function () { mainWindow = null });
     session.defaultSession.allowNTLMCredentialsForDomains('*');
     
-    mainWindow.focus();
     //mainWindow.webContents.on('before-input-event', function () { console.log('input'); });
 
     mainWindow.webContents.once('did-finish-load', () => { 
@@ -53,7 +38,11 @@ app.on('ready', function () {
         }
     });
 
-    //mainWindow.webContents.openDevTools()
+    //if (isDev) {
+        mainWindow.webContents.openDevTools()
+    //}
+
+    mainWindow.focus();
 })
 
 // Quit when all windows are closed.
@@ -71,20 +60,14 @@ app.on('activate', function () {
 
 app.on('web-contents-created', function (webContentsCreatedEvent, contents) {
     if (contents.getType() === 'webview') {
-        //below keeps popups from displaying.  This catches new window events on a webview, prevents the 
-        //new window from being created, then loads the requested url in the webview itself.
-        contents.on('new-window', function (newWindowEvent, url) {
-            newWindowEvent.preventDefault();
-            contents.loadURL(url);
-        });
-        //below is a fix for before unload confirmations. These are not supported in electron per google specs
+        //fix for before unload confirmations. These are not supported in electron per google specs
         //this catches that event and shows a prompt instead of just doing nothing and forcing the user to stay on the page
         contents.on('will-prevent-unload', function (event) {
             let choice = dialog.showMessageBox(mainWindow, {
                 type: 'question',
                 buttons: ['Leave', 'Stay'],
                 title: 'Do you want to leave this site?',
-                message: 'Changes you made may not be saved.',
+                message: 'Navigating to a new page will cause any unsaved changes to be discarded.',
                 defaultId: 0,
                 cancelId: 1
             });
@@ -93,84 +76,7 @@ app.on('web-contents-created', function (webContentsCreatedEvent, contents) {
                 event.preventDefault()
             }
         });
-
-        contents.on('did-start-loading', function (event) {
-            sendStatusToWindow('showSpinner', 'show spinner', false);
-        });
-
-        contents.on('did-stop-loading', function (event) {
-            sendStatusToWindow('hideSpinner', 'hide spinner', false);
-        });
-
-        contents.on('did-finish-load', function (event) {
-            var pageUrl = new URL(contents.getURL());
-            if (isHWAP(pageUrl)) { //this is HWAP
-                contents.executeJavaScript("var form = $('#loginForm'); if (form.length > 0 && form.find('.error').length == 0) { form.find('[name=UserName]').val('" + global.credentials.username + "'); form.find('[name=Password]').val('" + global.credentials.password + "');form.submit(); }");
-                //loginAttempts.HWAP = true;
-            } else if (isMMS(pageUrl)) {
-                contents.executeJavaScript("var form = jQuery('#form1'); if(form.length > 0) { form.find('input[id *= UserName]').val('" + global.credentials.username + "'); form.find('input[id *= Password]').val('" + global.credentials.password + "'); form.find('input[type=submit]').click();}");
-            } else if (isSRM(pageUrl)) {
-                contents.executeJavaScript("$('input[id *= UserName]').val('" + global.credentials.SRMUsername + "'); $('input[id *= Password]').val('" + global.credentials.SRMPassword + "'); $('input[type=submit]').click();");
-            } else if (isGoogleAnalytics(pageUrl)) {
-
-            }
-            
-        });
     }
-});
-
-function isHWAP(pageUrl) {
-    var valid = false;
-    valid = (pageUrl.hostname.indexOf('dealer.nakedlime.com') >= 0 && (pageUrl.pathname == '/' || pageUrl.pathname.indexOf('LogOn') >= 0));
-
-    if (valid) {
-        if (pageUrl.hostname.indexOf('web') >= 0) {
-            valid = valid && !loginAttempts.HWAP.Aptus;
-            loginAttempts.HWAP.Aptus = true;
-        } else if (pageUrl.hostname.indexOf('marketing') >= 0) {
-            valid = valid && !loginAttempts.HWAP.Marketing;
-            loginAttempts.HWAP.Marketing = true;
-        }
-    }
-
-    return valid;
-}
-
-function isMMS(pageUrl) {
-    var valid = (pageUrl.hostname.indexOf('mms.aimdatabase.com') >= 0 && pageUrl.pathname == '/');
-
-    if (valid) {
-        valid = valid && !loginAttempts.MMS;
-        loginAttempts.MMS = true;
-    }
-
-    return valid;
-}
-
-function isSRM(pageUrl) {
-    var valid = (pageUrl.hostname.indexOf('micrositesbyu.com') >= 0 && pageUrl.pathname.indexOf('Login.aspx') >= 0);
-
-    if (valid) {
-        valid = valid && !loginAttempts.SRM;
-        loginAttempts.SRM = true;
-    }
-
-    return valid;
-}
-
-function isGoogleAnalytics(pageUrl) {
-    var valid = !loginAttempts.GoogleAnalytics;
-
-    if (valid) {
-        valid = valid && !loginAttempts.GoogleAnalytics;
-        loginAttempts.GoogleAnalytics = true;
-    }
-    
-    return valid;
-}
-
-ipcMain.on('resetControls', function (event) {
-    sendStatusToWindow('resetControls', 'resetControls', false);
 });
 
 autoUpdater.on('checking-for-update', () => {

@@ -15,7 +15,7 @@ class Sidebar extends Component {
                         return (   
                             <div className="sidebarSection">
                                 <div className="sidebarSectionHeading">Account</div>
-                                <div className="accountName">{this.props.account.name}</div>
+                                <div className="accountName" data-id={this.props.account.id} data-type={this.props.account.type}>{this.props.account.name}</div>
                                 <div className="sidebarSectionHeading">Applications</div>
                                 <div className="sidebarSectionList">
                                     <ApplicationList></ApplicationList>

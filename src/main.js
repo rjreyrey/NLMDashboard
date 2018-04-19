@@ -38,9 +38,9 @@ app.on('ready', function () {
         }
     });
 
-    //if (isDev) {
+    if (isDev) {
         mainWindow.webContents.openDevTools()
-    //}
+    }
 
     mainWindow.focus();
 })

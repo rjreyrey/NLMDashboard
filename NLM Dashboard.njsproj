@@ -4,7 +4,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <Name>NLM Dashboard</Name>
     <RootNamespace>NLM Dashboard</RootNamespace>
-    <NodeExePath>C:\Users\JETTRICK\Source\Repos\NLM Dashboard\NLM Dashboard\node_modules\electron\dist\electron.exe</NodeExePath>
+    <NodeExePath>C:\Users\JETTRICK\Source\Repos\NLM Dashboard\node_modules\electron\dist\electron.exe</NodeExePath>
     <NodeExeArguments>
     </NodeExeArguments>
     <DebuggerPort>9222</DebuggerPort>
@@ -79,6 +79,9 @@
     <Compile Include="src\reducers\account.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\reducers\activeApplication.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\reducers\applications.js">
       <SubType>Code</SubType>
     </Compile>
@@ -101,25 +104,27 @@
     <Compile Include="assets\js\translations\i18n.js" />
     <Compile Include="assets\js\translations\sv.js" />
     <Content Include=".babelrc" />
-    <Content Include="assets\css\fa-regular.min.css" />
-    <Content Include="assets\css\fa-solid.min.css" />
-    <Content Include="assets\css\fontawesome.css" />
-    <Content Include="assets\css\spinner.css">
+    <Content Include="assets\css\fa-regular.min.scss" />
+    <Content Include="assets\css\fa-solid.min.scss" />
+    <Content Include="assets\css\fontawesome.scss" />
+    <Content Include="assets\css\spinner.scss">
       <SubType>Code</SubType>
     </Content>
     <Content Include="assets\fonts\fa-regular-400.ttf" />
     <Content Include="assets\fonts\fa-solid-900.ttf" />
     <Content Include="assets\fonts\SFCompactDisplay-Thin.otf" />
     <Content Include="assets\icons\win\icon.ico" />
-    <Content Include="assets\css\Test.css">
+    <Content Include="assets\css\index.scss">
       <SubType>Code</SubType>
     </Content>
     <Content Include="assets\images\logo.png" />
     <Content Include="electron-builder.yml" />
+    <Content Include="package.json">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="src\index.html">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="package.json" />
     <Content Include="README.md" />
   </ItemGroup>
   <ItemGroup>

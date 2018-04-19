@@ -91,10 +91,11 @@ body {
     -webkit-user-select: none;
 }
 
-.browserControls i {
-    padding: 10px;
-    font-size: 22px;
-}
+    .browserControls i {
+        padding: 10px;
+        font-size: 22px;
+        transition: ease 0.5s;
+    }
 
 .dragbar {
     flex-grow: 10;

@@ -16,7 +16,8 @@ const loginAttempts = {
     },
     MMS: false,
     SRM: false,
-    GoogleAnalytics: false
+    GoogleAnalytics: false,
+    Chatmeter: false
 };
 
 class Webviews extends Component {
@@ -67,17 +68,23 @@ class Webviews extends Component {
         this.props.showControls(event.target);
         var contents = event.target;
         var pageUrl = new URL(contents.getURL());
-        var username = remote.getGlobal('credentials').username;
-        var password = remote.getGlobal('credentials').password;
-        var SRMUsername = remote.getGlobal('credentials').SRMUsername;
-        var SRMPassword = remote.getGlobal('credentials').SRMPassword;
+        var username = this.props.activeApplication.username != null ? this.props.activeApplication.username : remote.getGlobal('credentials').username;
+        var password = this.props.activeApplication.password != null ? this.props.activeApplication.password : remote.getGlobal('credentials').password;
+
+        //event.target.openDevTools();
+        console.log(this.props.activeApplication);
+        let session = event.target.getWebContents().session;
 
         if (this.isHWAP(pageUrl)) {
             contents.executeJavaScript("var form = $('#loginForm'); if (form.length > 0 && form.find('.error').length == 0) { form.find('[name=UserName]').val('" + username + "'); form.find('[name=Password]').val('" + password + "');form.submit(); }");
         } else if (this.isMMS(pageUrl)) {
+            //session.cookies.set({ url: 'https://mms.aimdatabase.com', name: 'MMSDealershipSettings', value: '9999' }, function (error) { //currently this cookie is being deleted when navigating from the login page.  Waiting on a fix for this from MMS.
             contents.executeJavaScript("var form = jQuery('#form1'); if(form.length > 0) { form.find('input[id *= UserName]').val('" + username + "'); form.find('input[id *= Password]').val('" + password + "'); form.find('input[type=submit]').click();}");
+            //});
         } else if (this.isSRM(pageUrl)) {
-            contents.executeJavaScript("$('input[id *= UserName]').val('" + SRMUsername + "'); $('input[id *= Password]').val('" + SRMPassword + "'); $('input[type=submit]').click();");
+            contents.executeJavaScript("$('input[id *= UserName]').val('" + username + "'); $('input[id *= Password]').val('" + password + "'); $('input[type=submit]').click();");
+        } else if (this.isChatmeter(pageUrl)) {
+            contents.executeJavaScript("var form = jQuery('form[name *= login]'); if(form.length > 0) { var username = form.find('input[id *= Username]'); username.val('" + username + "'); username[0].dispatchEvent(new Event('input')); var password = form.find('input[id *= Password]'); password.val('" + password + "'); password[0].dispatchEvent(new Event('input')); form.find('input[type=submit]').click();}");
         } else if (this.isGoogleAnalytics(pageUrl)) {
 
         }
@@ -101,7 +108,7 @@ class Webviews extends Component {
     }
 
     isMMS(pageUrl) {
-        var valid = (pageUrl.hostname.indexOf('mms.aimdatabase.com') >= 0 && pageUrl.pathname == '/');
+        var valid = (pageUrl.hostname.indexOf('mms.aimdatabase.com') >= 0); //&& pageUrl.pathname == '/'  <= removing for now because MMS will drop off query string parameters or build invalid URLs
 
         if (valid) {
             valid = valid && !loginAttempts.MMS;
@@ -133,6 +140,17 @@ class Webviews extends Component {
         return valid;
     }
 
+    isChatmeter(pageUrl) {
+        var valid = (pageUrl.hostname.indexOf('live.chatmeter.com') >= 0 && pageUrl.pathname == '/');
+
+        if (valid) {
+            valid = valid && !loginAttempts.Chatmeter;
+            loginAttempts.Chatmeter = true;
+        }
+
+        return valid;
+    }
+
     render() {
         return (
             <div id="webviews">
@@ -144,7 +162,8 @@ class Webviews extends Component {
 
 function mapStateToProps(state) {
     return {
-        applications: state.applications
+        applications: state.applications,
+        activeApplication: state.activeApplication
     }
 }
 

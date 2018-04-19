@@ -1,7 +1,7 @@
 ﻿import * as types from '../actions/constants';
 window.$ = global.jQuery = require('../../assets/js/jquery.min.js');
 const initialState = { id: 0 }
-const foundAccount = { id: 105110, name: 'Jag Automotive', type: 'Busines Unit' };
+const foundAccount = { id: 105110, name: 'Development Test', type: 'BU' };
 
 export default function (state = initialState, action) {
     switch (action.type) {

@@ -9,7 +9,7 @@ const initialState = []
 //    { id: 1, name: 'Aptus', url: 'https://web.dealer.nakedlime.com/WebAnalytics/Index/100917?currentAccountId=100155', active: false, opened: false, username: null, password: null },
 //    { id: 2, name: 'MMS', url: 'https://mms.aimdatabase.com/Tools/AdvancedSearch.aspx?searchTerm=9999&ReturnUrl=/AccountDetails.aspx', active: false, opened: false, username: null, password: null },
 //    { id: 3, name: 'SRM', url: 'https://micrositesbyu.com/Login.aspx', active: false, opened: false, username: 'ricky_jett@reyrey.com', password: 'Reynolds1!' },
-//    { id: 4, name: 'Google Analytics', url: 'https://accounts.google.com/signin/v2/identifier?service=analytics&passive=1209600&continue=https%3A%2F%2Fanalytics.google.com%2Fanalytics%2Fweb%2F%23', active: false, opened: false, username: 'jett.ricky', password: 'wraPRub2' },
+//    { id: 4, name: 'Google Analytics', url: 'https://accounts.google.com/signin/v2/identifier?service=analytics&passive=1209600&continue=https%3A%2F%2Fanalytics.google.com%2Fanalytics%2Fweb%2F%23', active: false, opened: false, username: 'test', password: 'test' },
 //    { id: 5, name: 'Marketing', url: 'https://marketing.dealer.nakedlime.com', active: false, opened: false, username: null, password: null },
 //    { id: 6, name: 'Chatmeter', url: 'https://live.chatmeter.com', active: false, opened: false, username: 'NakedLimeDev', password: 'protectyours' },
 //]

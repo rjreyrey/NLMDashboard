@@ -27,7 +27,8 @@ app.on('ready', function () {
     mainWindow.loadURL('file://' + __dirname + '/index.html');
     mainWindow.on('closed', function () { mainWindow = null });
     session.defaultSession.allowNTLMCredentialsForDomains('*');
-    
+    session.defaultSession.clearStorageData([], null);
+
     //mainWindow.webContents.on('before-input-event', function () { console.log('input'); });
 
     mainWindow.webContents.once('did-finish-load', () => { 
@@ -45,7 +46,6 @@ app.on('ready', function () {
     mainWindow.focus();
 })
 
-// Quit when all windows are closed.
 app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') {
         app.quit()
@@ -60,8 +60,7 @@ app.on('activate', function () {
 
 app.on('web-contents-created', function (webContentsCreatedEvent, contents) {
     if (contents.getType() === 'webview') {
-        //fix for before unload confirmations. These are not supported in electron per google specs
-        //this catches that event and shows a prompt instead of just doing nothing and forcing the user to stay on the page
+        //fix for before unload confirmations. These are not supported in electron per google specs. This catches that event and shows a prompt instead of just doing nothing and forcing the user to stay on the page
         contents.on('will-prevent-unload', function (event) {
             let choice = dialog.showMessageBox(mainWindow, {
                 type: 'question',

@@ -16,7 +16,7 @@ class AutoUpdater extends Component {
                 </div>
                 <div id="updaterInstaller" className="hide">
                     <h3>Update downloaded.  Click update to begin.</h3>
-                    <button type="submit" id="installerUpdateButton">Update</button>
+                    <button type="submit" className="button" id="installerUpdateButton">Update</button>
                 </div>
             </div>
         );

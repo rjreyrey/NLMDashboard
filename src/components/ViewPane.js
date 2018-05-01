@@ -4,6 +4,7 @@ import AutoUpdater from './AutoUpdater';
 import Login from './Login';
 import Webviews from './Webviews';
 import Spinner from './Spinner';
+import Tabbar from './Tabbar';
 
 class ViewPane extends Component {
 
@@ -16,8 +17,10 @@ class ViewPane extends Component {
                         <Login />
                     </div>
                 </div>
-
-                <Webviews />
+                <div className="browser">
+                    <Tabbar />
+                    <Webviews />
+                </div>
                 <Spinner />
             </div>
         )

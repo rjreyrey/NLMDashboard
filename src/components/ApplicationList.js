@@ -1,7 +1,7 @@
 ﻿import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { selectApplication, addApplication } from '../actions/'
+import { selectApplication, addApplication, addTab, addWebview } from '../actions/'
 
 
 class ApplicationList extends Component {
@@ -9,11 +9,20 @@ class ApplicationList extends Component {
     createlistItems() {
         return this.props.applications.map((app) => {
             return (
-                <div className="sidebarSectionListItem" key={app.id} >
-                    <div className="sidebarSectionListItemLabel">{app.name}</div>
-                    <div className="sidebarSectionListItemIFrame" data-url={app.url} onClick={() => this.props.selectApplication(app)} className={app.active && app.opened ? 'sidebarSectionListItemIFrame active opened' : app.active ? 'sidebarSectionListItemIFrame active' : app.opened ? 'sidebarSectionListItemIFrame opened' : 'sidebarSectionListItemIFrame'}><i className="fas fa-expand"></i></div>
-                </div>
+                <div className="sidebarSectionListApplicationWrapper" key={app.id}>
+                    <div className="sidebarSectionListApplicationLabel">{app.name}</div>
+                    {app.services.map((service) => {
+                        return (
+                            <div className="sidebarSectionListItem" key={service.id} >
+                                <div className="sidebarSectionListItemLabel">{service.name}</div>
+                                <div className="sidebarSectionListItemIFrame" data-url={service.url} onClick={() => Promise.resolve(this.props.selectApplication(service)).then(this.props.addTab(service)).then(this.props.addWebview(service))} className={service.active && service.opened ? 'sidebarSectionListItemIFrame active opened' : service.active ? 'sidebarSectionListItemIFrame active' : service.opened ? 'sidebarSectionListItemIFrame opened' : 'sidebarSectionListItemIFrame'}><i className="fas fa-expand"></i></div>
+                            </div>
+                        );
+                    })}
+                </div >    
             );
+
+            
         });
     }
 
@@ -35,7 +44,8 @@ function mapStateToProps(state) {
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
         selectApplication: selectApplication,
-        addApplication: addApplication
+        addTab: addTab,
+        addWebview: addWebview
     }, dispatch);
 }
 

@@ -33,6 +33,8 @@ onload = () => {
                 username: 'Cssclient',
                 password: '1uw@hwyey',
                 success: function (data) {
+                    localStorage.setItem('username', username);
+                    localStorage.setItem('password', password);
                     $('.loaderWrapper').addClass('hide');
                     var response = $(data).find('string').text();
 

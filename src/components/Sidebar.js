@@ -2,7 +2,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
-import { addApplication, findAccount } from '../actions/'
+import { addApplication, findAccount, fetchServices, activateSidebar } from '../actions/'
 import ApplicationList from './ApplicationList';
 
 class Sidebar extends Component {
@@ -11,21 +11,25 @@ class Sidebar extends Component {
         return (
             <div id="sidebar" className="sidebar">
                 {(() => {
-                    if (this.props.account.id > 0) {
-                        return (   
+                    if (this.props.account.id > 0 && this.props.account.active == true) {
+                        return (
                             <div className="sidebarSection">
                                 <div className="sidebarSectionHeading">Account</div>
                                 <div className="accountName" data-id={this.props.account.id} data-type={this.props.account.type}>{this.props.account.name}</div>
-                                <div className="sidebarSectionHeading">Applications</div>
+                                <div className="sidebarSectionHeading">Services</div>
                                 <div className="sidebarSectionList">
                                     <ApplicationList></ApplicationList>
                                 </div>
                             </div>
                         )
+                    } else if (this.props.account.loading == true) {
+                        return (
+                            <div className="sidebarSectionHeading">Loading Services...</div>    
+                        )
                     } else {
                         return (
                             <div className="findAccountWrapper">
-                                <button type='submit' onClick={() => Promise.resolve(this.props.findAccount(this.props.account)).then(this.props.addApplication())}>Find Account</button>
+                                <button type='submit' className="button" onClick={() => Promise.resolve(this.props.findAccount(this.props.account)).then(this.props.fetchServices())}>Find Account</button>
                             </div>
                         )
                     }
@@ -44,7 +48,9 @@ function mapStateToProps(state) {
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
         addApplication: addApplication,
-        findAccount: findAccount
+        findAccount: findAccount,
+        fetchServices: fetchServices,
+        activateSidebar: activateSidebar
     }, dispatch);
 }
 

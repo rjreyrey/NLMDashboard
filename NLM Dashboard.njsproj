@@ -54,6 +54,9 @@
     <Compile Include="src\components\Spinner.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\components\Tabbar.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\components\ViewPane.js">
       <SubType>Code</SubType>
     </Compile>
@@ -91,7 +94,13 @@
     <Compile Include="src\reducers\spinner.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\reducers\tabbar.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\reducers\webviewControls.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\reducers\webviews.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\renderer.js">

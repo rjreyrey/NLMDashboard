@@ -2,23 +2,12 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
-import { hideSpinner, showSpinner, hideControls, showControls, resetControls, disableControls, navigateBack, navigateForward, navigateReload } from '../actions/'
+import { hideSpinner, showSpinner, hideControls, showControls, resetControls, disableControls, navigateBack, navigateForward, navigateReload, newWindowTab } from '../actions/'
+import * as types from '../actions/constants'
 
 const electron = window.require("electron") 
 const ipcRenderer = electron.ipcRenderer
 const remote = require('electron').remote;
-
-const loginAttempts = {
-    HWAP: {
-        Aptus: false,
-        Marketing: false,
-        VMS: false
-    },
-    MMS: false,
-    SRM: false,
-    GoogleAnalytics: false,
-    Chatmeter: false
-};
 
 class Webviews extends Component {
 
@@ -28,36 +17,64 @@ class Webviews extends Component {
         this.didStartLoading = this.didStartLoading.bind(this);
         this.didStopLoading = this.didStopLoading.bind(this);
         this.newWindow = this.newWindow.bind(this);
+        this.hasRun = false;
     }
 
-    createlistItems() {
-        return this.props.applications.map((app) => {
-            //<webview key={app.id} id={id} className="webview hide" webpreferences="nativeWindowOpen=true" allowpopups></webview>
-            var id = 'webview_' + app.id;
+    createListItems() {
+        return this.props.webviews.map((view) => {
+            var id = 'webview_' + view.id;
             return (
-                <webview key={app.id} id={id} className="webview hide"></webview>
+                <webview key={id} id={id} className={view.active ? "webview" : "webview hide"} data-src={view.url} data-partition={view.partition} data-hasrun='false'></webview>
             );
         });
     }
 
     componentDidUpdate() {
         let component = ReactDOM.findDOMNode(this);
-        var views = component.querySelectorAll('webview');
+        let views = component.querySelectorAll('webview');
+        const filter = {
+            urls: ["http://*/*", "https://*/*"]
+        }
 
         for (var i = 0; i < views.length; i++) {
-            views[i].removeEventListener
-            views[i].addEventListener('did-start-loading', this.didStartLoading);
-            views[i].addEventListener('did-stop-loading', this.didStopLoading);
-            views[i].addEventListener('new-window', this.newWindow);
+            if (views[i].dataset.hasrun == 'false') {
+                var webview = views[i];
+                views[i].partition = views[i].dataset.partition;
+                views[i].allowpopups = false;
+
+                views[i].addEventListener('did-start-loading', this.didStartLoading);
+                views[i].addEventListener('did-stop-loading', this.didStopLoading);
+                views[i].addEventListener('new-window', this.newWindow);
+                //views[i].addEventListener('did-begin-request', this.domReady);
+                //views[i].addEventListener('dom-ready', this.domReady);
+                views[i].dataset.hasrun = 'true';
+                //views[i].openDevTools();
+
+                if (views[i].src == '') {
+                    views[i].src = views[i].dataset.src;
+                }
+            }
+
+            
         }
     }
 
+    //domReady(event) {
+    //    if (event.target.dataset.hasrun == 'false') {
+    //        console.log('fired');
+    //        event.target.openDevTools();
+    //        event.target.loadURL(event.target.dataset.src, {extraHeaders: 'Token:' + localStorage.token + "\nPrimaryDMSBranch: -1" });
+    //        event.target.dataset.hasrun = 'true';
+    //    }
+    //}
+
     newWindow(event) {
         event.preventDefault();
-        event.target.loadURL(event.url);
+        this.props.newWindowTab(this.props.activeApplication, event.url);
     }
 
     didStartLoading(event) {
+        event.target.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.117 Safari/537.36");
         this.props.showSpinner();
         this.props.disableControls(event.target);
     }
@@ -72,7 +89,6 @@ class Webviews extends Component {
         var password = this.props.activeApplication.password != null ? this.props.activeApplication.password : remote.getGlobal('credentials').password;
 
         //event.target.openDevTools();
-        console.log(this.props.activeApplication);
         let session = event.target.getWebContents().session;
 
         if (this.isHWAP(pageUrl)) {
@@ -85,22 +101,21 @@ class Webviews extends Component {
             contents.executeJavaScript("$('input[id *= UserName]').val('" + username + "'); $('input[id *= Password]').val('" + password + "'); $('input[type=submit]').click();");
         } else if (this.isChatmeter(pageUrl)) {
             contents.executeJavaScript("var form = jQuery('form[name *= login]'); if(form.length > 0) { var username = form.find('input[id *= Username]'); username.val('" + username + "'); username[0].dispatchEvent(new Event('input')); var password = form.find('input[id *= Password]'); password.val('" + password + "'); password[0].dispatchEvent(new Event('input')); form.find('input[type=submit]').click();}");
-        } else if (this.isGoogleAnalytics(pageUrl)) {
+        } else if (this.isGoogleAnalytics(pageUrl, contents)) {
 
         }
     }
 
     isHWAP (pageUrl) {
         var valid = false;
-        valid = (pageUrl.hostname.indexOf('dealer.nakedlime.com') >= 0 && (pageUrl.pathname == '/' || pageUrl.pathname.indexOf('LogOn') >= 0));
-
+        valid = ((this.props.activeApplication.type == types.ServiceTypes.Aptus || this.props.activeApplication.type == types.ServiceTypes.Marketing) && (pageUrl.pathname == '/' || pageUrl.pathname.indexOf('LogOn') >= 0));
         if (valid) {
             if (pageUrl.hostname.indexOf('web') >= 0) {
-                valid = valid && !loginAttempts.HWAP.Aptus;
-                loginAttempts.HWAP.Aptus = true;
+                valid = valid && !this.props.activeApplication.attemptedLogin;
+                this.props.activeApplication.attemptedLogin = true;
             } else if (pageUrl.hostname.indexOf('marketing') >= 0) {
-                valid = valid && !loginAttempts.HWAP.Marketing;
-                loginAttempts.HWAP.Marketing = true;
+                valid = valid && !this.props.activeApplication.attemptedLogin;
+                this.props.activeApplication.attemptedLogin = true;
             }
         }
 
@@ -108,44 +123,52 @@ class Webviews extends Component {
     }
 
     isMMS(pageUrl) {
-        var valid = (pageUrl.hostname.indexOf('mms.aimdatabase.com') >= 0); //&& pageUrl.pathname == '/'  <= removing for now because MMS will drop off query string parameters or build invalid URLs
+        var valid = (this.props.activeApplication.type == types.ServiceTypes.MMS); //&& pageUrl.pathname == '/'  <= removing for now because MMS will drop off query string parameters or build invalid URLs
 
         if (valid) {
-            valid = valid && !loginAttempts.MMS;
-            loginAttempts.MMS = true;
+            valid = valid && !this.props.activeApplication.attemptedLogin;
+            this.props.activeApplication.attemptedLogin = true;
         }
 
         return valid;
     }
 
     isSRM(pageUrl) {
-        var valid = (pageUrl.hostname.indexOf('micrositesbyu.com') >= 0 && pageUrl.pathname.indexOf('Login.aspx') >= 0);
+        var valid = (this.props.activeApplication.type == types.ServiceTypes.SRM && pageUrl.pathname.indexOf('Login.aspx') >= 0);
 
         if (valid) {
-            valid = valid && !loginAttempts.SRM;
-            loginAttempts.SRM = true;
+            valid = valid && !this.props.activeApplication.attemptedLogin;
+            this.props.activeApplication.attemptedLogin = true;
         }
 
         return valid;
     }
 
-    isGoogleAnalytics(pageUrl) {
-        var valid = !loginAttempts.GoogleAnalytics;
+    isGoogleAnalytics(pageUrl, contents) {
+        var valid = (this.props.activeApplication.type == types.ServiceTypes.GoogleAnalytics);
 
-        if (valid) {
-            valid = valid && !loginAttempts.GoogleAnalytics;
-            loginAttempts.GoogleAnalytics = true;
+        if (valid && !this.props.activeApplication.attemptedLogin) {
+            if (pageUrl.pathname.indexOf('identifier') >= 0) {
+                contents.executeJavaScript('var usernameInput = document.getElementById("identifierId"); if (usernameInput != undefined) {usernameInput.value="' + this.props.activeApplication.username + '"; document.getElementById("identifierNext").click();}');
+            } else if (pageUrl.pathname.indexOf('pwd') >= 0) {
+                var that = this;
+                setTimeout(function () {
+                    contents.executeJavaScript('var password = document.getElementsByName("password")[0]; if (password != undefined) {password.value = "' + that.props.activeApplication.password + '"; document.getElementById("passwordNext").click();} else {alert("password field was undefined")}');
+                    this.props.activeApplication.attemptedLogin = true;
+                }, 1000);
+                
+            }
         }
 
         return valid;
     }
 
     isChatmeter(pageUrl) {
-        var valid = (pageUrl.hostname.indexOf('live.chatmeter.com') >= 0 && pageUrl.pathname == '/');
+        var valid = (this.props.activeApplication.type == types.ServiceTypes.Chatmeter && pageUrl.pathname == '/');
 
         if (valid) {
-            valid = valid && !loginAttempts.Chatmeter;
-            loginAttempts.Chatmeter = true;
+            valid = valid && !this.props.activeApplication.attemptedLogin;
+            this.props.activeApplication.attemptedLogin = true;
         }
 
         return valid;
@@ -154,7 +177,7 @@ class Webviews extends Component {
     render() {
         return (
             <div id="webviews">
-                {this.createlistItems()}
+                {this.createListItems()}
             </div>
         );
     }
@@ -163,7 +186,8 @@ class Webviews extends Component {
 function mapStateToProps(state) {
     return {
         applications: state.applications,
-        activeApplication: state.activeApplication
+        activeApplication: state.activeApplication,
+        webviews: state.webviews
     }
 }
 
@@ -173,7 +197,8 @@ function matchDispatchToProps(dispatch) {
         showSpinner: showSpinner,
         showControls: showControls,
         resetControls: resetControls,
-        disableControls: disableControls
+        disableControls: disableControls,
+        newWindowTab: newWindowTab
     }, dispatch);
 }
 

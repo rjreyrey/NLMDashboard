@@ -38,10 +38,11 @@ body {
 #versionNumber {
     position: absolute;
     bottom: 0;
-    left: 0;
+    right: 0;
     color: #AAA;
     z-index: 3;
-    padding: 5px;
+    padding: 3px;
+    font-size: 10px;
 }
 
 .header {
@@ -151,15 +152,22 @@ body {
     background-color: #EEE;
     box-shadow: 0px 0px 7px #333;
     z-index: 2;
-    padding: 10px 0px;
     margin-left: -250px;
     transition: ease 0.5s;
+}
+
+.sidebarSection {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .sidebarSectionHeading {
     font-size: 16px;
     color: #666;
     padding: 10px;
+    flex: 1;
+    height: 35px;
 }
 
 .findAccountWrapper {
@@ -171,6 +179,9 @@ body {
     font-weight: bold;
     padding: 10px 0 30px 30px;
     color: #666;
+    flex: 1;
+    height: 35px;
+
 }
 
 .sidebarSectionList {
@@ -178,6 +189,7 @@ body {
     padding: 10px 0px 10px 35px;
     box-shadow: 0px 0px 2px #333;
     color: #333;
+    overflow-y: auto;
 }
 
 .sidebarSectionListItem {
@@ -186,12 +198,23 @@ body {
 
 }
 
+.sidebarSectionListApplicationLabel {
+    margin: 10px;
+    margin-left: -20px;
+    font-weight: bold;
+    font-size: 16px;
+    border-bottom: 1px solid black;
+}
+
 .sidebarSectionListItem:last-child {
     padding-bottom: 0px;
 }
 
 .sidebarSectionListItemLabel {
     flex-grow: 10;
+    margin: auto;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .sidebarSectionListItemIFrame {
@@ -235,7 +258,7 @@ body {
     flex-grow: 7;
     font-size: 10px;
     background-color: #CCC;
-    padding: 15px;
+    padding: 1px;
 }
 
 .viewPane webview {
@@ -657,4 +680,89 @@ button {
 
 #webviews {
     height: 100%;
+}
+
+
+
+
+
+
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background-color: #888;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+
+.browser {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.tabbar {
+    height: 32px;
+    display: flex;
+    width: 100%;
+    background-color: #ccc;
+    cursor: default;
+    font-size: 14px;
+    -webkit-user-select: none;
+    user-select: none;
+
+    .tab {
+        margin: auto 1px;
+        height: 100%;
+        text-align: center;
+        vertical-align: middle;
+        max-width: 250px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        color: #333;
+        border: 1px solid #aaa;
+        border-bottom: none;
+        border-left: none;
+        background: linear-gradient(to bottom, rgba(234,234,234,1) 0%,rgba(204,204,204,1) 100%);
+        font: caption;
+        font-size: 14px;
+        background-color: #ccc;
+        cursor: pointer;
+        display: flex;
+
+        &.active {
+            background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(234,234,234,1) 100%);
+        }
+
+        .title {
+            max-width: 180px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            height: 30px;
+            padding: 6px 8px 4px;
+        }
+
+        .close {
+            display: flex;
+            height: 14px;
+            margin: auto;
+            padding: 0px 5px;
+            height: 30px;
+
+            i {
+                font-size: 12px;
+                margin: auto;
+            }
+        }
+    }
 }

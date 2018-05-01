@@ -13,7 +13,7 @@ class Login extends Component {
                 <form className="form">
                     <input type="text" placeholder="Username" id="loginUserName"></input>
                     <input type="password" placeholder="Password" id="loginPassword"></input>
-                    <button type="submit" id="login-button">Login</button>
+                    <button type="submit" className="button" id="login-button">Login</button>
                     <div id="loginError" className="error hide">This is the error</div>
                     <div className="loaderWrapper hide"><div className="loader"></div></div>
                 </form>

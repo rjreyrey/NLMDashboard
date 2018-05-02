@@ -13,7 +13,6 @@ export default function (state = initialState, action) {
                 state.push({ id: action.payload.tab.id, url: action.payload.tab.url, active: true, partition: action.payload.tab.partition });
             }
 
-            console.log(state);
             return [...state];
         case types.APP_CLICK:
             return state.map((view) => {
@@ -26,10 +25,8 @@ export default function (state = initialState, action) {
                 return view;
             });
         case types.CLICK_TAB:
-            console.log(action.payload);
             return state.map((view) => {
                 if (view.id == action.payload.id) {
-                    console.log('found a match')
                     view.active = true;
                 } else {
                     view.active = false;
@@ -52,7 +49,6 @@ export default function (state = initialState, action) {
             });
 
             var i = state.length;
-            console.log(action.payload);
             state.push({ id: action.payload.account.id + "_" + i, url: action.payload.url, partition: action.payload.account.partition, active: true });
             return state;
         default:

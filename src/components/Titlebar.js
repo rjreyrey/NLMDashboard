@@ -8,13 +8,6 @@ const remote = electron.remote;
 class Titlebar extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            searchFocused: false
-        };
-
-        this.onSearch = this.onSearch.bind(this);
-        this.closeSearch = this.closeSearch.bind(this);
     }
 
     onMaximize() {
@@ -33,14 +26,6 @@ class Titlebar extends Component {
         remote.getCurrentWindow().close();
     }
 
-    onSearch(event) {
-        this.setState({ searchFocused: true});
-    }
-
-    closeSearch(event) {
-        this.setState({ searchFocused: false });
-    }
-
     openDevTools() {
         remote.getCurrentWindow().openDevTools();
     }
@@ -53,13 +38,6 @@ class Titlebar extends Component {
                 </div>
                 <WebviewControls />
                 <div className="dragbar"></div>
-                <div className="accountSearch">
-                    <form>
-                        <div className={this.state.searchFocused ? 'search-wrapper focused' : 'search-wrapper'} onClick={this.onSearch}>
-                            <input className="search-input" type="text" placeholder="What are you looking for?" onBlur={this.closeSearch}></input><i className="fas fa-search"></i>
-                        </div>
-                    </form>
-                </div>
                 <div className="minimizeApp appControl" onClick={this.onMinimize}><i className="far fa-window-minimize"></i></div>
                 <div className="maximizeApp appControl" onClick={this.onMaximize}><i className="far fa-square"></i></div>
                 <div className="closeApp appControl" onClick={this.onClose}><i className="fas fa-times"></i></div>

@@ -2,7 +2,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
-import { addApplication, findAccount, fetchServices, activateSidebar } from '../actions/'
+import { addApplication, findAccount, fetchServices, activateSidebar, showEnterpriseSearch } from '../actions/'
 import ApplicationList from './ApplicationList';
 
 class Sidebar extends Component {
@@ -15,7 +15,7 @@ class Sidebar extends Component {
                         return (
                             <div className="sidebarSection">
                                 <div className="sidebarSectionHeading">Account</div>
-                                <div className="accountName" data-id={this.props.account.id} data-type={this.props.account.type}>{this.props.account.name}</div>
+                                <div className="accountName" data-id={this.props.account.id} data-type={this.props.account.type}>{this.props.account.name}<div className="changeAccount" onClick={() => this.props.showEnterpriseSearch()}><i className="fas fa-search"></i></div></div>
                                 <div className="sidebarSectionHeading">Services</div>
                                 <div className="sidebarSectionList">
                                     <ApplicationList></ApplicationList>
@@ -29,7 +29,7 @@ class Sidebar extends Component {
                     } else {
                         return (
                             <div className="findAccountWrapper">
-                                <button type='submit' className="button" onClick={() => Promise.resolve(this.props.findAccount(this.props.account)).then(this.props.fetchServices())}>Find Account</button>
+                                <button type='submit' className="button" onClick={() => this.props.showEnterpriseSearch()}>Find Account</button>
                             </div>
                         )
                     }
@@ -50,7 +50,8 @@ function matchDispatchToProps(dispatch) {
         addApplication: addApplication,
         findAccount: findAccount,
         fetchServices: fetchServices,
-        activateSidebar: activateSidebar
+        activateSidebar: activateSidebar,
+        showEnterpriseSearch: showEnterpriseSearch
     }, dispatch);
 }
 

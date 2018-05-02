@@ -2,7 +2,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
-import { hideSpinner, showSpinner, hideControls, showControls, resetControls, disableControls, navigateBack, navigateForward, navigateReload, newWindowTab } from '../actions/'
+import { hideSpinner, showSpinner, hideControls, showControls, resetControls, disableControls, navigateBack, navigateForward, navigateReload, newWindowTab, updateTab } from '../actions/'
 import * as types from '../actions/constants'
 
 const electron = window.require("electron") 
@@ -61,7 +61,6 @@ class Webviews extends Component {
 
     //domReady(event) {
     //    if (event.target.dataset.hasrun == 'false') {
-    //        console.log('fired');
     //        event.target.openDevTools();
     //        event.target.loadURL(event.target.dataset.src, {extraHeaders: 'Token:' + localStorage.token + "\nPrimaryDMSBranch: -1" });
     //        event.target.dataset.hasrun = 'true';
@@ -84,6 +83,7 @@ class Webviews extends Component {
         this.props.resetControls(event.target);
         this.props.showControls(event.target);
         var contents = event.target;
+        this.props.updateTab(contents.getTitle());
         var pageUrl = new URL(contents.getURL());
         var username = this.props.activeApplication.username != null ? this.props.activeApplication.username : remote.getGlobal('credentials').username;
         var password = this.props.activeApplication.password != null ? this.props.activeApplication.password : remote.getGlobal('credentials').password;
@@ -198,7 +198,8 @@ function matchDispatchToProps(dispatch) {
         showControls: showControls,
         resetControls: resetControls,
         disableControls: disableControls,
-        newWindowTab: newWindowTab
+        newWindowTab: newWindowTab,
+        updateTab: updateTab
     }, dispatch);
 }
 

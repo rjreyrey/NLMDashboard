@@ -39,6 +39,9 @@
     <Compile Include="src\actions\index.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\components\AccountSearch.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\components\ApplicationList.js">
       <SubType>Code</SubType>
     </Compile>
@@ -89,6 +92,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\reducers\index.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\reducers\accountSearch.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\reducers\spinner.js">

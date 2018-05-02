@@ -38,7 +38,7 @@ body {
 #versionNumber {
     position: absolute;
     bottom: 0;
-    right: 0;
+    left: 0;
     color: #AAA;
     z-index: 3;
     padding: 3px;
@@ -149,11 +149,12 @@ body {
 .sidebar {
     width: 250px;
     font-size: 14px;
-    background-color: #EEE;
+    background-color: #000;
     box-shadow: 0px 0px 7px #333;
     z-index: 2;
     margin-left: -250px;
     transition: ease 0.5s;
+    color: #FFF;
 }
 
 .sidebarSection {
@@ -164,10 +165,13 @@ body {
 
 .sidebarSectionHeading {
     font-size: 16px;
-    color: #666;
+    color: greenyellow;
     padding: 10px;
     flex: 1;
     height: 35px;
+    max-height: 35px;
+    font-weight: bold;
+    margin: 0px 5px 5px 5px;
 }
 
 .findAccountWrapper {
@@ -178,17 +182,21 @@ body {
     font-size: 14px;
     font-weight: bold;
     padding: 10px 0 30px 30px;
-    color: #666;
     flex: 1;
     height: 35px;
+    max-height: 35px;
 
 }
 
+.changeAccount {
+    float: right;
+    margin-right: 15px;
+    color: greenyellow;
+}
+
 .sidebarSectionList {
-    background-color: #DDD;
     padding: 10px 0px 10px 35px;
     box-shadow: 0px 0px 2px #333;
-    color: #333;
     overflow-y: auto;
 }
 
@@ -201,9 +209,9 @@ body {
 .sidebarSectionListApplicationLabel {
     margin: 10px;
     margin-left: -20px;
-    font-weight: bold;
     font-size: 16px;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid greenyellow;
+    color: greenyellow;
 }
 
 .sidebarSectionListItem:last-child {
@@ -220,15 +228,15 @@ body {
 .sidebarSectionListItemIFrame {
     float: right;
     margin-right: 10px;
-    color: #CCC;
     padding: 5px;
     flex-grow: 0;
     border: 1px solid transparent;
     cursor: pointer;
+    color: #555;
 }
 
 .sidebarSectionListItemIFrame:hover:not(.active), .sidebarSectionListItemIFrame.opened {
-    color: #333;
+    color: #EEE;
     visibility: visible;
 }
 
@@ -237,14 +245,12 @@ body {
 .sidebarSectionListItemIFrame.active {
     color: #333;
     background-color: greenyellow;
-    border-radius: 3px;
-    border: 1px solid #AAA;
     visibility: visible;
     
 }
 
 .sidebarSectionListItemIFrame.open {
-    color: #333;
+    color: #999;
     border-radius: 3px;
     border: 1px solid #AAA;
     visibility: visible;
@@ -257,7 +263,7 @@ body {
 .viewPane {
     flex-grow: 7;
     font-size: 10px;
-    background-color: #CCC;
+    background-color: #EEE;
     padding: 1px;
 }
 
@@ -699,7 +705,7 @@ button {
 
 ::-webkit-scrollbar-thumb {
     border-radius: 2px;
-    background-color: #888;
+    background-color: RGBA(173, 255, 47, 1);
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
 }
 
@@ -713,7 +719,6 @@ button {
     height: 32px;
     display: flex;
     width: 100%;
-    background-color: #ccc;
     cursor: default;
     font-size: 14px;
     -webkit-user-select: none;
@@ -764,5 +769,91 @@ button {
                 margin: auto;
             }
         }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+.fullWrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    background: rgba(0,0,0,0.5);
+
+    .accountSearchWrapper {
+        position: absolute;
+        width: 640px;
+        height: 480px;
+        text-align: center;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        background-color: #000;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+
+        h2 {
+            color: greenyellow;
+            margin: 0;
+        }
+
+        form input {
+            display: inline-block;
+            outline: 0;
+            border: 1px solid rgba(255,255,255, 0.4);
+            border-radius: 1px;
+            padding: 10px 15px;
+            margin: 3px;
+            text-align: center;
+            transition-duration: 0.25s;
+            font-weight: 300;
+        }
+
+        .grid {
+            height: 100%;
+            flex: 1;
+            background-color: #EEE;
+            overflow: auto;
+            margin: 0 9px;
+
+            > div {
+                border-bottom: 1px solid #666;
+                padding: 10px;
+                cursor: pointer;
+                color: #000;
+            }
+        }
+    }
+
+    .searchingCover {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        height: 480px;
+        width: 640px;
+        background-color: rgba(0,0,0,0.8);
+    }
+
+    .loader {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
     }
 }

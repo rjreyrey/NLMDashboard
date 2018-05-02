@@ -22,6 +22,13 @@ export const UPDATE_TAB = 'UPDATE_TAB'
 export const NEW_WINDOW_TAB = 'NEW_WINDOW_TAB'
 export const ADD_WEBVIEW = 'ADD_WEBVIEW'
 export const DELETE_WEBVIEW = 'DELETE_WEBVIEW'
+export const SET_NEW_ACTIVE_APP = 'SET_NEW_ACTIVE_APP'
+export const SEARCH_SHOW = 'SEARCH_SHOW'
+export const SEARCH_HIDE = 'SEARCH_HIDE'
+export const SEARCH_BEGIN_ENTERPRISE = 'SEARCH_BEGIN_ENTERPRISE'
+export const SEARCH_SUCCESS_ENTERPRISE = 'SEARCH_SUCCESS_ENTERPRISE'
+export const SEARCH_BEGIN_BRANCH = 'SEARCH_BEGIN_BRANCH'
+export const SEARCH_SUCCESS_BRANCH = 'SEARCH_SUCCESS_BRANCH'
 
 export const ServiceTypes = {
     Aptus: 1,
@@ -33,15 +40,15 @@ export const ServiceTypes = {
 }
 
 ///////////////////////////////////////////////////////SB01//////////////////////////////////////////////////////
-export const SERVICE_URL_APTUS = 'https://web-sb01.reyqa.com/WebAnalytics/Index/%s?currentAccountId=%s'
-export const SERVICE_URL_MMS = 'https://mms.aimdatabase.com/Tools/AdvancedSearch.aspx?searchTerm=%s&ReturnUrl=/AccountDetails.aspx'
-export const SERVICE_URL_MARKETING = 'https://marketing-sb01.reyqa.com/ExternalReports/Search/%s?currentAccountId=%s'
+//export const SERVICE_URL_APTUS = 'https://web-sb01.reyqa.com/WebAnalytics/Index/%s?currentAccountId=%s'
+//export const SERVICE_URL_MMS = 'https://mms.aimdatabase.com/Tools/AdvancedSearch.aspx?searchTerm=%s&ReturnUrl=/AccountDetails.aspx'
+//export const SERVICE_URL_MARKETING = 'https://marketing-sb01.reyqa.com/ExternalReports/Search/%s?currentAccountId=%s'
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////QA01//////////////////////////////////////////////////////
-//export const SERVICE_URL_APTUS = 'https://web-qa01.reyqa.com/WebAnalytics/Index/%s?currentAccountId=%s'
-//export const SERVICE_URL_MMS = 'https://mms.aimdatabase.com/Tools/AdvancedSearch.aspx?searchTerm=%s&ReturnUrl=/AccountDetails.aspx'
-//export const SERVICE_URL_MARKETING = 'https://marketing-qa01.reyqa.com/ExternalReports/Search/%s?currentAccountId=%s'
+export const SERVICE_URL_APTUS = 'https://web-qa01.reyqa.com/WebAnalytics/Index/%s?currentAccountId=%s'
+export const SERVICE_URL_MMS = 'https://mms.aimdatabase.com/Tools/AdvancedSearch.aspx?searchTerm=%s&ReturnUrl=/AccountDetails.aspx'
+export const SERVICE_URL_MARKETING = 'https://marketing-qa01.reyqa.com/ExternalReports/Search/%s?currentAccountId=%s'
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////PRODUCTION///////////////////////////////////////////////////

@@ -6,6 +6,7 @@ import Account from './account';
 import ActiveApplication from './activeApplication';
 import Tabbar from './tabbar';
 import Webviews from './webviews';
+import AccountSearch from './accountSearch';
 
 const rootReducer = combineReducers({
     applications: AppcliationsReducer,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
     account: Account,
     activeApplication: ActiveApplication,
     webviews: Webviews,
-    tabs: Tabbar
+    tabs: Tabbar,
+    accountSearch: AccountSearch
 });
 
 export default rootReducer;

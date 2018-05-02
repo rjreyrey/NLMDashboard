@@ -22,6 +22,14 @@ export default function (state = initialState, action) {
             }
 
             return state;
+        case types.UPDATE_TAB:
+            return state.map(tab => {
+                if (tab.active == true) {
+                    tab.title = action.payload;
+                }
+
+                return tab;
+            });
         case types.CLOSE_TAB:
             var currentTab = state.find((tab) => tab.id == action.payload.id);
             state = state.filter((view) => { return view.id != action.payload.id });

@@ -2,6 +2,7 @@
 import Sidebar from './Sidebar';
 import ViewPane from './ViewPane';
 import VersionNumber from './VersionNumber';
+import AccountSearch from './AccountSearch';
 
 class Content extends Component {
     constructor(props) {
@@ -13,6 +14,7 @@ class Content extends Component {
             <div className="content">
                 <Sidebar />
                 <ViewPane />
+                <AccountSearch />
                 <VersionNumber />
             </div>
         );

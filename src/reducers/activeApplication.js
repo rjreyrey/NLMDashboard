@@ -4,6 +4,17 @@ export default function (state = null, action) {
     switch (action.type) {
         case types.APP_CLICK:
             return { ...action.payload }
+        case types.SET_NEW_ACTIVE_APP:
+            var activeService = {};
+
+            action.payload.apps.map((app) => {
+                app.services.map((service) => {
+                    if (service.active == true) {
+                        activeService = service;
+                    }
+                });
+            });
+            return { ...activeService }
         default:
             return state;
     }

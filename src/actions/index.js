@@ -100,6 +100,7 @@ export function fetchAccounts(sys, store, branch) {
         fetch(url)
             .then(res => res.json())
             .then(json => {
+                console.log(json);
                 dispatch(fetchServicesSuccess(json));
                 dispatch(activateSidebar());
                 dispatch(hideEnterpriseSearch());

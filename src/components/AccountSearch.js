@@ -47,18 +47,49 @@ class AccountSearch extends Component {
                         <input type='submit' value='Search' onClick={this.onEnterpriseSearch.bind(this)} />
                     </form>
                     <div className={this.props.accountSearch.hasEnterpriseData && !this.props.accountSearch.hasBUData ? 'grid' : 'grid hide'}>
-                        {this.props.accountSearch.enterpriseSearchData.map((enterprise) => {
-                            return (
-                                <div key={guid()} onClick={() => { this.handleEnterpriseClick(enterprise.Name) }}>{enterprise.Name}</div>
-                            );
-                        })}
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Branches</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.props.accountSearch.enterpriseSearchData.map((enterprise) => {
+                                        return (
+                                            <tr key={guid()}>
+                                                <td onClick={() => this.handleEnterpriseClick(enterprise.Name) }>{enterprise.Name}</td>
+                                                <td>{enterprise.BranchList}</td>
+                                            </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
                     </div>
                     <div className={this.props.accountSearch.hasBUData && !this.props.accountSearch.hasAccountData ? 'grid' : 'grid hide'}>
-                        {this.props.accountSearch.buSearchData.map((bu) => {
-                            return (
-                                <div key={guid()} onClick={() => { this.handleBUClick(bu.PPSysId, bu.StoreNo, bu.BranchNo) }}>{bu.Name}</div>
-                            );
-                        })}
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>PPSYSID</th>
+                                    <th>Store Number</th>
+                                    <th>Branch Number</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.props.accountSearch.buSearchData.map((bu) => {
+                                    console.log(bu);
+                                    return (
+                                        <tr key={guid()}>
+                                            <td onClick={() => { this.handleBUClick(bu.PPSysId, bu.StoreNo, bu.BranchNo) }}>{bu.Name}</td>
+                                            <td>{bu.PPSysId}</td>
+                                            <td>{bu.StoreNo}</td>
+                                            <td>{bu.BranchNo}</td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

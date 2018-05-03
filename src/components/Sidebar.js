@@ -16,7 +16,7 @@ class Sidebar extends Component {
                             <div className="sidebarSection">
                                 <div className="sidebarSectionHeading">Account</div>
                                 <div className="accountName" data-id={this.props.account.id} data-type={this.props.account.type}>{this.props.account.name}<div className="changeAccount" onClick={() => this.props.showEnterpriseSearch()}><i className="fas fa-search"></i></div></div>
-                                <div className="sidebarSectionHeading">Services</div>
+                                <div className="sidebarSectionHeading">Account List</div>
                                 <div className="sidebarSectionList">
                                     <ApplicationList></ApplicationList>
                                 </div>

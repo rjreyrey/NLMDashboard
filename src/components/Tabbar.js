@@ -6,12 +6,23 @@ import { close } from 'original-fs';
 
 class Tabbar extends Component {
 
+    handleTabClick(event, tab) {
+        console.log(event.button);
+        if (event.button == 1) {
+            Promise.resolve(this.props.closeTab(tab))
+                .then(this.props.setNewActiveApp(this.props.apps));
+        } else {
+            Promise.resolve(this.props.clickTab(tab))
+                .then(this.props.setNewActiveApp(this.props.apps));
+        }
+    }
+
     createlistItems() {
         return this.props.tabs.map((tab) => {
             return (
                 <div id={tab.id} className={tab.active ? 'tab active' : 'tab'} key={tab.id}>
-                    <div  onClick={() => Promise.resolve(this.props.clickTab(tab)).then(this.props.setNewActiveApp(this.props.apps))} className="title">{tab.title}</div>
-                    <div className="close" onClick={() => Promise.resolve(this.props.closeTab(tab)).then(this.props.setNewActiveApp(this.props.apps))}><i className="fas fa-times"></i></div>
+                    <div onMouseDown={(event) =>  this.handleTabClick(event, tab) } className="title">{tab.title}</div>
+                    <div className="close" onClick={() => Promise.resolve(this.props.closeTab(tab)).then(this.props.setNewActiveApp(this.props.apps)) }><i className="fas fa-times"></i></div>
                 </div>
             );
 

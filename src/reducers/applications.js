@@ -73,6 +73,7 @@ export default function (state = initialState, action) {
             var aptusServices = [];
             var mmsServices = [];
             var marketingServices = [];
+            var externalServices = [];
             
             for (var i = 0; i < action.payload.AptusSites.length; i++) {
                 var site = action.payload.AptusSites[i];
@@ -95,6 +96,21 @@ export default function (state = initialState, action) {
                 } 
             }
 
+            for (var i = 0; i < action.payload.ServiceAccounts.length; i++) {
+                var account = action.payload.ServiceAccounts[i];
+                var externals = [];
+
+                for (var j = 0; j < account.ExternalAccounts.length; j++) {
+                    var external = account.ExternalAccounts[j];
+                    var data = { id: 'external_' + i + '_' + j + '_' + external.Type, type: external.TypeId, typeName: external.Type, url: '#', name: external.Name + '-' + external.Type, active: false, opened: false, username: external.Username, password: external.Password, attemptedLogin: false, partition: guid() };
+                    externals.push(data)
+                }
+
+                var data = { id: 'external_' + i + '_' + account.Type, type: account.TypeId, name: account.Name, externals: externals };
+
+                externalServices.push(data);
+            }
+
             applications.push({
                 name: "Aptus",
                 services: aptusServices,
@@ -113,6 +129,13 @@ export default function (state = initialState, action) {
                  id: types.ServiceTypes.MMS
              });
 
+            applications.push({
+                name: "Services",
+                services: externalServices,
+                id: 50
+            });
+
+            console.log(applications);
 
             return applications;
         default:

@@ -74,7 +74,7 @@ export default function (state = initialState, action) {
             var mmsServices = [];
             var marketingServices = [];
             var externalServices = [];
-            
+
             for (var i = 0; i < action.payload.AptusSites.length; i++) {
                 var site = action.payload.AptusSites[i];
                 var url = util.format(types.SERVICE_URL_APTUS, action.payload.BusinessGroupId, site.SiteId);

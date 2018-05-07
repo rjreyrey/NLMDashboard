@@ -7,7 +7,7 @@ const initialState = { enterpriseSearchData: [], buSearchData: [], accountSearch
 export default function (state = initialState, action) {
     switch (action.type) {
         case types.SEARCH_BEGIN_ENTERPRISE:
-            return { ...state, enterpriseSearchData: [], buSearchData: [], accountSearchData: [], searching: true };
+            return { ...state, enterpriseSearchData: [], buSearchData: [], accountSearchData: [], searching: true, hasEnterpriseData: false, hasBUData: false, hasAccounts: false, currentSearchItem: 'Search Enterprise' };
         case types.SEARCH_SUCCESS_ENTERPRISE:
             return { ...state, enterpriseSearchData: action.payload.EnterpriseResultList, searching: false, hasEnterpriseData: true, currentSearchItem: 'Select Enterprise' };
         case types.SEARCH_BEGIN_BRANCH:

@@ -10,6 +10,7 @@ let mainWindow;
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
 global.credentials = { username: '', password: '', SRMUsername: 'ricky_jett@reyrey.com', SRMPassword: 'Reynolds1!' };
+
 app.setAppUserModelId('NLM Dashboard');
 
 function sendStatusToWindow(type, text, logInfo=true) {
@@ -23,7 +24,7 @@ function sendStatusToWindow(type, text, logInfo=true) {
 app.on('ready', function () {
     var userName = process.env['USERPROFILE'].split(path.sep)[2];
     global.credentials.username = userName;
-    mainWindow = new BrowserWindow({ width: 1400, height: 960, autoHideMenuBar: false, frame: false });
+    mainWindow = new BrowserWindow({ width: 1400, height: 960, autoHideMenuBar: false, frame: false, show: false });
     mainWindow.loadURL('file://' + __dirname + '/index.html');
     mainWindow.on('closed', function () { mainWindow = null });
     session.defaultSession.allowNTLMCredentialsForDomains('*');
@@ -32,18 +33,21 @@ app.on('ready', function () {
     //mainWindow.webContents.on('before-input-event', function () { console.log('input'); });
 
     mainWindow.webContents.once('did-finish-load', () => { 
-        if (!isDev) {
-            autoUpdater.checkForUpdatesAndNotify();
-        } else {
-            mainWindow.webContents.send('NoUpdate', 'DEV run.  No update needed.');
-        }
+        
     });
 
-    if (isDev) {
-        mainWindow.webContents.openDevTools()
-    }
+    mainWindow.once('ready-to-show', () => {
+        mainWindow.show();
+        mainWindow.focus();
 
-    mainWindow.focus();
+        if (isDev) {
+            mainWindow.webContents.openDevTools();
+            mainWindow.webContents.send('NoUpdate', 'DEV run.  No update needed.');
+        } else {
+            autoUpdater.checkForUpdatesAndNotify();
+        }
+    });
+    
 })
 
 app.on('window-all-closed', function () {

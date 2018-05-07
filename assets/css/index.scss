@@ -876,9 +876,10 @@ button {
             border: 1px solid #DDD;
             padding: 3px;
             font-size: 14px;
+            text-align: left;
         }
 
-        td:first-child {
+        .clickable {
             text-decoration: underline;
             cursor: pointer;
         }

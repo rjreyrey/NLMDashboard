@@ -31,7 +31,9 @@ class AccountSearch extends Component {
     }
 
     handleBUClick(sys, store, branch) {
-        this.props.fetchAccounts(sys, store, branch);
+        if (sys.length > 0 && store.length > 0 && branch.length > 0) {
+            this.props.fetchAccounts(sys, store, branch);
+        }
     }
 
     render() {
@@ -58,7 +60,7 @@ class AccountSearch extends Component {
                                 {this.props.accountSearch.enterpriseSearchData.map((enterprise) => {
                                         return (
                                             <tr key={guid()}>
-                                                <td onClick={() => this.handleEnterpriseClick(enterprise.Name) }>{enterprise.Name}</td>
+                                                <td className='clickable' onClick={() => this.handleEnterpriseClick(enterprise.Name) }>{enterprise.Name}</td>
                                                 <td>{enterprise.BranchList}</td>
                                             </tr>
                                     );
@@ -81,7 +83,7 @@ class AccountSearch extends Component {
                                     console.log(bu);
                                     return (
                                         <tr key={guid()}>
-                                            <td onClick={() => { this.handleBUClick(bu.PPSysId, bu.StoreNo, bu.BranchNo) }}>{bu.Name}</td>
+                                            <td className={bu.PPSysId.length > 0 ? 'clickable' : ''} onClick={() => { this.handleBUClick(bu.PPSysId, bu.StoreNo, bu.BranchNo) }}>{bu.Name}</td>
                                             <td>{bu.PPSysId}</td>
                                             <td>{bu.StoreNo}</td>
                                             <td>{bu.BranchNo}</td>

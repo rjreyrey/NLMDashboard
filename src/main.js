@@ -5,6 +5,7 @@ const isDev = require('electron-is-dev');
 const log = require('electron-log');
 const { autoUpdater } = require("electron-updater");
 
+let loadingWindow;
 let mainWindow;
 
 autoUpdater.logger = log;
@@ -24,24 +25,31 @@ function sendStatusToWindow(type, text, logInfo=true) {
 app.on('ready', function () {
     var userName = process.env['USERPROFILE'].split(path.sep)[2];
     global.credentials.username = userName;
+
+    loadingWindow = new BrowserWindow({ width: 400, height: 200, autoHideMenuBar: true, frame: false, show: false });
+    loadingWindow.loadURL('file://' + __dirname + '/loading.html');
     mainWindow = new BrowserWindow({ width: 1400, height: 960, autoHideMenuBar: false, frame: false, show: false });
     mainWindow.loadURL('file://' + __dirname + '/index.html');
+
+    loadingWindow.on('closed', () => { loadingWindow = null });
     mainWindow.on('closed', function () { mainWindow = null });
     session.defaultSession.allowNTLMCredentialsForDomains('*');
     session.defaultSession.clearStorageData([], null);
 
     //mainWindow.webContents.on('before-input-event', function () { console.log('input'); });
 
-    mainWindow.webContents.once('did-finish-load', () => { 
-        
-    });
+    loadingWindow.webContents.on('did-finish-load', () => { loadingWindow.show() });
 
-    mainWindow.once('ready-to-show', () => {
+    mainWindow.webContents.once('did-finish-load', () => {
+        if (loadingWindow) {
+            loadingWindow.close();
+        }
+
         mainWindow.show();
         mainWindow.focus();
 
         if (isDev) {
-            mainWindow.webContents.openDevTools();
+            //mainWindow.webContents.openDevTools();
             mainWindow.webContents.send('NoUpdate', 'DEV run.  No update needed.');
         } else {
             autoUpdater.checkForUpdatesAndNotify();

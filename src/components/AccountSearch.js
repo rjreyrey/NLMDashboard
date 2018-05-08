@@ -80,7 +80,6 @@ class AccountSearch extends Component {
                             </thead>
                             <tbody>
                                 {this.props.accountSearch.buSearchData.map((bu) => {
-                                    console.log(bu);
                                     return (
                                         <tr key={guid()}>
                                             <td className={bu.PPSysId.length > 0 ? 'clickable' : ''} onClick={() => { this.handleBUClick(bu.PPSysId, bu.StoreNo, bu.BranchNo) }}>{bu.Name}</td>

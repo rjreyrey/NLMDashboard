@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Loading</title>
+    <style>
+        @font-face {
+            font-family: 'San Fransisco';
+            font-weight: lighter;
+            src: local('SFCompactDisplay-Thin'), url(../assets/fonts/SFCompactDisplay-Thin.otf) format('opentype');
+        }
+
+        body {
+            text-align: center;
+            background-color: #000;
+            color: #FFF;
+            font-family: 'San Fransisco';
+        }
+
+        .logo {
+            max-height: 25px;
+            max-width: 25px;
+        }
+
+        .title {
+            height: 50px;
+            margin: auto;
+            display: block;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: greenyellow;
+        }
+
+        .titleInner {
+            display: inline-block;
+            height: 28px;
+            margin: auto;
+            vertical-align: top;
+        }
+
+        .wrapper {
+            margin-top: 65px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="title"><img src="../assets/images/logo.png" alt="Logo" class="logo" /><div class="titleInner">NLM Dashboard</div></div>
+        <div class="loading">Loading...</div>
+    </div>
+</body>
+</html>

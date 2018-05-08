@@ -7,7 +7,6 @@ import { close } from 'original-fs';
 class Tabbar extends Component {
 
     handleTabClick(event, tab) {
-        console.log(event.button);
         if (event.button == 1) {
             Promise.resolve(this.props.closeTab(tab))
                 .then(this.props.setNewActiveApp(this.props.apps));

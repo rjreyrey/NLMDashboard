@@ -135,8 +135,6 @@ export default function (state = initialState, action) {
                 id: 50
             });
 
-            console.log(applications);
-
             return applications;
         default:
             return state;

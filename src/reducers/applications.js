@@ -112,7 +112,7 @@ export default function (state = initialState, action) {
             }
 
             applications.push({
-                name: "Aptus",
+                name: "Web",
                 services: aptusServices,
                 id: types.ServiceTypes.Aptus
             });

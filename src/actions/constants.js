@@ -61,8 +61,7 @@ export const ServiceTypes = {
 
 ////////////////////////////////////////////////////PRODUCTION///////////////////////////////////////////////////
 export const SERVICE_URL_AUTH_TOKEN = 'https://leads.cm.reyrey.com/AuthService/api/Authenticate/LogOn?Application=1'
-export const SERVICE_URL_GET_ENTERPRISES = 'https://nlmservice.dealer.nakedlime.com/api/AccountSearch/GetEnterprises?EnterpriseName=%s&branchName=%s&id=%s&token=%s'
-export const SERVICE_URL_GET_BRANCHES = 'https://nlmservice.dealer.nakedlime.com/api/AccountSearch/GetBranches?EnterpriseName=%s&token=%s'
+export const SERVICE_URL_GET_BRANCHES = 'https://nlmservice.dealer.nakedlime.com/api/AccountSearch/GetBranches?EnterpriseName=%s&branchName=%s&id=%s&token=%s'
 export const SERVICE_URL_GET_ACCOUNTS = 'https://nlmservice.dealer.nakedlime.com/api/AccountSearch/GetAccounts?System=%s&StoreNo=%s&BranchNo=%s&token=%s'
 export const SERVICE_URL_APTUS = 'https://web.dealer.nakedlime.com/WebAnalytics/Index/%s?currentAccountId=%s'
 export const SERVICE_URL_MMS = 'https://mms.aimdatabase.com/Tools/AdvancedSearch.aspx?searchTerm=%s&ReturnUrl=/AccountDetails.aspx'

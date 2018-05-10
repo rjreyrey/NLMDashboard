@@ -27,16 +27,14 @@ export const deleteWebview = (tab) => ({ type: types.DELETE_WEBVIEW, payload: { 
 export const setNewActiveApp = (apps) => ({ type: types.SET_NEW_ACTIVE_APP, payload: { apps } })
 export const showEnterpriseSearch = () => ({ type: types.SEARCH_SHOW , payload: null })
 export const hideEnterpriseSearch = () => ({ type: types.SEARCH_HIDE , payload: null })
-export const searchBeginEnterprise = (filters) => ({ type: types.SEARCH_BEGIN_ENTERPRISE, payload: filters })
-export const searchSuccessEnterprise = (data) => ({ type: types.SEARCH_SUCCESS_ENTERPRISE, payload: data })
 export const searchBeginBranch = (name) => ({ type: types.SEARCH_BEGIN_BRANCH, payload: name })
 export const searchSuccessBranch = (data) => ({ type: types.SEARCH_SUCCESS_BRANCH, payload: data })
 
 
 
-export function fetchEnterprises(filters) {
+export function fetchBranches(filters) {
     return dispatch => {
-        dispatch(searchBeginEnterprise(filters));
+        dispatch(searchBeginBranch(filters));
 
         return new Promise(function (resolve, reject) {
             var xhttp = new XMLHttpRequest();
@@ -46,12 +44,12 @@ export function fetchEnterprises(filters) {
                         var token = this.getResponseHeader('token');
                         localStorage.setItem('token', token);
 
-                        var url = util.format(types.SERVICE_URL_GET_ENTERPRISES, filters.enterpriseName, filters.branchName, filters.ID, localStorage.token);
+                        var url = util.format(types.SERVICE_URL_GET_BRANCHES, filters.enterpriseName, filters.branchName, filters.ID, localStorage.token);
 
                         fetch(url)
                             .then(res => res.json())
                             .then(json => {
-                                dispatch(searchSuccessEnterprise(json));
+                                dispatch(searchSuccessBranch(json));
                                 resolve();
                             });
                     } else {
@@ -66,23 +64,10 @@ export function fetchEnterprises(filters) {
     };
 }
 
-export function fetchBranches(name) {
+export function fetchAccounts(name, sys, store, branch) {
     return dispatch => {
         dispatch(searchBeginBranch(name));
         dispatch(findAccount(name));
-        var url = util.format(types.SERVICE_URL_GET_BRANCHES, name,  localStorage.token);
-
-        fetch(url)
-            .then(res => res.json())
-            .then(json => {
-                dispatch(searchSuccessBranch(json));
-            });
-    };
-}
-
-export function fetchAccounts(sys, store, branch) {
-    return dispatch => {
-        dispatch(searchBeginBranch(name));
         var url = util.format(types.SERVICE_URL_GET_ACCOUNTS, sys, store, branch, localStorage.token);
 
         fetch(url)

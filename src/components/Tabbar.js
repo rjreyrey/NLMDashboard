@@ -17,9 +17,16 @@ class Tabbar extends Component {
     }
 
     createlistItems() {
+        var activeTab = this.props.tabs.filter((tab) => { return tab.active });
+        var partition = null;
+
+        if (activeTab.length > 0) {
+            partition = activeTab[0].partition;
+        }
+
         return this.props.tabs.map((tab) => {
             return (
-                <div id={tab.id} className={tab.active ? 'tab active' : 'tab'} key={tab.id}>
+                <div id={tab.id} className={tab.partition == partition ? tab.active ? 'tab active associated' : 'tab associated' : tab.active? 'tab active' : 'tab'} key={tab.id}>
                     <div onMouseDown={(event) =>  this.handleTabClick(event, tab) } className="title">{tab.title}</div>
                     <div className="close" onClick={() => Promise.resolve(this.props.closeTab(tab)).then(this.props.setNewActiveApp(this.props.apps)) }><i className="fas fa-times"></i></div>
                 </div>
@@ -42,7 +49,8 @@ class Tabbar extends Component {
 function mapStateToProps(state) {
     return {
         tabs: state.tabs,
-        apps: state.applications
+        apps: state.applications,
+        activeApplication: state.ActiveApplication
     }
 }
 

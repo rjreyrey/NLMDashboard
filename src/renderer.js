@@ -1,6 +1,7 @@
 ﻿// This file is required by the index.html file and will
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
+import { fetchToken } from './actions/'
 const remote = require('electron').remote;
 const ipcRenderer = require('electron').ipcRenderer; 
 window.$ = global.jQuery = require('../assets/js/jquery.min.js');
@@ -9,12 +10,8 @@ const title = $('#nlmTitle');
 onload = () => {
     $('#loginUserName').val(remote.getGlobal('credentials').username);
 
-    $('#installerUpdateButton').on('click', function () {
-        ipcRenderer.send('quitAndInstall');
-    });
-
     //////////////login functionality/////////////////////////////////
-    $("#login-button").click(function (event) {
+    $("#login-button2").click(function (event) {
         event.preventDefault();
 
         var username = $('#loginUserName').val();
@@ -41,6 +38,7 @@ onload = () => {
                     if (response == 'Success') {
                         remote.getGlobal('credentials').username = username;
                         remote.getGlobal('credentials').password = password;
+                        fetchToken();
 
                         $('.loginPaneWrapper form').fadeOut(500, function () {
                             $('.innerContainer').fadeOut(500, function () {
@@ -100,7 +98,9 @@ ipcRenderer.on('UpdateAvailable', function (event, text) {
 ipcRenderer.on('NoUpdate', function (event, text) {
     $('#AutoUpdater').find('h2').fadeOut(700, function (e) {
         $('#AutoUpdater').addClass('hide');
-        $('.innerContainer').animate({ 'margin-top': '0px' }, 500);
+        $('.innerContainer').animate({ 'margin-top': '0px' }, 500, function () {
+            $("#loginPassword").focus();
+        });
     });
 });
 
@@ -127,7 +127,7 @@ ipcRenderer.on('DownloadProgress', function (event, text) {
 
 ipcRenderer.on('UpdateDownloaded', function (event, text) {
     $('#AutoUpdater').fadeOut(300, function (e) {
-        $('#updaterInstaller').fadeIn(300);
+        ipcRenderer.send('quitAndInstall');
     });
 
 });

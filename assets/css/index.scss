@@ -152,9 +152,13 @@ body {
     background-color: #000;
     box-shadow: 0px 0px 7px #333;
     z-index: 2;
-    margin-left: -250px;
+    margin-left: 0px;
     transition: ease 0.5s;
     color: #FFF;
+}
+
+.sidebar.hidden {
+    margin-left: -250px;
 }
 
 .sidebarSection {
@@ -186,6 +190,36 @@ body {
     height: 35px;
     max-height: 35px;
 
+}
+
+.buSwitcher {
+    position: absolute;
+    top: 120px;
+    background-color: #EEE;
+    padding: 10px;
+    width: 250px;
+    color: black;
+
+    .otherBUsWrapper {
+
+        .button {
+            margin-bottom: 10px;
+        }
+
+        .otherBUs {
+            padding: 5px 0;
+            border-bottom: 1px solid #666;
+            cursor: pointer;
+
+            &:hover {
+                background-color: greenyellow;
+            }
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+    }
 }
 
 .changeAccount {
@@ -272,6 +306,19 @@ body {
     width: 100%;
     height: 100%;
     border: 0;
+}
+
+.viewPane .webviewWrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.viewPane .webviewWrapper .hide {
+    display: block;
+    visibility: hidden;
+    width: 0;
+    height: 0;
 }
 
 .content {
@@ -463,7 +510,7 @@ webview {
     color: #AAA;
 }
 
-button {
+button, .button {
     outline: 0;
     border: 0;
     padding: 10px 15px;
@@ -749,6 +796,14 @@ button {
             background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(234,234,234,1) 100%);
         }
 
+        &.associated {
+            background: linear-gradient(to bottom, rgba(173,255,47,1) 0%,rgba(173,255,47,1) 100%);
+        }
+
+        &.associated.active {
+            background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(173,255,47,1) 100%);
+        }
+
         .title {
             max-width: 180px;
             white-space: nowrap;
@@ -805,6 +860,14 @@ button {
         padding: 20px;
         display: flex;
         flex-direction: column;
+
+        .closeSearch {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 10px;
+            color: greenyellow;
+        }
 
         h2 {
             color: greenyellow;

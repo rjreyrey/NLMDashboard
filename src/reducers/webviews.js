@@ -14,6 +14,24 @@ export default function (state = initialState, action) {
             }
 
             return [...state];
+        case types.SHOW_SPINNER:
+            return state.map((view) => {
+                if (view.id == action.payload) {
+                    view.spinner = true;
+                } else {
+                    view.spinner = false;
+                }
+
+                return view;
+            });
+        case types.HIDE_SPINNER:
+            return state.map((view) => {
+                if (view.id == action.payload) {
+                    view.spinner = false;
+                }
+
+                return view;
+            });
         case types.APP_CLICK:
             return state.map((view) => {
                 if (view.id == action.payload.id) {

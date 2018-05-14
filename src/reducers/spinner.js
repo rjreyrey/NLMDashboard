@@ -7,7 +7,7 @@ export default function (state = initialState, action) {
         case types.HIDE_SPINNER:
             return { ...state, visible: false };
         case types.SHOW_SPINNER:
-            return { ...state, visible: true };
+            return { ...state, visible: false };
         default:
             return state;
     }

@@ -91,6 +91,9 @@
     <Compile Include="src\reducers\applications.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\reducers\availableBUs.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\reducers\index.js">
       <SubType>Code</SubType>
     </Compile>

@@ -1,6 +1,6 @@
 {
   "name": "nlm-dashboard",
-  "version": "0.4.2",
+  "version": "0.4.5",
   "description": "NLM Dashboard",
   "main": "./src/main.js",
   "repository": "https://github.com/rjreyrey/NLMDashboard",

@@ -2,7 +2,7 @@
 import * as types from '../actions/constants';
 var util = require('util')
 
-const initialState = { buSearchData: [], accountSearchData: [], searching: false, visible: false, hasBUData: false, hasAccounts: false, currentSearchItem: 'Search Business Units' };
+const initialState = { buSearchData: [], accountSearchData: [], searching: false, visible: false, hasBUData: false, hasAccounts: false, currentSearchItem: 'Search Business Units', firstSearch: true };
 
 export default function (state = initialState, action) {
     switch (action.type) {
@@ -15,9 +15,9 @@ export default function (state = initialState, action) {
         case types.SEARCH_SUCCESS_BRANCH:
             return { ...state, buSearchData: action.payload.BusinessUnitResultList, searching: false, hasBUData: true };
         case types.SEARCH_SHOW:
-            return { ...initialState, visible: true };
+            return { ...state, buSearchData: [], accountSearchData: [], searching: false, hasBUData: false, hasAccounts: false, currentSearchItem: 'Search Business Units', visible: true };
         case types.SEARCH_HIDE:
-            return { ...state, visible: false };
+            return { ...state, visible: false, firstSearch: false };
         default:
             return state;
     }

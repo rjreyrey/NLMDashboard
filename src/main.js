@@ -25,6 +25,7 @@ function sendStatusToWindow(type, text, logInfo=true) {
 app.on('ready', function () {
     var userName = process.env['USERPROFILE'].split(path.sep)[2];
     global.credentials.username = userName;
+    //localStorage.username = userName;
 
     loadingWindow = new BrowserWindow({ width: 400, height: 200, autoHideMenuBar: true, frame: false, show: false });
     loadingWindow.loadURL('file://' + __dirname + '/loading.html');
@@ -49,7 +50,7 @@ app.on('ready', function () {
         mainWindow.focus();
 
         if (isDev) {
-            //mainWindow.webContents.openDevTools();
+            mainWindow.webContents.openDevTools();
             mainWindow.webContents.send('NoUpdate', 'DEV run.  No update needed.');
         } else {
             autoUpdater.checkForUpdatesAndNotify();

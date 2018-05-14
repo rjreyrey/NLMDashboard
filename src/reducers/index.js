@@ -7,16 +7,18 @@ import ActiveApplication from './activeApplication';
 import Tabbar from './tabbar';
 import Webviews from './webviews';
 import AccountSearch from './accountSearch';
+import AvailableBUs from './availableBUs';
 
 const rootReducer = combineReducers({
+    activeApplication: ActiveApplication,
     applications: AppcliationsReducer,
     spinner: SpinnerReducer,
     controls: WebviewControls,
     account: Account,
-    activeApplication: ActiveApplication,
     webviews: Webviews,
     tabs: Tabbar,
-    accountSearch: AccountSearch
+    accountSearch: AccountSearch,
+    availableBUs: AvailableBUs
 });
 
 export default rootReducer;

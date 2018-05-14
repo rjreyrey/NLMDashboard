@@ -1,18 +1,7 @@
 ﻿const request = require("request");
 import * as types from '../actions/constants';
 var util = require('util')
-window.$ = global.jQuery = require('../../assets/js/jquery.min.js');
-
 const initialState = []
-
-//const loggedInState = [
-//    { id: 1, name: 'Aptus', url: 'https://web.dealer.nakedlime.com/WebAnalytics/Index/100917?currentAccountId=100155', active: false, opened: false, username: null, password: null },
-//    { id: 2, name: 'MMS', url: 'https://mms.aimdatabase.com/Tools/AdvancedSearch.aspx?searchTerm=9999&ReturnUrl=/AccountDetails.aspx', active: false, opened: false, username: null, password: null },
-//    { id: 3, name: 'SRM', url: 'https://micrositesbyu.com/Login.aspx', active: false, opened: false, username: 'ricky_jett@reyrey.com', password: 'Reynolds1!' },
-//    { id: 4, name: 'Google Analytics', url: 'https://accounts.google.com/signin/v2/identifier?service=analytics&passive=1209600&continue=https%3A%2F%2Fanalytics.google.com%2Fanalytics%2Fweb%2F%23', active: false, opened: false, username: 'test', password: 'test' },
-//    { id: 5, name: 'Marketing', url: 'https://marketing.dealer.nakedlime.com', active: false, opened: false, username: null, password: null },
-//    { id: 6, name: 'Chatmeter', url: 'https://live.chatmeter.com', active: false, opened: false, username: 'NakedLimeDev', password: 'protectyours' },
-//]
 
 export default function (state = initialState, action) {
     switch (action.type) {
@@ -37,11 +26,8 @@ export default function (state = initialState, action) {
         case types.CLICK_TAB:
             return state.map(app => {
                 app.services = app.services.map(service => {
-                    if (service.id == action.payload.id) {
-                        //var id = 'webview_' + service.id;
-                        //$('.webview').addClass('hide');
+                    if (service.partition == action.payload.partition) {
                         service.active = true;
-                        //document.getElementById(id).classList.remove('hide');
                     } else {
                         service.active = false;
                     }
@@ -82,6 +68,7 @@ export default function (state = initialState, action) {
                 aptusServices.push(service);
             }
 
+            var validMMSTypes = [1, 2, 3, 6, 10];
             for (var i = 0; i < action.payload.MarketingAccounts.length; i++) {
                 var account = action.payload.MarketingAccounts[i];
                 var url = util.format(types.SERVICE_URL_MARKETING, action.payload.BusinessGroupId, account.AccountId);
@@ -89,7 +76,7 @@ export default function (state = initialState, action) {
 
                 marketingServices.push(service);
 
-                if (account.LegacyDealerId > 0) {
+                if (account.LegacyDealerId > 0 && validMMSTypes.includes(account.AccountType)) {
                     var mmsUrl = util.format(types.SERVICE_URL_MMS, account.LegacyDealerId);
                     var legacyService = { id: types.ServiceTypes.MMS + "_" + account.AccountId, type: types.ServiceTypes.MMS, url: mmsUrl, name: account.Name, active: false, opened: false, username: null, password: null, attemptedLogin: false, partition: guid() };
                     mmsServices.push(legacyService);

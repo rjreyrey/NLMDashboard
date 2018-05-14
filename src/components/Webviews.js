@@ -24,7 +24,12 @@ class Webviews extends Component {
         return this.props.webviews.map((view) => {
             var id = 'webview_' + view.id;
             return (
-                <webview key={id} id={id} className={view.active ? "webview" : "webview hide"} data-src={view.url} data-partition={view.partition} data-hasrun='false'></webview>
+                <div className={view.active ? "webviewWrapper" : "webviewWrapper hide"} key={id}>
+                    <div className={view.spinner ? 'drawing' : 'drawing hide'} id="spinner">
+                        <div className="loading-dot"></div>
+                    </div>
+                    <webview key={id} id={id} data-id={view.id} className={view.active ? "webview" : "webview hide"} data-src={view.url} data-partition={view.partition} data-hasrun='false'></webview>
+                </div>
             );
         });
     }
@@ -45,10 +50,7 @@ class Webviews extends Component {
                 views[i].addEventListener('did-start-loading', this.didStartLoading);
                 views[i].addEventListener('did-stop-loading', this.didStopLoading);
                 views[i].addEventListener('new-window', this.newWindow);
-                //views[i].addEventListener('did-begin-request', this.domReady);
-                //views[i].addEventListener('dom-ready', this.domReady);
                 views[i].dataset.hasrun = 'true';
-                //views[i].openDevTools();
 
                 if (views[i].src == '') {
                     views[i].src = views[i].dataset.src;
@@ -59,14 +61,6 @@ class Webviews extends Component {
         }
     }
 
-    //domReady(event) {
-    //    if (event.target.dataset.hasrun == 'false') {
-    //        event.target.openDevTools();
-    //        event.target.loadURL(event.target.dataset.src, {extraHeaders: 'Token:' + localStorage.token + "\nPrimaryDMSBranch: -1" });
-    //        event.target.dataset.hasrun = 'true';
-    //    }
-    //}
-
     newWindow(event) {
         event.preventDefault();
         this.props.newWindowTab(this.props.activeApplication, event.url);
@@ -74,19 +68,20 @@ class Webviews extends Component {
 
     didStartLoading(event) {
         event.target.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.117 Safari/537.36");
-        this.props.showSpinner();
+        this.props.showSpinner(event.target.dataset.id);
         this.props.disableControls(event.target);
+
     }
 
     didStopLoading(event) {
-        this.props.hideSpinner();
+        this.props.hideSpinner(event.target.dataset.id);
         this.props.resetControls(event.target);
         this.props.showControls(event.target);
         var contents = event.target;
-        this.props.updateTab(contents.getTitle());
+        this.props.updateTab(contents.getTitle(), event.target.dataset.id);
         var pageUrl = new URL(contents.getURL());
-        var username = this.props.activeApplication.username != null ? this.props.activeApplication.username : remote.getGlobal('credentials').username;
-        var password = this.props.activeApplication.password != null ? this.props.activeApplication.password : remote.getGlobal('credentials').password;
+        var username = this.props.activeApplication.username != null ? this.props.activeApplication.username : localStorage.username;
+        var password = this.props.activeApplication.password != null ? this.props.activeApplication.password : localStorage.password;
 
         //event.target.openDevTools();
         let session = event.target.getWebContents().session;

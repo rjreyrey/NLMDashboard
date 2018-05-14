@@ -18,14 +18,14 @@ export default function (state = initialState, action) {
             })
 
             if (!hasTab) {
-                state.push({ id: action.payload.id, title: action.payload.name, active: true });
+                state.push({ id: action.payload.id, title: action.payload.name, partition: action.payload.partition, active: true });
             }
 
             return state;
         case types.UPDATE_TAB:
             return state.map(tab => {
-                if (tab.active == true) {
-                    tab.title = action.payload;
+                if (tab.id == action.payload.id) {
+                    tab.title = action.payload.title;
                 }
 
                 return tab;
@@ -56,7 +56,7 @@ export default function (state = initialState, action) {
             });
 
             var i = state.length;
-            state.push({ id: action.payload.account.id + "_" + i, title: action.payload.account.name, active: true });
+            state.push({ id: action.payload.account.id + "_" + i, title: action.payload.account.name, partition: action.payload.account.partition, active: true });
             return state;
         default:
             return state;

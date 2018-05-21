@@ -30,6 +30,12 @@ export const showEnterpriseSearch = () => ({ type: types.SEARCH_SHOW , payload: 
 export const hideEnterpriseSearch = () => ({ type: types.SEARCH_HIDE , payload: null })
 export const searchBeginBranch = (name) => ({ type: types.SEARCH_BEGIN_BRANCH, payload: name })
 export const searchSuccessBranch = (data) => ({ type: types.SEARCH_SUCCESS_BRANCH, payload: data })
+export const showSettings = () => ({ type: types.SHOW_SETTINGS, payload: null })
+export const toggleBetaChannel = () => ({ type: types.TOGGLE_BETA_CHANNEL, payload: null })
+export const changeEnvironment = (env) => ({ type: types.CHANGE_ENVRIONMENT, payload: env })
+export const closeSettings = () => ({ type: types.CLOSE_SETTINGS, payload: null })
+export const relaunchApp = () => ({ type: types.RELAUNCH_APP, payload: null })
+
 
 export function verifyUser(username, password) {
     return dispatch => {

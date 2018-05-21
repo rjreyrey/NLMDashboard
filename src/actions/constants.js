@@ -1,4 +1,6 @@
-﻿export const ADD_APP = 'ADD_APP'
+﻿const settings = require('electron').remote.require('electron-settings');
+
+export const ADD_APP = 'ADD_APP'
 export const APP_CLICK = 'APP_CLICK'
 export const ACCOUNT_FIND = 'ACCOUNT_FIND'
 export const ACTIVATE_SIDEBAR = 'ACTIVATE_SIDEBAR'
@@ -29,6 +31,16 @@ export const SEARCH_BEGIN_ENTERPRISE = 'SEARCH_BEGIN_ENTERPRISE'
 export const SEARCH_SUCCESS_ENTERPRISE = 'SEARCH_SUCCESS_ENTERPRISE'
 export const SEARCH_BEGIN_BRANCH = 'SEARCH_BEGIN_BRANCH'
 export const SEARCH_SUCCESS_BRANCH = 'SEARCH_SUCCESS_BRANCH'
+export const SHOW_SETTINGS = 'SHOW_SETTINGS'
+export const TOGGLE_BETA_CHANNEL = 'TOGGLE_BETA_CHANNEL'
+export const CHANGE_ENVRIONMENT = 'CHANGE_ENVRIONMENT'
+export const CLOSE_SETTINGS = 'CLOSE_SETTINGS'
+export const RELAUNCH_APP = 'RELAUNCH_APP'
+
+export const Environments = {
+    PRODUCTION: 'PRODUCTION',
+    QA: 'QA'
+}
 
 export const ServiceTypes = {
     Aptus: 1,
@@ -39,29 +51,30 @@ export const ServiceTypes = {
     Chatmeter: 6
 }
 
-///////////////////////////////////////////////////////SB01//////////////////////////////////////////////////////
-//export const SERVICE_URL_AUTH_TOKEN = 'http://receiver-sb01.sandbox.reyrey.net/AuthService/api/Authenticate/LogOn?Application=100'
-//export const SERVICE_URL_GET_BRANCHES = 'http://nlmservice-sb01.reyqa.com/api/AccountSearch/GetBranches?branchName=%s&id=%s&token=%s'
-//export const SERVICE_URL_GET_ACCOUNTS = 'http://nlmservice-sb01.reyqa.com/api/AccountSearch/GetAccounts?System=%s&StoreNo=%s&BranchNo=%s&token=%s'
-//export const SERVICE_URL_APTUS = 'https://web-sb01.reyqa.com/WebAnalytics/Index/%s?currentAccountId=%s'
-//export const SERVICE_URL_MMS = 'https://mms.aimdatabase.com/Tools/AdvancedSearch.aspx?searchTerm=%s&ReturnUrl=/AccountDetails.aspx'
-//export const SERVICE_URL_MARKETING = 'https://marketing-sb01.reyqa.com/ExternalReports/Search/%s?currentAccountId=%s'
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////////QA01//////////////////////////////////////////////////////
-//export const SERVICE_URL_AUTH_TOKEN = 'http://receiver.ddwqa01.reyqa.com/AuthService/api/Authenticate/LogOn?Application=100'
-//export const SERVICE_URL_GET_BRANCHES = 'http://nlmservice-qa01.reyqa.com/api/AccountSearch/GetBranches?branchName=%s&id=%s&token=%s'
-//export const SERVICE_URL_GET_ACCOUNTS = 'http://nlmservice-qa01.reyqa.com/api/AccountSearch/GetAccounts?System=%s&StoreNo=%s&BranchNo=%s&token=%s'
-//export const SERVICE_URL_APTUS = 'https://web-qa01.reyqa.com/WebAnalytics/Index/%s?currentAccountId=%s'
-//export const SERVICE_URL_MMS = 'https://mms.aimdatabase.com/Tools/AdvancedSearch.aspx?searchTerm=%s&ReturnUrl=/AccountDetails.aspx'
-//export const SERVICE_URL_MARKETING = 'https://marketing-qa01.reyqa.com/ExternalReports/Search/%s?currentAccountId=%s'
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const URLS = {
+    QA: {
+        SERVICE_URL_AUTH_TOKEN: 'http://receiver.ddwqa01.reyqa.com/AuthService/api/Authenticate/LogOn?Application=100',
+        SERVICE_URL_GET_BRANCHES: 'http://nlmservice-qa01.reyqa.com/api/AccountSearch/GetBranches?branchName=%s&id=%s&token=%s',
+        SERVICE_URL_GET_ACCOUNTS: 'http://nlmservice-qa01.reyqa.com/api/AccountSearch/GetAccounts?System=%s&StoreNo=%s&BranchNo=%s&token=%s',
+        SERVICE_URL_APTUS: 'https://web-qa01.reyqa.com/WebAnalytics/Index/%s?currentAccountId=%s',
+        SERVICE_URL_MMS: 'https://mms.aimdatabase.com/Tools/AdvancedSearch.aspx?searchTerm=%s&ReturnUrl=/AccountDetails.aspx',
+        SERVICE_URL_MARKETING: 'https://marketing-qa01.reyqa.com/ExternalReports/Search/%s?currentAccountId=%s'
+    },
+    PRODUCTION: {
+        SERVICE_URL_AUTH_TOKEN: 'https://leads.cm.reyrey.com/AuthService/api/Authenticate/LogOn?Application=1',
+        SERVICE_URL_GET_BRANCHES: 'https://nlmservice.dealer.nakedlime.com/api/AccountSearch/GetBranches?branchName=%s&id=%s&token=%s',
+        SERVICE_URL_GET_ACCOUNTS: 'https://nlmservice.dealer.nakedlime.com/api/AccountSearch/GetAccounts?System=%s&StoreNo=%s&BranchNo=%s&token=%s',
+        SERVICE_URL_APTUS: 'https://web.dealer.nakedlime.com/WebAnalytics/Index/%s?currentAccountId=%s',
+        SERVICE_URL_MMS: 'https://mms.aimdatabase.com/Tools/AdvancedSearch.aspx?searchTerm=%s&ReturnUrl=/AccountDetails.aspx',
+        SERVICE_URL_MARKETING: 'https://marketing.dealer.nakedlime.com/ExternalReports/Search/%s?currentAccountId=%s'
+    }
+}
 
 ////////////////////////////////////////////////////PRODUCTION///////////////////////////////////////////////////
-export const SERVICE_URL_AUTH_TOKEN = 'https://leads.cm.reyrey.com/AuthService/api/Authenticate/LogOn?Application=1'
-export const SERVICE_URL_GET_BRANCHES = 'https://nlmservice.dealer.nakedlime.com/api/AccountSearch/GetBranches?branchName=%s&id=%s&token=%s'
-export const SERVICE_URL_GET_ACCOUNTS = 'https://nlmservice.dealer.nakedlime.com/api/AccountSearch/GetAccounts?System=%s&StoreNo=%s&BranchNo=%s&token=%s'
-export const SERVICE_URL_APTUS = 'https://web.dealer.nakedlime.com/WebAnalytics/Index/%s?currentAccountId=%s'
-export const SERVICE_URL_MMS = 'https://mms.aimdatabase.com/Tools/AdvancedSearch.aspx?searchTerm=%s&ReturnUrl=/AccountDetails.aspx'
-export const SERVICE_URL_MARKETING = 'https://marketing.dealer.nakedlime.com/ExternalReports/Search/%s?currentAccountId=%s'
+export const SERVICE_URL_AUTH_TOKEN = URLS[settings.get('userSettings.environment', Environments.PRODUCTION)].SERVICE_URL_AUTH_TOKEN
+export const SERVICE_URL_GET_BRANCHES = URLS[settings.get('userSettings.environment', Environments.PRODUCTION)].SERVICE_URL_GET_BRANCHES
+export const SERVICE_URL_GET_ACCOUNTS = URLS[settings.get('userSettings.environment', Environments.PRODUCTION)].SERVICE_URL_GET_ACCOUNTS
+export const SERVICE_URL_APTUS = URLS[settings.get('userSettings.environment', Environments.PRODUCTION)].SERVICE_URL_APTUS
+export const SERVICE_URL_MMS = URLS[settings.get('userSettings.environment', Environments.PRODUCTION)].SERVICE_URL_MMS
+export const SERVICE_URL_MARKETING = URLS[settings.get('userSettings.environment', Environments.PRODUCTION)].SERVICE_URL_MARKETING
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////

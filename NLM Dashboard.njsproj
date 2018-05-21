@@ -54,6 +54,12 @@
     <Compile Include="src\components\Login.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\components\ReleaseNotes.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\components\Settings.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\components\Spinner.js">
       <SubType>Code</SubType>
     </Compile>
@@ -98,6 +104,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\reducers\accountSearch.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\reducers\settings.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\reducers\spinner.js">

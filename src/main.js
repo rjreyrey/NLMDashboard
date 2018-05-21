@@ -1,4 +1,5 @@
 const { electron, app, BrowserWindow, Menu, session, dialog, ipcMain } = require('electron');
+const settings = require('electron-settings');
 const path = require('path');
 const { URL } = require('url');
 const isDev = require('electron-is-dev');
@@ -25,7 +26,6 @@ function sendStatusToWindow(type, text, logInfo=true) {
 app.on('ready', function () {
     var userName = process.env['USERPROFILE'].split(path.sep)[2];
     global.credentials.username = userName;
-    //localStorage.username = userName;
 
     loadingWindow = new BrowserWindow({ width: 400, height: 200, autoHideMenuBar: true, frame: false, show: false });
     loadingWindow.loadURL('file://' + __dirname + '/loading.html');
@@ -53,6 +53,15 @@ app.on('ready', function () {
             mainWindow.webContents.openDevTools();
             mainWindow.webContents.send('NoUpdate', 'DEV run.  No update needed.');
         } else {
+            if (settings.get('userSettings.channel', 'latest') == 'latest') {
+                autoUpdater.allowPrerelease = false;
+                autoUpdater.allowDowngrade = true;
+                autoUpdater.channel = 'latest';
+            } else {
+                autoUpdater.allowPrerelease = true;
+                autoUpdater.channel = 'beta';
+            }
+            
             autoUpdater.checkForUpdatesAndNotify();
         }
     });
@@ -95,6 +104,8 @@ autoUpdater.on('checking-for-update', () => {
     sendStatusToWindow('UpdateCheck', 'Checking for update...');
 })
 autoUpdater.on('update-available', (info) => {
+    settings.set('updateInfo.notes', info.releaseNotes);
+    settings.set('updateInfo.version', info.version);
     sendStatusToWindow('UpdateAvailable', 'Update available.');
 })
 autoUpdater.on('update-not-available', (info) => {
@@ -115,4 +126,9 @@ autoUpdater.on('update-downloaded', (info) => {
 
 ipcMain.on("quitAndInstall", (event, arg) => {
     autoUpdater.quitAndInstall();
+});
+
+ipcMain.on('relaunchApp', (event, arg) => {
+    app.relaunch();
+    app.quit();
 });

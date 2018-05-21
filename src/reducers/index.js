@@ -8,6 +8,7 @@ import Tabbar from './tabbar';
 import Webviews from './webviews';
 import AccountSearch from './accountSearch';
 import AvailableBUs from './availableBUs';
+import Settings from './settings';
 
 const rootReducer = combineReducers({
     activeApplication: ActiveApplication,
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
     webviews: Webviews,
     tabs: Tabbar,
     accountSearch: AccountSearch,
-    availableBUs: AvailableBUs
+    availableBUs: AvailableBUs,
+    settings: Settings
 });
 
 export default rootReducer;

@@ -15,6 +15,8 @@ export default function (state = null, action) {
                 });
             });
             return { ...activeService }
+        case types.INCREASE_LOGIN_STEP:
+            return { ...state, loginStep: ++state.loginStep };
         default:
             return state;
     }

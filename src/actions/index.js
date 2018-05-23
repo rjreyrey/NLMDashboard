@@ -3,6 +3,7 @@ var util = require('util')
 window.$ = global.jQuery = require('../../assets/js/jquery.min.js');
 
 export const selectApplication = (app) => ({ type: types.APP_CLICK, payload: app })
+export const increaseLoginStep = () => ({ type: types.INCREASE_LOGIN_STEP, payload: null })
 export const addApplication = (name) => ({ type: types.ADD_APP, payload: name })
 export const findAccount = (account, enterprise) => ({ type: types.ACCOUNT_FIND, payload: { account: account, enterprise: enterprise } })
 export const activateSidebar = () => ({ type: types.ACTIVATE_SIDEBAR, payload: null })

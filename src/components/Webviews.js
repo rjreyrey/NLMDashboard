@@ -2,7 +2,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
-import { hideSpinner, showSpinner, hideControls, showControls, resetControls, disableControls, navigateBack, navigateForward, navigateReload, newWindowTab, updateTab } from '../actions/'
+import { hideSpinner, showSpinner, hideControls, showControls, resetControls, disableControls, navigateBack, navigateForward, navigateReload, newWindowTab, updateTab, increaseLoginStep } from '../actions/'
 import * as types from '../actions/constants'
 
 const electron = window.require("electron") 
@@ -84,6 +84,7 @@ class Webviews extends Component {
         var password = this.props.activeApplication.password != null ? this.props.activeApplication.password : localStorage.password;
 
         //event.target.openDevTools();
+
         let session = event.target.getWebContents().session;
 
         if (this.isHWAP(pageUrl)) {
@@ -96,8 +97,20 @@ class Webviews extends Component {
             contents.executeJavaScript("$('input[id *= UserName]').val('" + username + "'); $('input[id *= Password]').val('" + password + "'); $('input[type=submit]').click();");
         } else if (this.isChatmeter(pageUrl)) {
             contents.executeJavaScript("var form = jQuery('form[name *= login]'); if(form.length > 0) { var username = form.find('input[id *= Username]'); username.val('" + username + "'); username[0].dispatchEvent(new Event('input')); var password = form.find('input[id *= Password]'); password.val('" + password + "'); password[0].dispatchEvent(new Event('input')); form.find('input[type=submit]').click();}");
-        } else if (this.isGoogleAnalytics(pageUrl, contents)) {
-
+        } else if (this.isKenshoo(pageUrl)) {
+            contents.executeJavaScript("$('#email').val('" + username + "'); $('[type=password]').val('" + password + "'); $('[type=submit]').click();");
+        } else if (this.isAcquisio(pageUrl)) {
+            contents.executeJavaScript("$('[name=username]').val('" + username + "'); $('[name=password]').val('" + password + "'); $('[type=submit]').click();");
+        } else if (this.isLeadsBridge(pageUrl)) {
+            contents.executeJavaScript("$('#loginUsername').val('" + username + "'); $('#loginPassword').val('" + password + "');$('[type=submit]').click();");
+        } else if (this.isRaven(pageUrl)) {
+            contents.executeJavaScript("$('#username').val('" + username + "'); $('#password').val('" + password + "');$('#form-submit').click();");
+        } else if (this.isShortstack(pageUrl)) {
+            contents.executeJavaScript("$('#user_session_login').val('" + username + "'); $('#user_session_password').val('" + password + "');$('[type=submit]').click();");
+        } else {
+            this.isGoogle(pageUrl, contents);
+            this.isBing(pageUrl, contents);
+            this.isFlickr(pageUrl, contents);
         }
     }
 
@@ -139,17 +152,19 @@ class Webviews extends Component {
         return valid;
     }
 
-    isGoogleAnalytics(pageUrl, contents) {
-        var valid = (this.props.activeApplication.type == types.ServiceTypes.GoogleAnalytics);
+    isGoogle(pageUrl, contents) {
+        var valid = (this.props.activeApplication.type == types.ExternalServiceTypes.GoogleAnalytics || this.props.activeApplication.type == types.ExternalServiceTypes.GoogleAdwords || this.props.activeApplication.type == types.ExternalServiceTypes.GooglePlus || this.props.activeApplication.type == types.ExternalServiceTypes.Google);
 
         if (valid && !this.props.activeApplication.attemptedLogin) {
-            if (pageUrl.pathname.indexOf('identifier') >= 0) {
+            if (pageUrl.pathname.indexOf('identifier') >= 0 && this.props.activeApplication.loginStep == 0) {
                 contents.executeJavaScript('var usernameInput = document.getElementById("identifierId"); if (usernameInput != undefined) {usernameInput.value="' + this.props.activeApplication.username + '"; document.getElementById("identifierNext").click();}');
-            } else if (pageUrl.pathname.indexOf('pwd') >= 0) {
+                this.props.increaseLoginStep();
+            } else if (pageUrl.pathname.indexOf('pwd') >= 0 && this.props.activeApplication.loginStep == 1) {
                 var that = this;
                 setTimeout(function () {
                     contents.executeJavaScript('var password = document.getElementsByName("password")[0]; if (password != undefined) {password.value = "' + that.props.activeApplication.password + '"; document.getElementById("passwordNext").click();} else {alert("password field was undefined")}');
-                    this.props.activeApplication.attemptedLogin = true;
+                    that.props.increaseLoginStep();
+                    that.props.activeApplication.attemptedLogin = true;
                 }, 1000);
                 
             }
@@ -158,8 +173,106 @@ class Webviews extends Component {
         return valid;
     }
 
+    isBing(pageUrl, contents) {
+        var valid = (this.props.activeApplication.type == types.ExternalServiceTypes.Bing);
+
+        if (valid && !this.props.activeApplication.attemptedLogin) {
+            console.log('test : ', this.props.activeApplication.loginStep);
+
+            if (pageUrl.pathname.indexOf('login') >= 0 && this.props.activeApplication.loginStep == 0) {
+                contents.executeJavaScript("var username = document.querySelectorAll('[name=loginfmt]:not(.moveOffScreen)'); if(username.length > 0) { username[0].value = '" + this.props.activeApplication.username + "'; username[0].dispatchEvent(new Event('input')); document.querySelector('[type=submit]').click();  }");
+
+                this.props.increaseLoginStep();
+            } else if (this.props.activeApplication.loginStep == 1) {
+                contents.executeJavaScript("var password = document.querySelectorAll('[name=passwd]:not(.moveOffScreen)'); if (password.length > 0) { password[0].value = '" + this.props.activeApplication.password + "'; password[0].dispatchEvent(new Event('input')); document.querySelector('[type=submit]').click(); }");
+                this.props.increaseLoginStep();
+                this.props.activeApplication.attemptedLogin = true;
+            }
+        }
+
+        return valid;
+    }
+
+    isFlickr(pageUrl, contents) {
+        var valid = (this.props.activeApplication.type == types.ExternalServiceTypes.Flickr && !this.props.activeApplication.attemptedLogin);
+
+        if (valid) {
+            if (pageUrl.pathname == '/' && this.props.activeApplication.loginStep == 0) {
+                contents.executeJavaScript("document.getElementById('login-username').value = '" + this.props.activeApplication.username + "'; document.getElementById('login-signin').click();");
+                this.props.increaseLoginStep();
+            } else if (pageUrl.pathname.indexOf('password') >= 0 && this.props.activeApplication.loginStep == 1) {
+                var that = this;
+                setTimeout(function () {
+                    contents.executeJavaScript("document.getElementById('login-passwd').value = '" + that.props.activeApplication.password + "'; document.getElementById('login-signin').click();");
+                    that.props.increaseLoginStep();
+                    that.props.activeApplication.attemptedLogin = true;
+                }, 200);
+
+            }
+        }
+
+        return valid;
+
+        //$('#login-username').value = 'Nakedlimeimages'; $('#login-signin').click();
+    }
+
     isChatmeter(pageUrl) {
-        var valid = (this.props.activeApplication.type == types.ServiceTypes.Chatmeter && pageUrl.pathname == '/');
+        var valid = (this.props.activeApplication.type == types.ExternalServiceTypes.Chatmeter && pageUrl.pathname == '/');
+
+        if (valid) {
+            valid = valid && !this.props.activeApplication.attemptedLogin;
+            this.props.activeApplication.attemptedLogin = true;
+        }
+
+        return valid;
+    }
+
+    isKenshoo(pageUrl) {
+        var valid = (this.props.activeApplication.type == types.ExternalServiceTypes.Kenshoo && pageUrl.pathname == '/api/login');
+
+        if (valid) {
+            valid = valid && !this.props.activeApplication.attemptedLogin;
+            this.props.activeApplication.attemptedLogin = true;
+        }
+
+        return valid;
+    }
+
+    isAcquisio(pageUrl) {
+        var valid = (this.props.activeApplication.type == types.ExternalServiceTypes.Acquisio && pageUrl.pathname == '/');
+
+        if (valid) {
+            valid = valid && !this.props.activeApplication.attemptedLogin;
+            this.props.activeApplication.attemptedLogin = true;
+        }
+
+        return valid;
+    }
+
+    isLeadsBridge(pageUrl) {
+        var valid = (this.props.activeApplication.type == types.ExternalServiceTypes.LeadsBridge && pageUrl.pathname == '/app/login');
+
+        if (valid) {
+            valid = valid && !this.props.activeApplication.attemptedLogin;
+            this.props.activeApplication.attemptedLogin = true;
+        }
+
+        return valid;
+    }
+
+    isRaven(pageUrl) {
+        var valid = (this.props.activeApplication.type == types.ExternalServiceTypes.Raven && pageUrl.pathname == '/tools/m/login/');
+
+        if (valid) {
+            valid = valid && !this.props.activeApplication.attemptedLogin;
+            this.props.activeApplication.attemptedLogin = true;
+        }
+
+        return valid;
+    }
+
+    isShortstack(pageUrl) {
+        var valid = (this.props.activeApplication.type == types.ExternalServiceTypes.Shortstack && pageUrl.pathname == '/');
 
         if (valid) {
             valid = valid && !this.props.activeApplication.attemptedLogin;
@@ -194,7 +307,8 @@ function matchDispatchToProps(dispatch) {
         resetControls: resetControls,
         disableControls: disableControls,
         newWindowTab: newWindowTab,
-        updateTab: updateTab
+        updateTab: updateTab,
+        increaseLoginStep: increaseLoginStep
     }, dispatch);
 }
 

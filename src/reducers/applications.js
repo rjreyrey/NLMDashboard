@@ -64,7 +64,7 @@ export default function (state = initialState, action) {
             for (var i = 0; i < action.payload.AptusSites.length; i++) {
                 var site = action.payload.AptusSites[i];
                 var url = util.format(types.SERVICE_URL_APTUS, action.payload.BusinessGroupId, site.SiteId);
-                var service = { id: types.ServiceTypes.Aptus + "_" + site.SiteId, type: types.ServiceTypes.Aptus, url: url, name: site.Name, active: false, opened: false, username: null, password: null, attemptedLogin: false, partition: guid() }
+                var service = { id: types.ServiceTypes.Aptus + "_" + site.SiteId, type: types.ServiceTypes.Aptus, url: url, name: site.Name, active: false, opened: false, username: null, password: null, attemptedLogin: false, partition: guid(), loginStep: 0 }
                 aptusServices.push(service);
             }
 
@@ -72,13 +72,13 @@ export default function (state = initialState, action) {
             for (var i = 0; i < action.payload.MarketingAccounts.length; i++) {
                 var account = action.payload.MarketingAccounts[i];
                 var url = util.format(types.SERVICE_URL_MARKETING, action.payload.BusinessGroupId, account.AccountId);
-                var service = { id: types.ServiceTypes.Marketing + "_" + account.AccountId, type: types.ServiceTypes.Marketing, url: url, name: account.Name, active: false, opened: false, username: null, password: null, attemptedLogin: false, partition: guid() };
+                var service = { id: types.ServiceTypes.Marketing + "_" + account.AccountId, type: types.ServiceTypes.Marketing, url: url, name: account.Name, active: false, opened: false, username: null, password: null, attemptedLogin: false, partition: guid(), loginStep: 0 };
 
                 marketingServices.push(service);
 
                 if (account.LegacyDealerId > 0 && validMMSTypes.includes(account.AccountType)) {
                     var mmsUrl = util.format(types.SERVICE_URL_MMS, account.LegacyDealerId);
-                    var legacyService = { id: types.ServiceTypes.MMS + "_" + account.AccountId, type: types.ServiceTypes.MMS, url: mmsUrl, name: account.Name, active: false, opened: false, username: null, password: null, attemptedLogin: false, partition: guid() };
+                    var legacyService = { id: types.ServiceTypes.MMS + "_" + account.AccountId, type: types.ServiceTypes.MMS, url: mmsUrl, name: account.Name, active: false, opened: false, username: null, password: null, attemptedLogin: false, partition: guid(), loginStep: 0 };
                     mmsServices.push(legacyService);
                 } 
             }
@@ -89,7 +89,7 @@ export default function (state = initialState, action) {
 
                 for (var j = 0; j < account.ExternalAccounts.length; j++) {
                     var external = account.ExternalAccounts[j];
-                    var data = { id: 'external_' + i + '_' + j + '_' + external.Type, type: external.TypeId, typeName: external.Type, url: '#', name: external.Name + '-' + external.Type, active: false, opened: false, username: external.Username, password: external.Password, attemptedLogin: false, partition: guid() };
+                    var data = { id: 'external_' + i + '_' + j + '_' + external.Type, type: external.TypeId, typeName: external.Type, url: '#', name: external.Name + '-' + external.Type, active: false, opened: false, username: external.Username, password: external.Password, attemptedLogin: false, partition: guid(), loginStep: 0 };
                     externals.push(data)
                 }
 
@@ -97,6 +97,15 @@ export default function (state = initialState, action) {
 
                 externalServices.push(data);
             }
+
+            var externals = [];
+            for (var i = 0; i < action.payload.GlobalExternalAccounts.length; i++) {//need to create an external account first, then push the single object for each onto this.  Should probably rework this at some point to not be dumb.
+                var account = action.payload.GlobalExternalAccounts[i];
+                
+                externals.push({ id: 'global_' + i + "_" + account.Type, type: account.TypeId, name: account.Name, url: types.GetExternalServiceURL(account.TypeId), active: false, opened: false, username: account.Username, password: types.DecryptPassword(account.Password), attemptedLogin: false, partition: guid(), loginStep: 0 });
+            }
+
+            externalServices.push({ id: 'external_globals', type: 'GLOBAL', name: 'Global Accounts', externals: externals });
 
             applications.push({
                 name: "Web",

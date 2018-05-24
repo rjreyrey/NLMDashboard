@@ -8,14 +8,27 @@ export default function (state = initialState, action) {
         case types.APP_CLICK:
             return state.map(app => {
                 app.services.map(service => { 
-                    if (service.id === action.payload.id) {
 
-                        if (!service.active) {
-                            service.active = true;
-                            service.opened = true;
-                        }
+                    if (service.externals && service.externals.length > 0) {
+                        service.externals.map(external => {
+                            if (external.id == action.payload.id) {
+                                external.active = true;
+                                external.opened = true;
+                            } else {
+                                external.active = false;
+                            }
+                        });
                     } else {
-                        service.active = false;
+
+                        if (service.id === action.payload.id) {
+
+                            if (!service.active) {
+                                service.active = true;
+                                service.opened = true;
+                            }
+                        } else {
+                            service.active = false;
+                        }
                     }
 
                     return service;
@@ -26,10 +39,20 @@ export default function (state = initialState, action) {
         case types.CLICK_TAB:
             return state.map(app => {
                 app.services = app.services.map(service => {
-                    if (service.partition == action.payload.partition) {
-                        service.active = true;
+                    if (service.externals && service.externals.length > 0) {
+                        service.externals.map(external => {
+                            if (external.partition == action.payload.partition) {
+                                external.active = true;
+                            } else {
+                                external.active = false;
+                            }
+                        });
                     } else {
-                        service.active = false;
+                        if (service.partition == action.payload.partition) {
+                            service.active = true;
+                        } else {
+                            service.active = false;
+                        }
                     }
 
                     return service;
@@ -40,9 +63,18 @@ export default function (state = initialState, action) {
         case types.CLOSE_TAB:
             state = state.map(app => {
                 app.services.forEach((service) => {
-                    if (service.id == action.payload.id) {
-                        service.opened = false;
-                        service.active = false;
+                    if (service.externals && service.externals.length > 0) {
+                        service.externals.map(external => {
+                            if (external.id == action.payload.id) {
+                                external.active = false;
+                                external.opened = false;
+                            } 
+                        });
+                    } else {
+                        if (service.id == action.payload.id) {
+                            service.opened = false;
+                            service.active = false;
+                        }
                     }
                 });
 

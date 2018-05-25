@@ -1,0 +1,90 @@
+﻿/// <reference path="_variables.scss" />
+
+.settingsWrapper {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 400px;
+    height: 410px;
+    z-index: 50;
+    overflow: hidden;
+
+    .settingsContainer {
+        width: 100%;
+        height: 100%;
+        background-color: $base-color1;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        color: $white;
+        border: 1px solid $base-color3;
+
+        .title {
+            font-size: $small-heading;
+            font-weight: bold;
+            text-align: center;
+            width: 100%;
+            margin: 10px 0 30px 0;
+        }
+
+        .closeSettings {
+            position: absolute;
+            right: 0;
+            padding: 10px;
+        }
+
+        .settingsItem {
+            display: flex;
+            margin: 15px 0;
+
+            &.hide {
+                display: none;
+            }
+
+            .label {
+                margin-right: 25px;
+                width: 250px;
+                padding-left: 25px;
+                font-size: $options;
+            }
+
+            select {
+                padding: 5px;
+            }
+        }
+    }
+}
+
+.settingsAlertWrapper {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 300px;
+    height: 110px;
+    z-index: 50;
+    box-shadow: 0px 0px 7px #000;
+    overflow: hidden;
+    background-color: $base-color1;
+    padding: 10px;
+    color: $white;
+
+    button {
+        margin-top: 15px;
+    }
+}
+
+#versionNumber {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: #AAA;
+    z-index: 3;
+    padding: 3px;
+    font-size: 10px;
+}

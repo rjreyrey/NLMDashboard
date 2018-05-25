@@ -1,7 +1,8 @@
 ﻿import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { fetchBranches, fetchAccounts, hideEnterpriseSearch } from '../actions/'
+import { fetchBranches, fetchAccounts, hideEnterpriseSearch } from '../actions/';
+import Spinner from './Spinner';
 
 class AccountSearch extends Component {
     constructor(props) {
@@ -53,12 +54,12 @@ class AccountSearch extends Component {
             <div className={this.props.accountSearch.visible ? "fullWrapper" : "fullWrapper hide"}>
                 <div className="accountSearchWrapper">
                     <div className={this.props.accountSearch.firstSearch ? "closeSearch hide" : "closeSearch"} onClick={this.onCloseClick.bind(this)}><i className="fas fa-times"></i></div>
-                    <div className={this.props.accountSearch.searching ? "searchingCover loaderWrapper" : "searchingCover loaderWrapper hide"}><div className="loader"></div></div>
+                    <Spinner show={this.props.accountSearch.searching} />
                     <h2>{this.props.accountSearch.currentSearchItem}</h2>
                     <form>
                         <input className='branchName' type='text' ref={input => input && input.focus()} placeholder='Business Unit' value={this.state.branchName} onChange={this.handleBranchNameChange.bind(this)} />
                         <input className='ID' type='text' placeholder='ID' value={this.state.ID} onChange={this.handleIDChange.bind(this)}  />
-                        <input type='submit' value='Search' onClick={this.onBUSearch.bind(this)} />
+                        <input type='submit' value='Search' className="button" onClick={this.onBUSearch.bind(this)} />
                     </form>
                     <div className={this.props.accountSearch.hasBUData && !this.props.accountSearch.hasAccountData ? 'grid' : 'grid hide'}>
                         <table>

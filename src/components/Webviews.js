@@ -2,8 +2,9 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
-import { hideSpinner, showSpinner, hideControls, showControls, resetControls, disableControls, navigateBack, navigateForward, navigateReload, newWindowTab, updateTab, increaseLoginStep } from '../actions/'
-import * as types from '../actions/constants'
+import { hideSpinner, showSpinner, hideControls, showControls, resetControls, disableControls, navigateBack, navigateForward, navigateReload, newWindowTab, updateTab, increaseLoginStep } from '../actions/';
+import * as types from '../actions/constants';
+import Spinner from './Spinner';
 
 const electron = window.require("electron") 
 const ipcRenderer = electron.ipcRenderer
@@ -25,9 +26,7 @@ class Webviews extends Component {
             var id = 'webview_' + view.id;
             return (
                 <div className={view.active ? "webviewWrapper" : "webviewWrapper hide"} key={id}>
-                    <div className={view.spinner ? 'drawing' : 'drawing hide'} id="spinner">
-                        <div className="loading-dot"></div>
-                    </div>
+                    <Spinner show={view.spinner} />
                     <webview key={id} id={id} data-id={view.id} className={view.active ? "webview" : "webview hide"} data-src={view.url} data-partition={view.partition} data-hasrun='false'></webview>
                 </div>
             );

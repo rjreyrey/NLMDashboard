@@ -1,8 +1,10 @@
 ﻿import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { fetchToken, verifyUser } from '../actions/'
-const { remote } = require('electron')
+import { fetchToken, verifyUser, showLoginLoader, hideLoginLoader } from '../actions/';
+const { remote } = require('electron');
+import AutoUpdater from './AutoUpdater';
+import Spinner from './Spinner';
 
 class Login extends Component {
     constructor(props) {
@@ -30,6 +32,7 @@ class Login extends Component {
         event.preventDefault();
         if (this.state.username.length > 0 && this.state.password.length > 0) {
             this.setState({ ...this.state, inProcess: true, usernameError: false, passwordError: false });
+            this.props.showLoginLoader();
             this.props.verifyUser(this.state.username, this.state.password);
         } else {
             if (this.state.username.length == 0) {
@@ -44,16 +47,21 @@ class Login extends Component {
 
     render() {
         return (
-            <div className="innerContainer">
-                <h1 className="loginHeader">Welcome</h1>
+            <div className={this.props.login.loggedIn ? "loginPaneWrapper hide" : "loginPaneWrapper"}>
+                <div className="container">
+                    <AutoUpdater />
+                    <div className="innerContainer">
+                        <Spinner show={this.props.login.showLoader} />
+                        <h1 className="loginHeader">Welcome</h1>
 
-                <form className="form">
-                    <input type="text" className={this.state.usernameError ? 'error invalid' : '' } placeholder="Username" id="loginUserName" value={this.state.username} onChange={this.handleUsernameChange.bind(this)}></input>
-                    <input type="password" className={this.state.passwordError ? 'error invalid' : ''} placeholder="Password" id="loginPassword" value={this.state.password} onChange={this.handlePasswordChange.bind(this)}></input>
-                    <button type="submit" onClick={this.onSubmitClick.bind(this)} className="button" id="login-button">Login</button>
-                    <div id="loginError" className="error hide">This is the error</div>
-                    <div className="loaderWrapper hide"><div className="loader"></div></div>
-                </form>
+                        <form className="form">
+                            <input type="text" className={this.state.usernameError ? 'error invalid' : '' } placeholder="Username" id="loginUserName" value={this.state.username} onChange={this.handleUsernameChange.bind(this)}></input>
+                            <input type="password" className={this.state.passwordError ? 'error invalid' : ''} placeholder="Password" id="loginPassword" value={this.state.password} onChange={this.handlePasswordChange.bind(this)}></input>
+                            <button type="submit" onClick={this.onSubmitClick.bind(this)} className="button" id="login-button">Login</button>
+                            <div id="loginError" className={this.props.login.error.length > 0 ? "error" : "error hide"}>{ this.props.login.error }</div>
+                        </form>
+                    </div>
+                </div>
             </div>
         );
     }
@@ -62,14 +70,16 @@ class Login extends Component {
 
 function mapStateToProps(state) {
     return {
-
+        login: state.login
     }
 }
 
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
         fetchToken: fetchToken,
-        verifyUser: verifyUser
+        verifyUser: verifyUser,
+        showLoginLoader: showLoginLoader,
+        hideLoginLoader: hideLoginLoader
     }, dispatch);
 }
 

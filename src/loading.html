@@ -4,50 +4,48 @@
 <head>
     <meta charset="utf-8" />
     <title>Loading</title>
+    <link rel="stylesheet" href="../assets/css/generated/index.css" />
     <style>
-        @font-face {
-            font-family: 'San Fransisco';
-            font-weight: lighter;
-            src: local('SFCompactDisplay-Thin'), url(../assets/fonts/SFCompactDisplay-Thin.otf) format('opentype');
-        }
-
         body {
             text-align: center;
-            background-color: #000;
-            color: #FFF;
-            font-family: 'San Fransisco';
+            background-color: #262526;
+            color: #fff;
         }
 
         .logo {
-            max-height: 25px;
-            max-width: 25px;
+            max-height: 150px;
+            max-width: 150px;
         }
 
         .title {
-            height: 50px;
-            margin: auto;
+            margin-top: 15px;
             display: block;
-            font-size: 1.5em;
-            font-weight: bold;
-            color: greenyellow;
+            font-size: 30px;
+            color: #c1d72e;
         }
 
         .titleInner {
             display: inline-block;
-            height: 28px;
-            margin: auto;
-            vertical-align: top;
+            color: white;
         }
 
         .wrapper {
-            margin-top: 65px;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 250px;
+            height: 210px;
+            margin: auto;
         }
     </style>
 </head>
 <body>
     <div class="wrapper">
-        <div class="title"><img src="../assets/images/logo.png" alt="Logo" class="logo" /><div class="titleInner">NLM Dashboard</div></div>
-        <div class="loading">Loading...</div>
+        <img src="../assets/images/logo.png" alt="Logo" class="logo" />
+        <div class="title">NLM<div class="titleInner">Dashboard</div>
+        </div>
     </div>
 </body>
 </html>

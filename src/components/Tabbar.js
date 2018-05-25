@@ -1,18 +1,20 @@
 ﻿import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { selectApplication, addApplication, clickTab, closeTab, setNewActiveApp } from '../actions/'
+import { selectApplication, addApplication, clickTab, closeTab, setNewActiveApp } from '../actions/';
 import { close } from 'original-fs';
 
 class Tabbar extends Component {
 
     handleTabClick(event, tab) {
-        if (event.button == 1) {
-            Promise.resolve(this.props.closeTab(tab))
-                .then(this.props.setNewActiveApp(this.props.apps));
-        } else {
-            Promise.resolve(this.props.clickTab(tab))
-                .then(this.props.setNewActiveApp(this.props.apps));
+        if (tab) {
+            if (event.button == 1) {
+                Promise.resolve(this.props.closeTab(tab))
+                    .then(this.props.setNewActiveApp(this.props.apps));
+            } else {
+                Promise.resolve(this.props.clickTab(tab))
+                    .then(this.props.setNewActiveApp(this.props.apps));
+            }
         }
     }
 
@@ -28,7 +30,7 @@ class Tabbar extends Component {
             return (
                 <div id={tab.id} className={tab.partition == partition ? tab.active ? 'tab active associated' : 'tab associated' : tab.active? 'tab active' : 'tab'} key={tab.id}>
                     <div onMouseDown={(event) =>  this.handleTabClick(event, tab) } className="title">{tab.title}</div>
-                    <div className="close" onClick={() => Promise.resolve(this.props.closeTab(tab)).then(this.props.setNewActiveApp(this.props.apps)) }><i className="fas fa-times"></i></div>
+                    <div className="close" onClick={(event) => Promise.resolve(this.props.closeTab(tab)).then(this.props.setNewActiveApp(this.props.apps)).then(this.handleTabClick(event, this.props.tabs.find(function (tab) { return tab.autoChosen == true; }))) }><i className="fas fa-times"></i></div>
                 </div>
             );
 

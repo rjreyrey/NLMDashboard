@@ -9,8 +9,16 @@ export default function (state = null, action) {
 
             action.payload.apps.map((app) => {
                 app.services.map((service) => {
-                    if (service.active == true) {
-                        activeService = service;
+                    if (service.externals && service.externals.length > 0) {
+                        service.externals.map(external => {
+                            if (external.active == true) {
+                                activeService = external;
+                            }
+                        });
+                    } else {
+                        if (service.active == true) {
+                            activeService = service;
+                        }
                     }
                 });
             });

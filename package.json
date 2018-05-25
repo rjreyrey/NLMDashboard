@@ -1,11 +1,11 @@
 {
   "name": "nlm-dashboard",
-  "version": "0.4.10-beta",
+  "version": "0.4.13-beta",
   "description": "NLM Dashboard",
   "main": "./src/main.js",
   "repository": "https://github.com/rjreyrey/NLMDashboard",
   "scripts": {
-    "build-css": "node-sass-chokidar assets/ -o assets/",
+    "build-css": "node-sass-chokidar assets/css/SCSS/index.scss assets/css/generated/index.css --output-style compressed",
     "start-js": "electron -r babel-register .",
     "start": "npm-run-all build-css start-js",
     "dist": "npm run build-css && electron-builder",

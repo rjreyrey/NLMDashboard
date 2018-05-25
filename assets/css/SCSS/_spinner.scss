@@ -1,0 +1,22 @@
+﻿/// <reference path="_variables.scss" />
+
+.loaderWrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(38,37,38,0.97);
+    z-index: 10;
+
+    .innerLoaderWrapper {
+        position: absolute;
+        height: 250px;
+        width: 150px;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+    }
+}

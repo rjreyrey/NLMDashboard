@@ -1,7 +1,6 @@
 ﻿const request = require("request");
 import * as types from '../actions/constants';
 var util = require('util')
-window.$ = global.jQuery = require('../../assets/js/jquery.min.js');
 
 const initialState = []
 

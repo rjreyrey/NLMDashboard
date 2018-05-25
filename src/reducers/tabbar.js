@@ -1,5 +1,4 @@
 ﻿import * as types from '../actions/constants';
-window.$ = global.jQuery = require('../../assets/js/jquery.min.js');
 const initialState = []
 
 export default function (state = initialState, action) {
@@ -18,7 +17,7 @@ export default function (state = initialState, action) {
             })
 
             if (!hasTab) {
-                state.push({ id: action.payload.id, title: action.payload.name, partition: action.payload.partition, active: true });
+                state.push({ id: action.payload.id, title: action.payload.name, partition: action.payload.partition, active: true, autoChosen: false });
             }
 
             return state;
@@ -36,6 +35,9 @@ export default function (state = initialState, action) {
 
             if (state.length > 0 && currentTab.active == true) {
                 state[0].active = true;
+                state[0].autoChosen = true;
+            } else {
+                state[0].autoChosen = false;
             }
 
             return [...state];
@@ -43,8 +45,10 @@ export default function (state = initialState, action) {
             return state.map(tab => {
                 if (tab.id === action.payload.id) {
                     tab.active = true;
+                    tab.autoChosen = false;
                 } else {
                     tab.active = false;
+                    tab.autoChosen = false;
                 }
 
                 return tab;

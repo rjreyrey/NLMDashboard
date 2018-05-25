@@ -1,0 +1,67 @@
+﻿/// <reference path="_variables.scss" />
+
+.tabbar {
+    height: 32px;
+    display: flex;
+    width: 100%;
+    cursor: default;
+    font-size: 14px;
+    -webkit-user-select: none;
+    user-select: none;
+
+    .tab {
+        margin: auto 1px;
+        height: 100%;
+        text-align: center;
+        vertical-align: middle;
+        max-width: 250px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        color: #333;
+        border: 1px solid #aaa;
+        border-bottom: none;
+        border-left: none;
+        background-image: $gradient-light;
+        font: caption;
+        font-size: 14px;
+        background-color: #ccc;
+        cursor: pointer;
+        display: flex;
+
+        &.associated {
+            background-image: none;
+            background-color: $accent-color;
+            color: $base-color1;
+        }
+
+        &.associated.active {
+            background-color: none;
+            background-image: $gradient-active;
+            color: $white;
+        }
+
+        .title {
+            max-width: 180px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            height: 30px;
+            padding: 6px 8px 4px;
+            font-size: 12px;
+        }
+
+        .close {
+            display: flex;
+            height: 14px;
+            margin: auto;
+            padding: 0px 5px;
+            height: 30px;
+
+            i {
+                font-size: 12px;
+                margin: auto;
+            }
+        }
+    }
+}

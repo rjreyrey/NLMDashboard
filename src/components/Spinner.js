@@ -7,8 +7,10 @@ class Spinner extends Component {
 
     render() {
         return (
-            <div className={this.props.spinner.visible ? 'drawing' : 'drawing hide' } id="spinner">
-                <div className="loading-dot"></div>
+            <div className={this.props.show ? "loaderWrapper" : "loaderWrapper hide"}>
+                <div className="innerLoaderWrapper">
+                    <img src="../assets/images/loading.gif" />
+                </div>
             </div>
         )
     }

@@ -1,0 +1,160 @@
+﻿/// <reference path="_variables.scss" />
+
+.sidebar {
+    width: 250px;
+    font-size: 14px;
+    background-color: $base-color1;
+    box-shadow: 0px 0px 7px #333;
+    z-index: 2;
+    margin-left: 0px;
+    transition: ease 0.5s;
+    color: #FFF;
+
+    .hidden {
+        margin-left: -250px;
+    }
+
+    .sidebarSection {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .sidebarSectionHeading {
+        font-size: $small-heading;
+        color: $white;
+        padding: 20px 0px;
+        flex: 1;
+        height: 35px;
+        max-height: 35px;
+        margin: 0px 5px 5px 5px;
+    }
+
+    .findAccountWrapper {
+        padding: 15px;
+    }
+
+    .accountName {
+        font-size: $secondary-label;
+        padding: 20px 0 40px 30px;
+        flex: 1;
+        height: 35px;
+        max-height: 35px;
+    }
+
+    .buSwitcher {
+        position: absolute;
+        top: 130px;
+        background-color: $base-color3;
+        padding: 10px;
+        width: 250px;
+        color: black;
+
+        .otherBUsWrapper {
+
+            .button {
+                margin-bottom: 10px;
+                background-image: none;
+                background-color: $base-color2;
+                color: $base-color5;
+                box-shadow: 0px 0px 2px #333;
+            }
+
+            .otherBUsInner {
+                max-height: 300px;
+                overflow-y: auto;
+            }
+
+            .otherBUs {
+                padding: 10px;
+                cursor: pointer;
+                color: $white;
+
+                &:hover {
+                    background-color: $accent-color;
+                    color: $base-color1;
+                }
+            }
+        }
+    }
+
+    .changeAccount {
+        float: right;
+        margin-right: 15px;
+        color: $accent-color;
+    }
+
+    .sidebarSectionList {
+        box-shadow: 0px 0px 2px #333;
+        overflow-y: auto;
+    }
+
+    .sidebarSectionListItem {
+        display: flex;
+        padding: 10px;
+        /*background-color: $base-color3;*/
+        margin-bottom: 2px;
+        cursor: pointer;
+        color: $white;
+
+        div {
+            display: inline-block;
+        }
+
+        &:hover {
+            background-color: none;
+            background-image: $gradient-base;
+        }
+
+        &.opened {
+            background-color: $base-color3;
+            background-image: none;
+            color: $white;
+
+            &:hover {
+                background-color: none;
+                background-image: $gradient-base;
+                color: $white;
+            }
+        }
+
+        &.active {
+            background-color: $accent-color;
+            background-image: none;
+            color: $base-color1;
+
+            &:hover {
+                background-color: none;
+                background-image: $gradient-active;
+                color: $white;
+            }
+        }
+    }
+
+    .externalSidebarSectionList {
+        margin-left: 25px;
+    }
+
+    .sidebarSectionListApplicationWrapper {
+        padding-top: 20px;
+
+        &:first-child {
+            padding-top: 5px;
+        }
+    }
+
+    .sidebarSectionListApplicationLabel {
+        margin-top: 10px;
+        font-size: 16px;
+        border-bottom: 1px solid $accent-color;
+        color: $accent-color;
+        text-indent: 5px;
+    }
+
+    .sidebarSectionListItemLabel {
+        flex-grow: 10;
+        margin: auto;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+}

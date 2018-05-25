@@ -1,6 +1,5 @@
 ﻿import * as types from '../actions/constants'
 var util = require('util')
-window.$ = global.jQuery = require('../../assets/js/jquery.min.js');
 
 export const selectApplication = (app) => ({ type: types.APP_CLICK, payload: app })
 export const increaseLoginStep = () => ({ type: types.INCREASE_LOGIN_STEP, payload: null })
@@ -36,6 +35,11 @@ export const toggleBetaChannel = () => ({ type: types.TOGGLE_BETA_CHANNEL, paylo
 export const changeEnvironment = (env) => ({ type: types.CHANGE_ENVRIONMENT, payload: env })
 export const closeSettings = () => ({ type: types.CLOSE_SETTINGS, payload: null })
 export const relaunchApp = () => ({ type: types.RELAUNCH_APP, payload: null })
+export const showLoginLoader = () => ({ type: types.SHOW_LOGIN_LOADER , payload: null })
+export const hideLoginLoader = () => ({ type: types.HIDE_LOGIN_LOADER, payload: null })
+export const showLoginError = (error) => ({ type: types.SHOW_LOGIN_ERROR, payload: error })
+export const showLogin = () => ({ type: types.SHOW_LOGIN, payload: null })
+export const hideLogin = () => ({ type: types.HIDE_LOGIN, payload: null })
 
 
 export function verifyUser(username, password) {
@@ -45,36 +49,19 @@ export function verifyUser(username, password) {
         localStorage.username = username;
         localStorage.password = password;
 
-        $('.loaderWrapper').removeClass('hide');
-
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4) {
                 if (this.status == 200) {
                     var response = xhttp.responseXML.getElementsByTagName('string')[0].childNodes[0].nodeValue;
 
-                    $('.loaderWrapper').addClass('hide');
-
                     if (response == 'Success') {
                         dispatch(fetchToken());
-
-                        $('.loginPaneWrapper form').fadeOut(500, function () {
-                            $('.innerContainer').fadeOut(500, function () {
-                                $('.loginHeader').text('Loading');
-                                $('.innerContainer').fadeIn(500, function () {
-                                    $('.loginPaneWrapper').addClass('form-success');
-
-                                    window.setTimeout(function () {
-                                        $('.loginPaneWrapper').fadeOut(500, function () {
-                                            dispatch(showEnterpriseSearch());
-                                        });
-                                    }, 2000);
-                                });
-                            });
-                        });
                     } else {
-                        $('#loginError').html(response).removeClass('hide');
+                        dispatch(hideLoginLoader());
+                        dispatch(showLoginError(response));
                     }
                 } else {
+                    dispatch(hideLoginLoader());
                     console.log(JSON.parse(this.response).ErrorMsg);
                 }
             }
@@ -94,6 +81,9 @@ export function fetchToken() {
                 if (this.status == 200) {
                     var token = this.getResponseHeader('token');
                     localStorage.setItem('token', token);
+                    dispatch(hideLoginLoader());
+                    dispatch(hideLogin());
+                    dispatch(showEnterpriseSearch());
                 } else {
                     console.log(JSON.parse(this.response).ErrorMsg);
                 }

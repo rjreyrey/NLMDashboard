@@ -1,0 +1,161 @@
+﻿/// <reference path="_variables.scss" />
+
+.fullWrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    background: rgba(38,37,38,0.97);
+
+    .accountSearchWrapper {
+        position: absolute;
+        min-width: 700px;
+        width: 80vw;
+        height: 480px;
+        text-align: center;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        background-color: $base-color1;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid $base-color3;
+
+        .closeSearch {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 10px;
+            color: $white;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: $large-heading;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        form input {
+            display: inline-block;
+            outline: 0;
+            margin: 3px;
+            text-align: center;
+            transition-duration: 0.25s;
+            border: none;
+            background-color: $base-color3;
+            width: 250px;
+            padding: 10px 15px;
+            text-align: center;
+            font-size: $secondary-label;
+            color: $white;
+            transition-duration: 0.25s;
+            font-weight: normal;
+
+            &.button {
+                width: 100px;
+            }
+        }
+
+        .grid {
+            height: 100%;
+            flex: 1;
+            overflow: hidden;
+            margin: 0 9px;
+            border: 1px solid $base-color3;
+            padding: 20px;
+            margin-top: 20px;
+
+            > div {
+                border-bottom: 1px solid #666;
+                padding: 10px;
+                cursor: pointer;
+                color: #000;
+            }
+        }
+    }
+
+    .searchingCover {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        height: 480px;
+        min-width: 700px;
+        width: 80vw;
+        background-color: rgba(38,37,38,0.97);
+    }
+
+    table {
+        border-spacing: 0;
+        border-collapse: collapse;
+        width: 100%;
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+
+        thead, tbody, tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        tbody {
+            overflow-y: auto;
+            max-height: 255px;
+            display: block;
+            padding-right: 10px;
+        }
+
+        thead {
+            margin: 10px 0px;
+            text-align: left;
+
+            tr:hover {
+                background-color: inherit;
+                color: white;
+            }
+        }
+
+        thead tr th:first-child {
+            padding-left: 5px;
+        }
+
+        th {
+            min-width: 200px;
+            font-size: $secondary-label;
+        }
+
+        tr {
+
+            &:nth-child(even) {
+                background-color: $base-color3;
+            }
+
+            &:hover {
+                background-color: $accent-color;
+                color: $base-color1;
+
+                td {
+                    color: $base-color1;
+                }
+            }
+        }
+
+        td {
+            padding: 10px 5px;
+            font-size: $options;
+            text-align: left;
+        }
+
+        .clickable {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    }
+}

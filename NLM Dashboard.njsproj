@@ -106,6 +106,9 @@
     <Compile Include="src\reducers\accountSearch.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\reducers\login.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\reducers\settings.js">
       <SubType>Code</SubType>
     </Compile>
@@ -131,19 +134,47 @@
     <Compile Include="assets\js\translations\i18n.js" />
     <Compile Include="assets\js\translations\sv.js" />
     <Content Include=".babelrc" />
-    <Content Include="assets\css\fa-regular.min.scss" />
-    <Content Include="assets\css\fa-solid.min.scss" />
-    <Content Include="assets\css\fontawesome.scss" />
-    <Content Include="assets\css\spinner.scss">
+    <Content Include="assets\css\SCSS\index.scss" />
+    <Content Include="assets\css\SCSS\_accountSearch.scss">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="assets\css\SCSS\_autoUpdater.scss">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="assets\css\SCSS\_base.scss" />
+    <Content Include="assets\css\SCSS\_fa-regular.min.scss" />
+    <Content Include="assets\css\SCSS\_fa-solid.min.scss" />
+    <Content Include="assets\css\SCSS\_fontawesome.scss" />
+    <Content Include="assets\css\SCSS\_login.scss">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="assets\css\SCSS\_releaseNotes.scss">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="assets\css\SCSS\_settings.scss" />
+    <Content Include="assets\css\SCSS\_sidebar.scss">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="assets\css\SCSS\_spinner.scss" />
+    <Content Include="assets\css\SCSS\_tabbar.scss">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="assets\css\SCSS\_titlebar.scss">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="assets\css\SCSS\_variables.scss" />
+    <Content Include="assets\css\SCSS\_viewpane.scss">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="assets\css\SCSS\_webviews.scss">
       <SubType>Code</SubType>
     </Content>
     <Content Include="assets\fonts\fa-regular-400.ttf" />
     <Content Include="assets\fonts\fa-solid-900.ttf" />
-    <Content Include="assets\fonts\SFCompactDisplay-Thin.otf" />
+    <Content Include="assets\fonts\HelveticaNeue-Bold.ttf" />
+    <Content Include="assets\fonts\HelveticaNeue-Light.ttf" />
     <Content Include="assets\icons\win\icon.ico" />
-    <Content Include="assets\css\index.scss">
-      <SubType>Code</SubType>
-    </Content>
+    <Content Include="assets\images\loading.gif" />
     <Content Include="assets\images\logo.png" />
     <Content Include="electron-builder.yml" />
     <Content Include="package.json">
@@ -160,6 +191,7 @@
   <ItemGroup>
     <Folder Include="assets\" />
     <Folder Include="assets\css\" />
+    <Folder Include="assets\css\SCSS\" />
     <Folder Include="assets\fonts\" />
     <Folder Include="assets\icons\" />
     <Folder Include="assets\icons\png\" />

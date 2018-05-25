@@ -41,7 +41,7 @@ class Titlebar extends Component {
         return <div id="titlebar" className="header">
             <div className="inner">
                 <div className="headerTitle">
-                    <img src="../assets/images/logo.png" alt="Logo" /><div id="nlmTitle" className="bold inline NLMGreen nlmTitle" onDoubleClick={this.openDevTools}>NLM</div>Dashboard
+                    <img src="../assets/images/logo.png" alt="Logo" /><div id="nlmTitle" className="inline NLMGreen nlmTitle" onDoubleClick={this.openDevTools}>NLM</div>Dashboard
                 </div>
                 <WebviewControls />
                 <div className="dragbar"></div>

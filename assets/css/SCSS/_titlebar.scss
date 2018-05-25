@@ -1,0 +1,96 @@
+﻿/// <reference path="_variables.scss" />
+
+.header {
+    background-color: $base-color3;
+    color: #ffffff;
+    height: 40px;
+    z-index: 2;
+    width: 100%;
+    box-shadow: 1px 0px 10px #333;
+    -webkit-app-region: drag;
+    user-select: none;
+
+    .inner {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: 40px;
+    }
+
+    img {
+        max-width: 15px;
+        max-height: 19px;
+        margin-right: 4px;
+    }
+
+    .appControl {
+        height: 100%;
+        width: 35px;
+
+        i {
+            font-size: 14px;
+            color: $white;
+            cursor: pointer;
+            -webkit-app-region: no-drag;
+            line-height: 40px;
+            padding-left: 10px;
+            width: 100%;
+        }
+    }
+
+    .headerTitle {
+        width: 250px;
+        font-size: $small-heading;
+        text-shadow: 0px 0px 3px #000;
+        margin-left: 5px;
+        -webkit-app-region: no-drag;
+    }
+
+    .browserControls {
+        flex-grow: 0;
+        margin-right: 25px;
+        -webkit-app-region: no-drag;
+        -webkit-user-select: none;
+
+        i {
+            padding: 10px;
+            font-size: $secondary-label;
+            transition: ease 0.5s;
+
+            &.disabled {
+                padding: 10px;
+                cursor: default;
+                color: $base-color2;
+            }
+        }
+    }
+
+    .dragbar {
+        flex-grow: 10;
+    }
+
+    .nlmTitle {
+        margin-right: 2px;
+        font-size: $small-heading;
+        -webkit-app-region: no-drag;
+    }
+}
+
+
+.accountSearch {
+    margin-right: 15px;
+    -webkit-app-region: no-drag;
+}
+
+
+.bold {
+    font-weight: bold;
+}
+
+.inline {
+    display: inline;
+}
+
+.NLMGreen {
+    color: $accent-color;
+}

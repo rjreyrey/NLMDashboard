@@ -1,5 +1,4 @@
 ﻿import * as types from '../actions/constants';
-window.$ = global.jQuery = require('../../assets/js/jquery.min.js');
 const initialState = { visible: false, canGoBack: false, canGoForward: false, canRefresh: false }
 
 export default function (state = initialState, action) {

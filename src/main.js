@@ -27,18 +27,14 @@ app.on('ready', function () {
     var userName = process.env['USERPROFILE'].split(path.sep)[2];
     global.credentials.username = userName;
 
-    loadingWindow = new BrowserWindow({ width: 400, height: 200, autoHideMenuBar: true, frame: false, show: false });
+    loadingWindow = new BrowserWindow({ width: 640, height: 480, autoHideMenuBar: true, frame: false, show: false });
     loadingWindow.loadURL('file://' + __dirname + '/loading.html');
     mainWindow = new BrowserWindow({ width: 1400, height: 960, autoHideMenuBar: false, frame: false, show: false });
     mainWindow.loadURL('file://' + __dirname + '/index.html');
-
     loadingWindow.on('closed', () => { loadingWindow = null });
     mainWindow.on('closed', function () { mainWindow = null });
     session.defaultSession.allowNTLMCredentialsForDomains('*');
     session.defaultSession.clearStorageData([], null);
-
-    //mainWindow.webContents.on('before-input-event', function () { console.log('input'); });
-
     loadingWindow.webContents.on('did-finish-load', () => { loadingWindow.show() });
 
     mainWindow.webContents.once('did-finish-load', () => {
@@ -82,7 +78,6 @@ app.on('activate', function () {
 
 app.on('web-contents-created', function (webContentsCreatedEvent, contents) {
     if (contents.getType() === 'webview') {
-        //fix for before unload confirmations. These are not supported in electron per google specs. This catches that event and shows a prompt instead of just doing nothing and forcing the user to stay on the page
         contents.on('will-prevent-unload', function (event) {
             let choice = dialog.showMessageBox(mainWindow, {
                 type: 'question',

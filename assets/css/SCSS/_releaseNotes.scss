@@ -1,0 +1,45 @@
+﻿/// <reference path="_variables.scss" />
+
+.releaseNotesWrapper {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 400px;
+    height: 410px;
+    z-index: 50;
+    border: 1px solid $base-color3;
+    overflow: hidden;
+    background-color: $base-color1;
+    padding: 15px;
+    color: $white;
+    display: flex;
+    flex-direction: column;
+
+    .title {
+        flex: 1;
+        max-height: 25px;
+        font-size: $small-heading;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .notesTitle {
+        flex: 1;
+        max-height: 25px;
+        margin-bottom: 5px;
+        margin-left: 15px;
+    }
+
+    .notes {
+        flex: 1;
+        overflow: hidden;
+        overflow-y: auto;
+        padding: 15px;
+        margin-bottom: 10px;
+        color: #fff;
+        font-size: $options;
+    }
+}

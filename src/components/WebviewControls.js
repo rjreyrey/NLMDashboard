@@ -19,7 +19,6 @@ class WebviewControls extends Component {
 function mapStateToProps(state) {
     return {
         controls: state.controls
-        //webviews: state.webviews
     }
 }
 

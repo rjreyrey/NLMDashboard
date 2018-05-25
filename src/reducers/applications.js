@@ -131,10 +131,12 @@ export default function (state = initialState, action) {
             }
 
             var externals = [];
-            for (var i = 0; i < action.payload.GlobalExternalAccounts.length; i++) {//need to create an external account first, then push the single object for each onto this.  Should probably rework this at some point to not be dumb.
-                var account = action.payload.GlobalExternalAccounts[i];
-                
-                externals.push({ id: 'global_' + i + "_" + account.Type, type: account.TypeId, name: account.Name, url: types.GetExternalServiceURL(account.TypeId), active: false, opened: false, username: account.Username, password: types.DecryptPassword(account.Password), attemptedLogin: false, partition: guid(), loginStep: 0 });
+            if (action.payload.GlobalExternalAccounts) {
+                for (var i = 0; i < action.payload.GlobalExternalAccounts.length; i++) {
+                    var account = action.payload.GlobalExternalAccounts[i];
+
+                    externals.push({ id: 'global_' + i + "_" + account.Type, type: account.TypeId, name: account.Name, url: types.GetExternalServiceURL(account.TypeId), active: false, opened: false, username: account.Username, password: types.DecryptPassword(account.Password), attemptedLogin: false, partition: guid(), loginStep: 0 });
+                }
             }
 
             externalServices.push({ id: 'external_globals', type: 'GLOBAL', name: 'Global Accounts', externals: externals });

@@ -21,8 +21,6 @@ class ReleaseNotes extends Component {
 
             settings.set('updateInfo.notes', '');
             settings.set('updateInfo.version', '');
-
-            //{"userSettings":{"channel":"beta","environment":"PRODUCTION"}, "updateInfo":{"notes":"beta stuff goes here", "version":"0.4.6-alpha"}}
         }
     }
 

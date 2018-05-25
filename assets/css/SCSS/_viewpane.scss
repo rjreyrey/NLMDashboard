@@ -1,0 +1,27 @@
+﻿/// <reference path="_variables.scss" />
+
+.viewPane {
+    flex-grow: 7;
+    font-size: 10px;
+    background-color: $base-color1;
+    padding: 1px;
+
+    webview {
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+
+    .webviewWrapper {
+        width: 100%;
+        height: 100%;
+        position: relative;
+
+        .hide {
+            display: block;
+            visibility: hidden;
+            width: 0;
+            height: 0;
+        }
+    }
+}

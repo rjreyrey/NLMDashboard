@@ -2,9 +2,8 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
-import { toggleBetaChannel, changeEnvironment, closeSettings, relaunchApp } from '../actions/'
-import ApplicationList from './ApplicationList';
-import availableBUs from '../reducers/availableBUs';
+import { toggleBetaChannel, changeEnvironment, closeSettings, relaunchApp } from '../actions/';
+import VersionNumber from './VersionNumber';
 import ToggleButton from 'react-toggle-button';
 import * as types from '../actions/constants';
 import { close } from 'original-fs';
@@ -90,6 +89,8 @@ class Settings extends Component {
                             </select>
                         </div>
                     </div>
+
+                    <VersionNumber />
                 </div>
             </div>
         )

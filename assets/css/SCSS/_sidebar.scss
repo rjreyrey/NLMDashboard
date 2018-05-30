@@ -40,6 +40,19 @@
         flex: 1;
         height: 35px;
         max-height: 35px;
+
+        .accountNameText {
+            width: 185px;
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-size: $options;
+        }
+
+        i {
+            cursor: default;
+        }
     }
 
     .buSwitcher {
@@ -61,7 +74,7 @@
             }
 
             .otherBUsInner {
-                max-height: 300px;
+                max-height: 70vh;
                 overflow-y: auto;
             }
 
@@ -69,6 +82,11 @@
                 padding: 10px;
                 cursor: pointer;
                 color: $white;
+
+                &.active {
+                    background-color: $accent-color;
+                    color: $base-color1;
+                }
 
                 &:hover {
                     background-color: $accent-color;
@@ -156,5 +174,6 @@
         margin: auto;
         text-overflow: ellipsis;
         overflow: hidden;
+        cursor: pointer;
     }
 }

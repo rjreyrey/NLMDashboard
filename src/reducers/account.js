@@ -9,6 +9,8 @@ export default function (state = initialState, action) {
             return { ...state, loading: true };
         case types.ACTIVATE_SIDEBAR:
             return { ...state, active: true };
+        case types.SHOW_LOGIN:
+            return initialState;
         default:
             return state;
     }

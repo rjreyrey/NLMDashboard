@@ -32,6 +32,8 @@ export default function (state = initialState, action) {
         case RELAUNCH_APP:
             ipcRenderer.send('relaunchApp');
             return state;
+        case types.SHOW_LOGIN:
+            return initialState;
         default:
             return state;
     }

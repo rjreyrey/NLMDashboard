@@ -9,7 +9,7 @@ export default function (state = initialState, action) {
         case types.ADD_WEBVIEW:
             if (!state.find((view) => { return view.id == action.payload.tab.id })) {
                 state.forEach((view) => { view.active = false });
-                state.push({ id: action.payload.tab.id, url: action.payload.tab.url, active: true, partition: action.payload.tab.partition });
+                state.push({ id: action.payload.tab.id, url: action.payload.tab.url, active: true, partition: action.payload.tab.partition, type: action.payload.tab.type });
             }
 
             return [...state];
@@ -68,6 +68,8 @@ export default function (state = initialState, action) {
             var i = state.length;
             state.push({ id: action.payload.account.id + "_" + i, url: action.payload.url, partition: action.payload.account.partition, active: true });
             return state;
+        case types.SHOW_LOGIN:
+            return initialState;
         default:
             return state;
     }

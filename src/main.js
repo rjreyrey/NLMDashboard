@@ -15,11 +15,7 @@ global.credentials = { username: '', password: '', SRMUsername: 'ricky_jett@reyr
 
 app.setAppUserModelId('NLM Dashboard');
 
-function sendStatusToWindow(type, text, logInfo=true) {
-    if (logInfo) {
-        log.info(text);
-    }
-
+function sendStatusToWindow(type, text) {
     mainWindow.webContents.send(type, text);
 }
 
@@ -107,6 +103,7 @@ autoUpdater.on('update-not-available', (info) => {
     sendStatusToWindow('NoUpdate', 'Update not available.');
 })
 autoUpdater.on('error', (err) => {
+    log.error('Error in auto-updater. ' + err);
     sendStatusToWindow('UpdateError', 'Error in auto-updater. ' + err);
 })
 autoUpdater.on('download-progress', (progressObj) => {

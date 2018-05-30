@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 import { hideSpinner, showSpinner, hideControls, showControls, resetControls, disableControls, navigateBack, navigateForward, navigateReload, newWindowTab, updateTab, increaseLoginStep } from '../actions/';
 import * as types from '../actions/constants';
 import Spinner from './Spinner';
+import { ExternalServiceTypes } from '../actions/constants';
 
 const electron = window.require("electron") 
 const ipcRenderer = electron.ipcRenderer
@@ -27,7 +28,7 @@ class Webviews extends Component {
             return (
                 <div className={view.active ? "webviewWrapper" : "webviewWrapper hide"} key={id}>
                     <Spinner show={view.spinner} />
-                    <webview key={id} id={id} data-id={view.id} className={view.active ? "webview" : "webview hide"} data-src={view.url} data-partition={view.partition} data-hasrun='false'></webview>
+                    <webview key={id} id={id} data-id={view.id} className={view.active ? "webview" : "webview hide"} data-src={view.url} data-partition={view.partition} data-hasrun='false' {...view.type == ExternalServiceTypes.Cyfe && { preload: '../assets/js/cyfeFix.js' }}></webview>
                 </div>
             );
         });
@@ -106,6 +107,8 @@ class Webviews extends Component {
             contents.executeJavaScript("$('#username').val('" + username + "'); $('#password').val('" + password + "');$('#form-submit').click();");
         } else if (this.isShortstack(pageUrl)) {
             contents.executeJavaScript("$('#user_session_login').val('" + username + "'); $('#user_session_password').val('" + password + "');$('[type=submit]').click();");
+        } else if (this.isCyfe(pageUrl)) {
+            contents.executeJavaScript("$('#email').val('" + username + "'); $('#password').val('" + password + "'); $('input[type=submit]').click();");
         } else {
             this.isGoogle(pageUrl, contents);
             this.isBing(pageUrl, contents);
@@ -176,7 +179,6 @@ class Webviews extends Component {
         var valid = (this.props.activeApplication.type == types.ExternalServiceTypes.Bing);
 
         if (valid && !this.props.activeApplication.attemptedLogin) {
-            console.log('test : ', this.props.activeApplication.loginStep);
 
             if (pageUrl.pathname.indexOf('login') >= 0 && this.props.activeApplication.loginStep == 0) {
                 contents.executeJavaScript("var username = document.querySelectorAll('[name=loginfmt]:not(.moveOffScreen)'); if(username.length > 0) { username[0].value = '" + this.props.activeApplication.username + "'; username[0].dispatchEvent(new Event('input')); document.querySelector('[type=submit]').click();  }");
@@ -211,8 +213,6 @@ class Webviews extends Component {
         }
 
         return valid;
-
-        //$('#login-username').value = 'Nakedlimeimages'; $('#login-signin').click();
     }
 
     isChatmeter(pageUrl) {
@@ -272,6 +272,17 @@ class Webviews extends Component {
 
     isShortstack(pageUrl) {
         var valid = (this.props.activeApplication.type == types.ExternalServiceTypes.Shortstack && pageUrl.pathname == '/');
+
+        if (valid) {
+            valid = valid && !this.props.activeApplication.attemptedLogin;
+            this.props.activeApplication.attemptedLogin = true;
+        }
+
+        return valid;
+    }
+
+    isCyfe(pageUrl) {
+        var valid = (this.props.activeApplication.type == types.ExternalServiceTypes.Cyfe && pageUrl.pathname == '/login');
 
         if (valid) {
             valid = valid && !this.props.activeApplication.attemptedLogin;

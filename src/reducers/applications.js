@@ -1,5 +1,6 @@
 ﻿const request = require("request");
 import * as types from '../actions/constants';
+import { ExternalServiceTypes } from "../actions/constants";
 var util = require('util')
 const initialState = []
 
@@ -139,6 +140,9 @@ export default function (state = initialState, action) {
                 }
             }
 
+            ////adding this line to add cyfe to the list of externals for auto login.  This will be returned for real soon, this is just for demo.
+            externals.push({ id: 'global_' + externals.length + "_Cyfe", type: ExternalServiceTypes.Cyfe, name: 'Cyfe', url: types.GetExternalServiceURL(ExternalServiceTypes.Cyfe), active: false, opened: false, username: 'ryan_goldfine@reyrey.com', password: 'db2018', attemptedLogin: false, partition: guid(), loginStep: 0 });
+
             externalServices.push({ id: 'external_globals', type: 'GLOBAL', name: 'Global Accounts', externals: externals });
 
             applications.push({
@@ -166,6 +170,8 @@ export default function (state = initialState, action) {
             });
 
             return applications;
+        case types.SHOW_LOGIN:
+            return initialState;
         default:
             return state;
     }

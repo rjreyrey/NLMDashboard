@@ -74,6 +74,23 @@
         font-size: $small-heading;
         -webkit-app-region: no-drag;
     }
+
+    .welcomeText {
+        margin-right: 40px;
+        font-weight: bold;
+        font-size: $options;
+    }
+
+    .logoff {
+        width: 120px;
+        cursor: pointer;
+        -webkit-app-region: no-drag;
+
+        i {
+            display: inline-block;
+            width: 25px;
+        }
+    }
 }
 
 

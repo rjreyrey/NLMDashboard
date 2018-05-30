@@ -7,6 +7,8 @@ export default function (state = initialState, action) {
             return { ...state, visible: false };
         case types.SHOW_SPINNER:
             return { ...state, visible: false };
+        case types.SHOW_LOGIN:
+            return initialState;
         default:
             return state;
     }

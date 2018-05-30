@@ -1,4 +1,5 @@
 ﻿import * as types from '../actions/constants';
+const initialState = {};
 
 export default function (state = null, action) {
     switch (action.type) {
@@ -25,6 +26,8 @@ export default function (state = null, action) {
             return { ...activeService }
         case types.INCREASE_LOGIN_STEP:
             return { ...state, loginStep: ++state.loginStep };
+        case types.SHOW_LOGIN:
+            return initialState;
         default:
             return state;
     }

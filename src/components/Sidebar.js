@@ -14,7 +14,9 @@ class Sidebar extends Component {
     }
 
     onBUClick(name, sys, store, branch, enterpriseName) {
-        this.props.fetchAccounts(name, sys, store, branch, enterpriseName);
+        if (!(name === this.props.account.name)) {
+            this.props.fetchAccounts(name, sys, store, branch, enterpriseName);
+        } 
     }
 
     toggleBUSwticther() {
@@ -34,23 +36,22 @@ class Sidebar extends Component {
             <div id="sidebar" className={this.props.account.id > 0  ? "sidebar": "sidebar hidden" }>
                 {(() => {
                     if (this.props.account.id > 0 && this.props.account.active == true) {
-                        var associatedBUs = this.props.availableBUs.filter((bu) => { return bu.EnterpriseName == this.props.account.enterprise && bu.Name != this.props.account.name })
                         return (
                             <div className="sidebarSection">
                                 <div className="sidebarSectionHeading">Business Unit</div>
                                 <div onMouseEnter={() => this.onHover()} onMouseLeave={() => this.onHoverOut()}>
-                                    <div className="accountName" data-id={this.props.account.id} data-type={this.props.account.type}>{this.props.account.name}<div className="changeAccount" onClick={() => this.toggleBUSwticther()}><i className={ this.state.buSwitcher ? "fas fa-chevron-up" : "fas fa-chevron-down" }></i></div></div>
+                                    <div className="accountName" data-id={this.props.account.id} data-type={this.props.account.type}><div className="accountNameText">{this.props.account.name}</div><div className="changeAccount" onClick={() => this.toggleBUSwticther()}><i className={ this.state.buSwitcher ? "fas fa-chevron-up" : "fas fa-chevron-down" }></i></div></div>
 
                                 <div className={ this.state.buSwitcher ? "buSwitcher" : "buSwitcher hide"}>
                                     <div className="otherBUsWrapper">
                                         <div className="button" onClick={() => { this.toggleBUSwticther(); this.props.showEnterpriseSearch() }}>Search Business Units <i className="fas fa-search"></i></div>
                                             <div className="otherBUsInner">
-                                                {associatedBUs.map((bu) => {
+                                                {this.props.availableBUs.map((bu) => {
                                                     var key = bu.Name + '_' + bu.StoreNo + '_' + bu.BranchNo;
 
                                                     if (bu.EnterpriseName == this.props.account.enterprise) {
                                                         return (
-                                                            <div className="otherBUs" key={key} onClick={() => { this.toggleBUSwticther(); this.onBUClick(bu.Name, bu.PPSysId, bu.StoreNo, bu.BranchNo, bu.EnterpriseName) }}>{bu.Name}</div>
+                                                            <div className={bu.Name == this.props.account.name ? "otherBUs active" : "otherBUs"} key={key} onClick={() => { this.toggleBUSwticther(); this.onBUClick(bu.Name, bu.PPSysId, bu.StoreNo, bu.BranchNo, bu.EnterpriseName) }}>{bu.Name}</div>
                                                         )
                                                     }
                                                 })}

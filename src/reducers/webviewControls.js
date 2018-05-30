@@ -26,6 +26,8 @@ export default function (state = initialState, action) {
                 document.querySelector('webview:not(.hide)').goForward();
             }
             return state;
+        case types.SHOW_LOGIN:
+            return initialState;
         default:
             return state;
     }

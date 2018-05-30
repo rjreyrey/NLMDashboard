@@ -13,6 +13,8 @@
 * {
     box-sizing: border-box;
     font-family: $primary-font;
+    user-select: none;
+    cursor: default;
 }
 
 .hide {
@@ -39,6 +41,10 @@ body {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+}
+
+input {
+    cursor: text;
 }
 
 button, .button {

@@ -32,7 +32,9 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="assets\js\jquery.min.js" />
+    <Compile Include="assets\js\cyfeFix.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\actions\constants.js">
       <SubType>Code</SubType>
     </Compile>
@@ -116,6 +118,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\reducers\tabbar.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\reducers\autoUpdater.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\reducers\webviewControls.js">

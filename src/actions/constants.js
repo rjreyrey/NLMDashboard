@@ -34,6 +34,7 @@ export const SEARCH_BEGIN_ENTERPRISE = 'SEARCH_BEGIN_ENTERPRISE'
 export const SEARCH_SUCCESS_ENTERPRISE = 'SEARCH_SUCCESS_ENTERPRISE'
 export const SEARCH_BEGIN_BRANCH = 'SEARCH_BEGIN_BRANCH'
 export const SEARCH_SUCCESS_BRANCH = 'SEARCH_SUCCESS_BRANCH'
+export const ASSOCIATED_BRANCHES = 'ASSOCIATED_BRANCHES'
 export const SHOW_SETTINGS = 'SHOW_SETTINGS'
 export const TOGGLE_BETA_CHANNEL = 'TOGGLE_BETA_CHANNEL'
 export const CHANGE_ENVRIONMENT = 'CHANGE_ENVRIONMENT'
@@ -44,6 +45,12 @@ export const HIDE_LOGIN_LOADER = 'HIDE_LOGIN_LOADER'
 export const SHOW_LOGIN_ERROR = 'SHOW_LOGIN_ERROR'
 export const SHOW_LOGIN = 'SHOW_LOGIN'
 export const HIDE_LOGIN = 'HIDE_LOGIN'
+export const SET_FULL_NAME = 'SET_FULL_NAME'
+export const CHANGE_PASSWORD = 'CHANGE_PASSWORD'
+export const CHANGE_USERNAME = 'CHANGE_USERNAME'
+export const UPDATE_AVAILABLE = 'UPDATE_AVAILABLE'
+export const UPDATE_ERROR = 'UPDATE_ERROR'
+export const UPDATE_PROGRESS = 'UPDATE_PROGRESS'
 
 export const Environments = {
     PRODUCTION: 'PRODUCTION',
@@ -79,13 +86,15 @@ export const ExternalServiceTypes = {
     Acquisio: 19,
     LeadsBridge: 20,
     Shortstack: 21,
-    Flickr: 22
+    Flickr: 22,
+    Cyfe: 23
 }
 
 const URLS = {
     QA: {
         SERVICE_URL_AUTH_TOKEN: 'http://receiver.ddwqa01.reyqa.com/AuthService/api/Authenticate/LogOn?Application=100',
         SERVICE_URL_GET_BRANCHES: 'http://nlmservice-qa01.reyqa.com/api/AccountSearch/GetBranches?branchName=%s&id=%s&token=%s',
+        SERVICE_URL_GET_ASSOCIATED_BRANCHES: 'http://nlmservice-qa01.reyqa.com/api/AccountSearch/GetBranches?enterpriseName=%s&id=%s&token=%s',
         SERVICE_URL_GET_ACCOUNTS: 'http://nlmservice-qa01.reyqa.com/api/AccountSearch/GetAccounts?System=%s&StoreNo=%s&BranchNo=%s&token=%s',
         SERVICE_URL_APTUS: 'https://web-qa01.reyqa.com/WebAnalytics/Index/%s?currentAccountId=%s',
         SERVICE_URL_MMS: 'https://mms.aimdatabase.com/Tools/AdvancedSearch.aspx?searchTerm=%s&ReturnUrl=/AccountDetails.aspx',
@@ -95,6 +104,7 @@ const URLS = {
     PRODUCTION: {
         SERVICE_URL_AUTH_TOKEN: 'https://leads.cm.reyrey.com/AuthService/api/Authenticate/LogOn?Application=1',
         SERVICE_URL_GET_BRANCHES: 'https://nlmservice.dealer.nakedlime.com/api/AccountSearch/GetBranches?branchName=%s&id=%s&token=%s',
+        SERVICE_URL_GET_ASSOCIATED_BRANCHES: 'https://nlmservice.dealer.nakedlime.com/api/AccountSearch/GetBranches?enterpriseName=%s&id=%s&token=%s',
         SERVICE_URL_GET_ACCOUNTS: 'https://nlmservice.dealer.nakedlime.com/api/AccountSearch/GetAccounts?System=%s&StoreNo=%s&BranchNo=%s&token=%s',
         SERVICE_URL_APTUS: 'https://web.dealer.nakedlime.com/WebAnalytics/Index/%s?currentAccountId=%s',
         SERVICE_URL_MMS: 'https://mms.aimdatabase.com/Tools/AdvancedSearch.aspx?searchTerm=%s&ReturnUrl=/AccountDetails.aspx',
@@ -105,6 +115,7 @@ const URLS = {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export const SERVICE_URL_AUTH_TOKEN = URLS[settings.get('userSettings.environment', Environments.PRODUCTION)].SERVICE_URL_AUTH_TOKEN
 export const SERVICE_URL_GET_BRANCHES = URLS[settings.get('userSettings.environment', Environments.PRODUCTION)].SERVICE_URL_GET_BRANCHES
+export const SERVICE_URL_GET_ASSOCIATED_BRANCHES = URLS[settings.get('userSettings.environment', Environments.PRODUCTION)].SERVICE_URL_GET_ASSOCIATED_BRANCHES
 export const SERVICE_URL_GET_ACCOUNTS = URLS[settings.get('userSettings.environment', Environments.PRODUCTION)].SERVICE_URL_GET_ACCOUNTS
 export const SERVICE_URL_APTUS = URLS[settings.get('userSettings.environment', Environments.PRODUCTION)].SERVICE_URL_APTUS
 export const SERVICE_URL_MMS = URLS[settings.get('userSettings.environment', Environments.PRODUCTION)].SERVICE_URL_MMS
@@ -157,6 +168,8 @@ export function GetExternalServiceURL(type) {
             return 'https://www.shortstackapp.com/';
         case ExternalServiceTypes.Flickr:
             return 'https://www.flickr.com/signin';
+        case ExternalServiceTypes.Cyfe:
+            return 'https://app.cyfe.com';
         default:
             return '';
     }

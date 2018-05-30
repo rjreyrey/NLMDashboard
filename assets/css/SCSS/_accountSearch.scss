@@ -11,7 +11,7 @@
         position: absolute;
         min-width: 700px;
         width: 80vw;
-        height: 480px;
+        height: 80vh;
         text-align: center;
         top: 0;
         bottom: 0;
@@ -95,8 +95,9 @@
         border-spacing: 0;
         border-collapse: collapse;
         width: 100%;
-        display: table;
-        width: 100%;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
         table-layout: fixed;
 
         thead, tbody, tr {
@@ -107,7 +108,7 @@
 
         tbody {
             overflow-y: auto;
-            max-height: 255px;
+            height: 100%;
             display: block;
             padding-right: 10px;
         }
@@ -115,6 +116,7 @@
         thead {
             margin: 10px 0px;
             text-align: left;
+            height: 20px;
 
             tr:hover {
                 background-color: inherit;

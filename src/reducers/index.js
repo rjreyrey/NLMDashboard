@@ -10,6 +10,7 @@ import AccountSearch from './accountSearch';
 import AvailableBUs from './availableBUs';
 import Settings from './settings';
 import Login from './login';
+import AutoUpdater from './autoUpdater';
 
 const rootReducer = combineReducers({
     activeApplication: ActiveApplication,
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
     accountSearch: AccountSearch,
     availableBUs: AvailableBUs,
     settings: Settings,
-    login: Login
+    login: Login,
+    autoUpdater: AutoUpdater
 });
 
 export default rootReducer;

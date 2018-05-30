@@ -14,6 +14,8 @@ export default function (state = initialState, action) {
             return { ...state, buSearchData: [], accountSearchData: [], searching: false, hasBUData: false, hasAccounts: false, currentSearchItem: 'Search Business Units', visible: true };
         case types.SEARCH_HIDE:
             return { ...state, visible: false, firstSearch: false };
+        case types.SHOW_LOGIN:
+            return initialState;
         default:
             return state;
     }

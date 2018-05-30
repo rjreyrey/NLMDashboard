@@ -49,7 +49,6 @@ class AccountSearch extends Component {
     }
 
     render() {
-
         return (
             <div className={this.props.accountSearch.visible ? "fullWrapper" : "fullWrapper hide"}>
                 <div className="accountSearchWrapper">

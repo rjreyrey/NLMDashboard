@@ -1,6 +1,6 @@
 {
   "name": "nlm-dashboard",
-  "version": "0.4.15-beta",
+  "version": "0.4.16-beta",
   "description": "NLM Dashboard",
   "main": "./src/main.js",
   "repository": "https://github.com/rjreyrey/NLMDashboard",

@@ -9,6 +9,7 @@
     margin-left: 0px;
     transition: ease 0.5s;
     color: #FFF;
+    flex-shrink: 0;
 
     .hidden {
         margin-left: -250px;

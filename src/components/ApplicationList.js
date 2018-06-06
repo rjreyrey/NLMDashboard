@@ -1,14 +1,14 @@
 ﻿import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { selectApplication, addApplication, addTab, addWebview } from '../actions/'
+import { selectApplication, addTab, addWebview } from '../actions/'
 
 
 class ApplicationList extends Component {
    
     createlistItems() {
         return this.props.applications.map((app) => {
-            if (app.name == 'Services') {
+            if (app.name === 'Services') {
                 return (
                     <div className="sidebarSectionListApplicationWrapper" key={app.id}>
                         <div className="sidebarSectionListApplicationLabel">{app.name}</div>
@@ -58,6 +58,8 @@ class ApplicationList extends Component {
         );
     }
 }
+
+ApplicationList.displayName = 'ApplicationList';
 
 function mapStateToProps(state) {
     return {

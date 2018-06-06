@@ -16,6 +16,8 @@ class WebviewControls extends Component {
     }
 }
 
+WebviewControls.displayName = 'WebviewControls';
+
 function mapStateToProps(state) {
     return {
         controls: state.controls

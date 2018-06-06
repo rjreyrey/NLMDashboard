@@ -38,7 +38,22 @@
     <Compile Include="src\actions\constants.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\actions\decrypt.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\actions\dispatches.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\actions\helpers.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\actions\index.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\actions\login.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\actions\URLS.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\components\AccountSearch.js">

@@ -2,10 +2,6 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
-import { toggleBetaChannel, changeEnvironment, closeSettings, relaunchApp } from '../actions/'
-import ApplicationList from './ApplicationList';
-import availableBUs from '../reducers/availableBUs';
-import ToggleButton from 'react-toggle-button';
 import * as types from '../actions/constants';
 const settings = require('electron').remote.require('electron-settings');
 
@@ -42,6 +38,8 @@ class ReleaseNotes extends Component {
     }
 }
 
+ReleaseNotes.displayName = 'ReleaseNotes';
+
 function mapStateToProps(state) {
     return {
         settings: state.settings
@@ -50,10 +48,6 @@ function mapStateToProps(state) {
 
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
-        toggleBetaChannel: toggleBetaChannel,
-        changeEnvironment: changeEnvironment,
-        closeSettings: closeSettings,
-        relaunchApp: relaunchApp
     }, dispatch);
 }
 

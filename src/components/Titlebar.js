@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
 import WebviewControls from './WebviewControls';
 import { showSettings, showLogin } from '../actions';
-
 const electron = window.require("electron")
 const remote = electron.remote;
 
@@ -59,6 +58,8 @@ class Titlebar extends Component {
         </div>
     }
 }
+
+Titlebar.displayName = 'Titlebar';
 
 function mapStateToProps(state) {
     return {

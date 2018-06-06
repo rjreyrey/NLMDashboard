@@ -17,7 +17,7 @@
         height: 100%;
         position: relative;
 
-        .hide {
+        &.hide, .hide {
             display: block;
             visibility: hidden;
             width: 0;

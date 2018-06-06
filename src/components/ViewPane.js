@@ -1,8 +1,8 @@
 ﻿import React, { Component } from 'react';
 import Login from './Login';
+import Tabbar from './Tabbar';
 import Webviews from './Webviews';
 import Spinner from './Spinner';
-import Tabbar from './Tabbar';
 
 class ViewPane extends Component {
 
@@ -19,5 +19,7 @@ class ViewPane extends Component {
         )
     }
 }
+
+ViewPane.displayName = 'ViewPane';
 
 export default ViewPane;

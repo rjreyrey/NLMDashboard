@@ -23,4 +23,6 @@ class Content extends Component {
     }
 }
 
+Content.displayName = 'Content';
+
 export default Content;

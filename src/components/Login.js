@@ -1,10 +1,11 @@
 ﻿import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { fetchToken, verifyUser, showLoginLoader, hideLoginLoader, changeUsername, changePassword } from '../actions/';
-const { remote } = require('electron');
+import { verifyUser } from '../actions/dispatches';
+import { showLoginLoader, changeUsername, changePassword } from '../actions/';
 import AutoUpdater from './AutoUpdater';
 import Spinner from './Spinner';
+const { remote } = require('electron');
 
 class Login extends Component {
     constructor(props) {
@@ -26,11 +27,11 @@ class Login extends Component {
             this.props.showLoginLoader();
             this.props.verifyUser(this.props.login.username, this.props.login.password);
         } else {
-            if (this.props.login.username.length == 0) {
+            if (this.props.login.username.length === 0) {
                 this.props.changeUsername(this.props.login.username);
             }
 
-            if (this.props.login.password.length == 0) {
+            if (this.props.login.password.length === 0) {
                 this.props.changePassword(this.props.login.password);
             }
         }
@@ -47,7 +48,7 @@ class Login extends Component {
 
                         <form className="form">
                             <input type="text" className={this.props.login.usernameError ? 'error invalid' : '' } placeholder="Username" id="loginUserName" value={this.props.login.username} onChange={this.handleUsernameChange.bind(this)}></input>
-                            <input type="password" className={this.props.login.passwordError ? 'error invalid' : ''} placeholder="Password" id="loginPassword" value={this.props.login.password} onChange={this.handlePasswordChange.bind(this)}></input>
+                            <input type="password" className={this.props.login.passwordError ? 'error invalid' : ''} placeholder="Password" id="loginPassword" ref={input => input && input.focus()} value={this.props.login.password} onChange={this.handlePasswordChange.bind(this)}></input>
                             <button type="submit" onClick={this.onSubmitClick.bind(this)} className="button" id="login-button">Login</button>
                             <div id="loginError" className={this.props.login.error.length > 0 ? "error" : "error hide"}>{ this.props.login.error }</div>
                         </form>
@@ -58,6 +59,7 @@ class Login extends Component {
     }
 }
 
+Login.displayName = 'Login';
 
 function mapStateToProps(state) {
     return {
@@ -67,10 +69,8 @@ function mapStateToProps(state) {
 
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
-        fetchToken: fetchToken,
         verifyUser: verifyUser,
         showLoginLoader: showLoginLoader,
-        hideLoginLoader: hideLoginLoader,
         changeUsername: changeUsername,
         changePassword: changePassword
     }, dispatch);

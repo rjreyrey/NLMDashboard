@@ -1,7 +1,6 @@
 ﻿import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { showSpinner, hideSpinner } from '../actions/'
 
 class Spinner extends Component {
 
@@ -15,6 +14,8 @@ class Spinner extends Component {
         )
     }
 }
+
+Spinner.displayName = 'Spinner';
 
 function mapStateToProps(state) {
     return {

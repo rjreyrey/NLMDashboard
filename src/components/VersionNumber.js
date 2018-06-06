@@ -1,8 +1,6 @@
 ﻿import React, { Component } from 'react';
-
-const electron = window.require("electron") // little trick to import electron in react
+const electron = window.require("electron")
 const remote = electron.remote;
-const ipcRenderer = electron.ipcRenderer
 
 
 class VersionNumber extends Component {
@@ -16,5 +14,7 @@ class VersionNumber extends Component {
         </div>
     }
 }
+
+VersionNumber.displayName = 'VersionNumber';
 
 export default VersionNumber;

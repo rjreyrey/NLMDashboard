@@ -1,7 +1,8 @@
 ﻿import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { fetchBranches, fetchAccounts, hideEnterpriseSearch } from '../actions/';
+import { guid } from '../actions/helpers';
+import { fetchBranches, fetchAccounts, hideEnterpriseSearch } from '../actions/dispatches';
 import Spinner from './Spinner';
 
 class AccountSearch extends Component {
@@ -35,7 +36,7 @@ class AccountSearch extends Component {
     }
 
     componentDidUpdate() {
-        if (this.props.accountSearch.hasBUData && !this.props.accountSearch.searching && this.props.accountSearch.buSearchData.length == 1) {
+        if (this.props.accountSearch.hasBUData && !this.props.accountSearch.searching && this.props.accountSearch.buSearchData.length === 1) {
             var data = this.props.accountSearch.buSearchData[0];
 
             if (data.PPSysId.length > 0 && data.StoreNo.length > 0 && data.BranchNo.length > 0) {
@@ -92,6 +93,8 @@ class AccountSearch extends Component {
     }
 }
 
+AccountSearch.displayName = 'AcountSearch';
+
 function mapStateToProps(state) {
     return {
         accountSearch: state.accountSearch
@@ -107,13 +110,3 @@ function matchDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(AccountSearch);
-
-
-function guid() {
-    var u = '', i = 0;
-    while (i++ < 36) {
-        var c = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'[i - 1], r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-        u += (c == '-' || c == '4') ? c : v.toString(16)
-    }
-    return u;
-}

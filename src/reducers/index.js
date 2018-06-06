@@ -1,6 +1,6 @@
 ﻿import { combineReducers } from 'redux';
-import AppcliationsReducer from './applications';
-import SpinnerReducer from './spinner';
+import Appcliations from './applications';
+import Spinner from './spinner';
 import WebviewControls from './webviewControls';
 import Account from './account';
 import ActiveApplication from './activeApplication';
@@ -14,8 +14,8 @@ import AutoUpdater from './autoUpdater';
 
 const rootReducer = combineReducers({
     activeApplication: ActiveApplication,
-    applications: AppcliationsReducer,
-    spinner: SpinnerReducer,
+    applications: Appcliations,
+    spinner: Spinner,
     controls: WebviewControls,
     account: Account,
     webviews: Webviews,

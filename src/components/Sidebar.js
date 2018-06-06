@@ -2,7 +2,8 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
-import { addApplication, findAccount, fetchServices, activateSidebar, showEnterpriseSearch, fetchAccounts } from '../actions/'
+import { fetchAccounts } from '../actions/dispatches';
+import {  showEnterpriseSearch } from '../actions/'
 import ApplicationList from './ApplicationList';
 import availableBUs from '../reducers/availableBUs';
 
@@ -14,7 +15,7 @@ class Sidebar extends Component {
     }
 
     onBUClick(name, sys, store, branch, enterpriseName) {
-        if (!(name === this.props.account.name)) {
+        if (!(sys === this.props.account.sys && store === this.props.account.store && branch === this.props.account.branch)) {
             this.props.fetchAccounts(name, sys, store, branch, enterpriseName);
         } 
     }
@@ -35,7 +36,7 @@ class Sidebar extends Component {
         return (
             <div id="sidebar" className={this.props.account.id > 0  ? "sidebar": "sidebar hidden" }>
                 {(() => {
-                    if (this.props.account.id > 0 && this.props.account.active == true) {
+                    if (this.props.account.id > 0 && this.props.account.active === true) {
                         return (
                             <div className="sidebarSection">
                                 <div className="sidebarSectionHeading">Business Unit</div>
@@ -49,9 +50,9 @@ class Sidebar extends Component {
                                                 {this.props.availableBUs.map((bu) => {
                                                     var key = bu.Name + '_' + bu.StoreNo + '_' + bu.BranchNo;
 
-                                                    if (bu.EnterpriseName == this.props.account.enterprise) {
+                                                    if (bu.EnterpriseName === this.props.account.enterprise) {
                                                         return (
-                                                            <div className={bu.Name == this.props.account.name ? "otherBUs active" : "otherBUs"} key={key} onClick={() => { this.toggleBUSwticther(); this.onBUClick(bu.Name, bu.PPSysId, bu.StoreNo, bu.BranchNo, bu.EnterpriseName) }}>{bu.Name}</div>
+                                                            <div className={bu.PPSysId === this.props.account.sys && bu.StoreNo === this.props.account.store && bu.BranchNo === this.props.account.branch ? "otherBUs active" : "otherBUs"} key={key} onClick={() => { this.toggleBUSwticther(); this.onBUClick(bu.Name, bu.PPSysId, bu.StoreNo, bu.BranchNo, bu.EnterpriseName) }}>{bu.Name}</div>
                                                         )
                                                     }
                                                 })}
@@ -62,11 +63,11 @@ class Sidebar extends Component {
 
                                 <div className="sidebarSectionHeading">Account List</div>
                                 <div className="sidebarSectionList">
-                                    <ApplicationList></ApplicationList>
+                                    <ApplicationList />
                                 </div>
                             </div>
                         )
-                    } else if (this.props.account.loading == true) {
+                    } else if (this.props.account.loading === true) {
                         return (
                             <div className="sidebarSectionHeading">Loading Services...</div>    
                         )
@@ -77,6 +78,8 @@ class Sidebar extends Component {
     }
 }
 
+Sidebar.displayName = 'Sidebar';
+
 function mapStateToProps(state) {
     return {
         account: state.account,
@@ -86,12 +89,8 @@ function mapStateToProps(state) {
 
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
-        addApplication: addApplication,
-        findAccount: findAccount,
-        fetchServices: fetchServices,
-        fetchAccounts: fetchAccounts,
-        activateSidebar: activateSidebar,
-        showEnterpriseSearch: showEnterpriseSearch
+        showEnterpriseSearch: showEnterpriseSearch,
+        fetchAccounts: fetchAccounts
     }, dispatch);
 }
 

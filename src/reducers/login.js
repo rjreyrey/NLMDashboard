@@ -15,9 +15,9 @@ export default function (state = initialState, action) {
         case types.SHOW_LOGIN_ERROR:
             return { ...state, error: action.payload };
         case types.CHANGE_USERNAME:
-            return { ...state, username: action.payload, usernameError: action.payload.length == 0 };
+            return { ...state, username: action.payload, usernameError: action.payload.length === 0 };
         case types.CHANGE_PASSWORD:
-            return { ...state, password: action.payload, passwordError: action.payload.length == 0 };
+            return { ...state, password: action.payload, passwordError: action.payload.length === 0 };
         case types.SET_FULL_NAME:
             return { ...state, firstName: action.payload };
         default:

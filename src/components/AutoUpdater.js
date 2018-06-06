@@ -21,6 +21,8 @@ class AutoUpdater extends Component {
     }
 }
 
+AutoUpdater.displayName = 'AutoUpdater';
+
 function mapStateToProps(state) {
     return {
         autoUpdater: state.autoUpdater

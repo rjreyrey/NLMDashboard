@@ -1,6 +1,8 @@
 ﻿const request = require("request");
+import { guid } from '../actions/helpers';
+import { GetExternalServiceURL } from '../actions/URLS';
+import { DecryptPassword } from '../actions/decrypt';
 import * as types from '../actions/constants';
-import { ExternalServiceTypes } from "../actions/constants";
 var util = require('util')
 const initialState = []
 
@@ -12,7 +14,7 @@ export default function (state = initialState, action) {
 
                     if (service.externals && service.externals.length > 0) {
                         service.externals.map(external => {
-                            if (external.id == action.payload.id) {
+                            if (external.id === action.payload.id) {
                                 external.active = true;
                                 external.opened = true;
                             } else {
@@ -42,14 +44,14 @@ export default function (state = initialState, action) {
                 app.services = app.services.map(service => {
                     if (service.externals && service.externals.length > 0) {
                         service.externals.map(external => {
-                            if (external.partition == action.payload.partition) {
+                            if (external.partition === action.payload.partition) {
                                 external.active = true;
                             } else {
                                 external.active = false;
                             }
                         });
                     } else {
-                        if (service.partition == action.payload.partition) {
+                        if (service.partition === action.payload.partition) {
                             service.active = true;
                         } else {
                             service.active = false;
@@ -66,13 +68,13 @@ export default function (state = initialState, action) {
                 app.services.forEach((service) => {
                     if (service.externals && service.externals.length > 0) {
                         service.externals.map(external => {
-                            if (external.id == action.payload.id) {
+                            if (external.id === action.payload.id) {
                                 external.active = false;
                                 external.opened = false;
                             } 
                         });
                     } else {
-                        if (service.id == action.payload.id) {
+                        if (service.id === action.payload.id) {
                             service.opened = false;
                             service.active = false;
                         }
@@ -97,46 +99,46 @@ export default function (state = initialState, action) {
             for (var i = 0; i < action.payload.AptusSites.length; i++) {
                 var site = action.payload.AptusSites[i];
                 var url = util.format(types.SERVICE_URL_APTUS, action.payload.BusinessGroupId, site.SiteId);
-                var service = { id: types.ServiceTypes.Aptus + "_" + site.SiteId, type: types.ServiceTypes.Aptus, url: url, name: site.Name, active: false, opened: false, username: null, password: null, attemptedLogin: false, partition: guid(), loginStep: 0 }
+                var service = { id: types.InternalServiceTypes.Aptus + "_" + site.SiteId, serviceType: types.ServiceTypes.Internal, type: types.InternalServiceTypes.Aptus, url: url, name: site.Name, active: false, opened: false, username: null, password: null, attemptedLogin: false, partition: guid(), loginStep: 0, external: false }
                 aptusServices.push(service);
             }
 
             var validMMSTypes = [1, 2, 3, 6, 10];
-            for (var i = 0; i < action.payload.MarketingAccounts.length; i++) {
+            for (i = 0; i < action.payload.MarketingAccounts.length; i++) {
                 var account = action.payload.MarketingAccounts[i];
-                var url = util.format(types.SERVICE_URL_MARKETING, action.payload.BusinessGroupId, account.AccountId);
-                var service = { id: types.ServiceTypes.Marketing + "_" + account.AccountId, type: types.ServiceTypes.Marketing, url: url, name: account.Name, active: false, opened: false, username: null, password: null, attemptedLogin: false, partition: guid(), loginStep: 0 };
+                url = util.format(types.SERVICE_URL_MARKETING, action.payload.BusinessGroupId, account.AccountId);
+                service = { id: types.InternalServiceTypes.Marketing + "_" + account.AccountId, serviceType: types.ServiceTypes.Internal, type: types.InternalServiceTypes.Marketing, url: url, name: account.Name, active: false, opened: false, username: null, password: null, attemptedLogin: false, partition: guid(), loginStep: 0, external: false };
 
                 marketingServices.push(service);
 
                 if (account.LegacyDealerId > 0 && validMMSTypes.includes(account.AccountType)) {
                     var mmsUrl = util.format(types.SERVICE_URL_MMS, account.LegacyDealerId);
-                    var legacyService = { id: types.ServiceTypes.MMS + "_" + account.AccountId, type: types.ServiceTypes.MMS, url: mmsUrl, name: account.Name, active: false, opened: false, username: null, password: null, attemptedLogin: false, partition: guid(), loginStep: 0 };
+                    var legacyService = { id: types.InternalServiceTypes.MMS + "_" + account.AccountId, serviceType: types.ServiceTypes.Internal, type: types.InternalServiceTypes.MMS, url: mmsUrl, name: account.Name, active: false, opened: false, username: null, password: null, attemptedLogin: false, partition: guid(), loginStep: 0, external: false };
                     mmsServices.push(legacyService);
                 } 
             }
 
-            for (var i = 0; i < action.payload.ServiceAccounts.length; i++) {
-                var account = action.payload.ServiceAccounts[i];
+            for (i = 0; i < action.payload.ServiceAccounts.length; i++) {
+                account = action.payload.ServiceAccounts[i];
                 var externals = [];
 
                 for (var j = 0; j < account.ExternalAccounts.length; j++) {
                     var external = account.ExternalAccounts[j];
-                    var data = { id: 'external_' + i + '_' + j + '_' + external.Type, type: external.TypeId, typeName: external.Type, url: '#', name: external.Name + '-' + external.Type, active: false, opened: false, username: external.Username, password: external.Password, attemptedLogin: false, partition: guid(), loginStep: 0 };
+                    var data = { id: 'external_' + i + '_' + j + '_' + external.Type, serviceType: types.ServiceTypes.External, type: external.TypeId, typeName: external.Type, url: GetExternalServiceURL(external.TypeId), name: external.Name + '-' + external.Type, active: false, opened: false, username: external.Username, password: DecryptPassword(external.Password), attemptedLogin: false, partition: guid(), loginStep: 0, external: true };
                     externals.push(data)
                 }
 
-                var data = { id: 'external_' + i + '_' + account.Type, type: account.TypeId, name: account.Name, externals: externals };
+                data = { id: 'external_' + i + '_' + account.Type, serviceType: types.ServiceTypes.External, type: account.TypeId, name: account.Name, externals: externals };
 
                 externalServices.push(data);
             }
 
-            var externals = [];
+            externals = [];
             if (action.payload.GlobalExternalAccounts) {
-                for (var i = 0; i < action.payload.GlobalExternalAccounts.length; i++) {
-                    var account = action.payload.GlobalExternalAccounts[i];
+                for (i = 0; i < action.payload.GlobalExternalAccounts.length; i++) {
+                    account = action.payload.GlobalExternalAccounts[i];
 
-                    externals.push({ id: 'global_' + i + "_" + account.Type, type: account.TypeId, name: account.Name, url: types.GetExternalServiceURL(account.TypeId), active: false, opened: false, username: account.Username, password: types.DecryptPassword(account.Password), attemptedLogin: false, partition: guid(), loginStep: 0 });
+                    externals.push({ id: 'global_' + i + "_" + account.Type, serviceType: types.ServiceTypes.External, type: account.TypeId, name: account.Name, url: GetExternalServiceURL(account.TypeId), active: false, opened: false, username: account.Username, password: DecryptPassword(account.Password), attemptedLogin: false, partition: guid(), loginStep: 0, external: true });
                 }
             }
 
@@ -145,19 +147,19 @@ export default function (state = initialState, action) {
             applications.push({
                 name: "Web",
                 services: aptusServices,
-                id: types.ServiceTypes.Aptus
+                id: types.InternalServiceTypes.Aptus
             });
             
             applications.push({
                 name: "Marketing",
                 services: marketingServices,
-                id: types.ServiceTypes.Marketing
+                id: types.InternalServiceTypes.Marketing
             });
 
             applications.push({
                  name: "MMS",
                 services: mmsServices,
-                 id: types.ServiceTypes.MMS
+                 id: types.InternalServiceTypes.MMS
              });
 
             applications.push({
@@ -173,14 +175,4 @@ export default function (state = initialState, action) {
             return state;
     }
     
-}
-
-
-function guid() {
-    var u = '', i = 0;
-    while (i++ < 36) {
-        var c = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'[i - 1], r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-        u += (c == '-' || c == '4') ? c : v.toString(16)
-    }
-    return u;
 }

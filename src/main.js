@@ -45,7 +45,7 @@ app.on('ready', function () {
             mainWindow.webContents.openDevTools();
             mainWindow.webContents.send('NoUpdate', 'DEV run.  No update needed.');
         } else {
-            if (settings.get('userSettings.channel', 'latest') == 'latest') {
+            if (settings.get('userSettings.channel', 'latest') === 'latest') {
                 autoUpdater.allowPrerelease = false;
                 autoUpdater.allowDowngrade = true;
                 autoUpdater.channel = 'latest';

@@ -6,7 +6,6 @@ import { toggleBetaChannel, changeEnvironment, closeSettings, relaunchApp } from
 import VersionNumber from './VersionNumber';
 import ToggleButton from 'react-toggle-button';
 import * as types from '../actions/constants';
-import { close } from 'original-fs';
 
 class Settings extends Component {
 
@@ -96,6 +95,8 @@ class Settings extends Component {
         )
     }
 }
+
+Settings.displayName = 'Settings';
 
 function mapStateToProps(state) {
     return {

@@ -23,18 +23,18 @@ export default function (state = initialState, action) {
             return state;
         case types.UPDATE_TAB:
             return state.map(tab => {
-                if (tab.id == action.payload.id) {
+                if (tab.id === action.payload.id) {
                     tab.title = action.payload.title;
                 }
 
                 return tab;
             });
         case types.CLOSE_TAB:
-            var currentTab = state.find((tab) => tab.id == action.payload.id);
-            state = state.filter((view) => { return view.id != action.payload.id });
+            var currentTab = state.find((tab) => tab.id === action.payload.id);
+            state = state.filter((view) => { return view.id !== action.payload.id });
 
             if (state.length > 0) {
-                if (currentTab.active == true) {
+                if (currentTab.active === true) {
                     state[0].active = true;
                     state[0].autoChosen = true;
                 } else {
